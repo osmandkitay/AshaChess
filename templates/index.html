@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2HS Chess</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>2HS Chess: Modern Rules</h1>
+            <p>A chess variant with increased maneuverability through the "King's Step" rule</p>
+        </header>
+
+        <div class="game-container">
+            <div class="game-info">
+                <div class="status">
+                    <p>Turn: <span id="turn">White</span></p>
+                    <p id="check-status"></p>
+                </div>
+                <div class="controls">
+                    <button id="reset-button">Reset Game</button>
+                </div>
+            </div>
+
+            <div class="board-container">
+                <div id="chessboard"></div>
+            </div>
+
+            <div class="rules">
+                <h2>Game Rules</h2>
+                <h3>Main Principle: "King's Step" (For Movement Only)</h3>
+                <p>Pawns, Knights, Bishops, and Rooks gain a new ability called the "King's Step" in addition to their classic movements.</p>
+                <p>The "King's Step" is a one-square movement in any direction (horizontal, vertical, diagonal).</p>
+                <p><strong>Important:</strong> This "King's Step" move CANNOT be used to capture opponent pieces.</p>
+                <p><strong>Note:</strong> Kings and Queens DO NOT have this ability as they can already move in all directions.</p>
+                
+                <h3>Capturing Rules</h3>
+                <p>Capturing actions remain UNCHANGED. A piece can capture an opponent's piece only using its traditional attack method:</p>
+                <ul>
+                    <li>Pawn: Can only capture diagonally forward</li>
+                    <li>Knight: Can only capture at the end of its "L" move</li>
+                    <li>Bishop: Can only capture diagonally</li>
+                    <li>Rook: Can only capture horizontally or vertically</li>
+                </ul>
+                
+                <h3>Board Highlights</h3>
+                <ul>
+                    <li><span class="highlight green"></span> Valid movement squares</li>
+                    <li><span class="highlight blue"></span> Valid King's Step movement squares</li>
+                    <li><span class="highlight orange"></span> Valid capturing squares</li>
+                    <li><span class="highlight red"></span> Pieces in check</li>
+                    <li><span class="highlight yellow"></span> Last move (from/to)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/chess.js') }}"></script>
+</body>
+</html> 

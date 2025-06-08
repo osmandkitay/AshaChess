@@ -1,0 +1,488 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+h1 {
+    font-size: 2.5em;
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 1.2em;
+    color: #7f8c8d;
+}
+
+/* Game Container */
+.game-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+/* Board */
+.board-container {
+    position: relative;
+    flex: 0 0 700px;
+}
+
+#chessboard {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-template-rows: repeat(8, 1fr);
+    width: 700px;
+    height: 700px;
+    border: 6px solid #5d4037;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.square {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.light {
+    background-color: #f0d9b5;
+}
+
+.dark {
+    background-color: #b58863;
+}
+
+.square:hover {
+    filter: brightness(1.1);
+}
+
+.piece {
+    font-size: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    cursor: grab;
+    user-select: none;
+    z-index: 10;
+}
+
+.piece.dragging {
+    opacity: 0.8;
+    position: absolute;
+    pointer-events: none;
+    z-index: 1000;
+}
+
+.white {
+    color: #fff;
+    text-shadow: 0 0 2px #000, 0 0 3px #000;
+}
+
+.black {
+    color: #000;
+    text-shadow: 0 0 2px #fff, 0 0 3px #fff;
+}
+
+/* Game Info */
+.game-info {
+    flex: 1;
+    min-width: 250px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.status {
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.status p {
+    margin-bottom: 8px;
+}
+
+#turn {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+#check-status {
+    font-weight: bold;
+    color: #e74c3c;
+    min-height: 30px;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.controls button {
+    background-color: #3498db;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1em;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.controls button:hover {
+    background-color: #2980b9;
+}
+
+/* Rules Section */
+.rules {
+    flex: 1;
+    min-width: 250px;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    font-size: 0.95em;
+}
+
+.rules h2 {
+    color: #2c3e50;
+    margin-top: 0;
+}
+
+.rules h3 {
+    color: #3498db;
+    margin-top: 20px;
+    margin-bottom: 10px;
+}
+
+.rules p {
+    margin-bottom: 10px;
+}
+
+.rules ul {
+    padding-left: 20px;
+}
+
+.rules li {
+    margin: 5px 0;
+    display: flex;
+    align-items: center;
+}
+
+.highlight {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    margin-right: 10px;
+    vertical-align: middle;
+}
+
+.green {
+    background-color: rgba(76, 175, 80, 0.7);
+}
+
+.orange {
+    background-color: transparent;
+    border: 2px solid rgba(255, 152, 0, 0.7);
+}
+
+.red {
+    background-color: rgba(244, 67, 54, 0.3);
+}
+
+/* Reset Button Highlight */
+.highlight-reset {
+    animation: pulse 1.5s infinite;
+    background-color: #e74c3c;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0.7);
+    }
+    
+    70% {
+        transform: scale(1.05);
+        box-shadow: 0 0 0 10px rgba(231, 76, 60, 0);
+    }
+    
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(231, 76, 60, 0);
+    }
+}
+
+/* Checkmate highlight for king */
+.square.in-check {
+    background-color: rgba(244, 67, 54, 0.4);
+    animation: checkPulse 2s infinite;
+}
+
+@keyframes checkPulse {
+    0% {
+        background-color: rgba(244, 67, 54, 0.3);
+    }
+    50% {
+        background-color: rgba(244, 67, 54, 0.6);
+    }
+    100% {
+        background-color: rgba(244, 67, 54, 0.3);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1300px) {
+    .game-container {
+        flex-direction: column;
+    }
+    
+    .board-container {
+        margin: 0 auto;
+    }
+    
+    .game-info, .rules {
+        width: 100%;
+    }
+}
+
+@media (max-width: 750px) {
+    .board-container {
+        flex: 0 0 400px;
+    }
+    
+    #chessboard {
+        width: 400px;
+        height: 400px;
+    }
+    
+    .piece {
+        font-size: 40px;
+    }
+    
+    .valid-move::after {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .valid-capture::after {
+        width: 38px;
+        height: 38px;
+        border: 3px solid rgba(255, 152, 0, 0.7);
+    }
+}
+
+@media (max-width: 480px) {
+    .board-container {
+        flex: 0 0 320px;
+    }
+    
+    #chessboard {
+        width: 320px;
+        height: 320px;
+    }
+    
+    .piece {
+        width: 35px;
+        height: 35px;
+        font-size: 32px;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.6);
+    }
+    
+    .square.valid-capture::after {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+/* Add game over overlay styling */
+.game-over-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    animation: fadeIn 0.8s ease-in-out;
+    backdrop-filter: blur(5px);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.game-over-message {
+    font-size: 3.5em;
+    color: #fff;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    font-weight: bold;
+    text-align: center;
+    animation: bounceIn 1s ease-out;
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.3);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    70% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Add drag and drop visual feedback */
+.square.drag-over {
+    box-shadow: inset 0 0 20px rgba(52, 152, 219, 0.7);
+    transition: all 0.1s ease-in-out;
+}
+
+.square.drag-over.valid-move::after {
+    background-color: rgba(76, 175, 80, 0.9);
+    transform: scale(1.2);
+    transition: all 0.1s ease-in-out;
+}
+
+.square.drag-over.valid-capture::after {
+    border-color: rgba(255, 152, 0, 0.9);
+    transform: scale(1.1);
+    transition: all 0.1s ease-in-out;
+}
+
+/* Add these new styles for move highlighting */
+
+/* Last move highlighting */
+.last-move-from {
+    background-color: rgba(255, 255, 0, 0.3) !important; /* Soft yellow */
+}
+
+.last-move-to {
+    background-color: rgba(255, 255, 0, 0.5) !important; /* Brighter yellow */
+}
+
+/* King's Step special move highlighting */
+.kings-step-destination {
+    position: relative;
+}
+
+.kings-step-destination::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 3px solid blue;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Add King's Step move type to the Board Highlights section in the rules */
+.highlight.blue {
+    background-color: blue;
+}
+
+/* Enhance the existing highlighting styles */
+.valid-move {
+    position: relative;
+}
+
+.valid-move::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 30%;
+    height: 30%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 128, 0, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.valid-capture {
+    position: relative;
+}
+
+.valid-capture::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 3px solid rgba(255, 165, 0, 0.7);
+    pointer-events: none;
+}
+
+/* Add this for King's Step valid moves */
+.valid-kings-step {
+    position: relative;
+}
+
+.valid-kings-step::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 25%;
+    height: 25%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 255, 0.5);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+/* Add to the Board Highlights section in the rules */
+.highlight.yellow {
+    background-color: rgba(255, 255, 0, 0.7);
+} 
