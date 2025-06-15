@@ -1,83 +1,93 @@
-# 2HS Chess: Improvements and Fixes
+1. Kuralların Tanımı ve Formalizasyonu
+Açık, matematiksel tanım
 
-## Core Issues Fixed
+Her yeni kural için girdi (pozisyon şartı), işlem (hamle dönüşümü), çıktı (yeni pozisyon ve durum güncellemesi) üçlüsünü netleştir.
 
-### 1. Game Termination Detection
+Örnek üzerinden senaryolar
 
-The main issue in the previous implementation was that the game termination logic didn't properly detect when a game had ended. This has been fixed with the following improvements:
+En basitinden en karmaşığına birkaç örnek pozisyon çiz (FEN, UCI vb.) ve beklenen çıktı hamlelerini not et.
 
-- **Enhanced Game Over Detection**: Implemented a more robust method to check for game termination with proper prioritization
-- **Detailed Game Over Reasons**: Added specific reason tracking to differentiate between checkmate, stalemate, and different types of draws
-- **Position History Tracking**: Implemented proper history tracking for threefold repetition detection
-- **Fifty-Move Rule**: Added detection for the fifty-move rule
-- **Improved Insufficient Material Detection**: Enhanced detection for positions with insufficient material to checkmate
+2. Durum Temsili (Game State)
+Board veri yapısı
 
-### 2. Knights Missing Issue
+Eğer chess.Board gibi hazır bir obje kullanıyorsan, içine ek bayraklar (flag) ekle:
 
-The previous implementation didn't include knights in the starting position. This has been fixed:
+Örn. super_pawn_eligible, variable_castling_rights vb.
 
-- **Standard Starting Position**: Changed the starting FEN to include knights in their standard positions
-- **Updated Rules Description**: Updated the HTML template to include knights in the rules description
-- **Added Knight-Specific Logic**: Updated the insufficient material detection to handle knights
+FEN uzantısı
 
-## Implementation Details
+Kendi FEN/PGN formatında yeni bayrakları nasıl taşıyacağını belirle.
 
-### Backend (Python)
+3. Hamle Üretimi (Move Generator)
+Yeni kural koşulları
 
-1. **Renamed the Main Class**:
-   - Changed from `TwoHSNoKnightChessBoard` to `TwoHSChessBoard` to reflect the inclusion of knights
+Hamle ağacı (move tree) üretirken, öncelikle mevcut hamle jeneratörünü genişlet:
 
-2. **Improved Position Tracking**:
-   - Added proper position history tracking using FEN position strings
-   - Implemented threefold repetition detection based on this history
+Standart hamleler
 
-3. **Structured Game Over Detection**:
-   - Created a prioritized checking system for game termination:
-     1. Checkmate (highest priority)
-     2. Stalemate
-     3. Draws (insufficient material, repetition, fifty-move rule)
+Yeni kural hamleleri (önceliklendirme, özel filtre)
 
-4. **Enhanced API Responses**:
-   - Added a `gameOverReason` field to API responses to communicate the specific reason for game termination
-   - Enhanced error messages to provide clearer information to players
+UCI/UCCI desteği
 
-### Frontend (JavaScript)
+Eğer engine ile haberleşiyorsan, yeni hamle tipleri için UCI çıktısını da güncelle.
 
-1. **Updated Game Status Display**:
-   - Modified the `updateGameStatus()` function to handle the new game termination conditions
-   - Added logic to display different messages based on the specific reason for game termination
+4. Legal Move Checker
+Geçerlilik kontrolü
 
-2. **Improved Move Error Handling**:
-   - Enhanced error handling to properly update the game state when a move is invalid due to game termination
-   - Added support for the new API response fields
+En önemli nokta “hamle geçerli mi?” sorusunu, yeni kuralı da göz önüne alarak yanıtlamak.
 
-3. **User Interface Enhancements**:
-   - Updated rule descriptions to include knights and their capabilities
-   - Improved board highlights for valid moves
+Örn. “King’s Step” kuralı için:
 
-## Additional Improvements
+Şah kontrol altında mı?
 
-### 1. Optimized Move Generation
+İki kare gidiyorsa ara kare de kontrol altında olmamalı.
 
-- Improved the efficiency of the legal move generation by using lists instead of sets
-- Added more efficient checking for duplicate moves
-- Enhanced the would_be_in_check_after_move function for better performance
+Test matrisleri
 
-### 2. Better Draw Detection
+Tüm kenar durumlarını (edge cases) bir matris hâlinde listele ve otomatik test yaz.
 
-- Added specific cases for insufficient material:
-  - King vs King
-  - King and Knight vs King
-  - King and Bishop vs King
+5. Oyun Durumu Güncellemesi & UI
+Backend ↔ Frontend uyumu
 
-### 3. Enhanced User Feedback
+Hamle yapıldığında oyun durumuna ek bilgiler geliyorsa (örneğin ek bayraklar), UI’da da
 
-- Added winner identification in checkmate messages
-- Improved the formatting and clarity of game over messages
-- Enhanced error handling to provide better feedback when moves fail
+Geçerli kare vurgulamaları
 
-## Conclusion
+Terfi seçenekleri
 
-The 2HS Chess implementation now correctly includes knights and properly detects all game termination conditions. The game state is synchronized between backend and frontend, providing a consistent experience to players. The enhanced move generation and position evaluation also provide a solid foundation for future AI integration.
+Rok için ekstra butonlar
+bunları ekle.
 
-These improvements bring the 2HS Chess implementation closer to the quality of established chess variant engines like Fairy-Stockfish, while maintaining the unique "King's Step" rule that defines this variant.
+Event Listener yönetimi
+
+initializeBoard’da eskileri temizleyip yalnızca bir set ekle (örn. removeEventListener veya tek seferlik callback).
+
+6. Değerlendirme (Evaluation) Fonksiyonu
+Eğer bir AI rakip varsa, yeni kuralın pozisyon değerlendirmenin (material + positional) parçası olması gerekir.
+
+Örneğin “süper piyon” +1.5 değer kazandırıyorsa, statik değerlendirme matrisine yansıt.
+
+7. Test ve Doğrulama
+Birim testleri (Unit tests)
+
+Her yeni hamle tipi için assert’lerle pozisyon girdi–çıktı testleri yaz.
+
+Entegrasyon testleri
+
+Oyun akışı içinde “yeni kuralı kullanma, geri alma, tekrar oynama” senaryoları.
+
+Simülasyon / Self-play
+
+Otomatik yüzlerce pozisyonda rule-in ve rule-out testleri.
+
+8. Performans & Optimizasyon
+Yeni kural dallanma sayısını (branching factor) nasıl etkiliyor?
+
+Alpha-Beta’nın budama etkinliği hâlâ yeterli mi?
+
+Gerekirse move ordering politikasına kural önceliği ekle.
+
+9. Geriye Dönük Uyumluluk
+Eski FIDE/FEN pozisyonları hâlâ aynı sonucu vermeli.
+
+Yeni bayrak taşıyan pozisyonları eski sürüm nasıl yorumlardı? (Örn. terfi bayrağı yoksayılır.)

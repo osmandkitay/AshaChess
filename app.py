@@ -45,88 +45,70 @@ class TwoHSChessBoard:
         position_key = self.board.fen().split(' ')[0]  # Just the piece positions
         self.position_history.append(position_key)
         
-    def legal_moves(self):
-        """Get all legal moves for the current position, including custom King's Step moves."""
-        current_fen = self.board.fen()
+        # Prevent memory leak by limiting history size
+        # Keep only last 100 positions (sufficient for repetition detection)
+        # Threefold repetition needs only 3 occurrences, so 100 positions is more than enough
+        if len(self.position_history) > 100:
+            self.position_history = self.position_history[-100:]
+    
+    def _clear_cache(self):
+        """Clear the legal moves cache to prevent stale data."""
+        self._legal_moves_cache = None
+        self._last_fen = None
+    
+    def reset_position_history(self):
+        """Reset position history for a new game to prevent memory accumulation."""
+        self.position_history = []
+        self.update_position_history()
         
-        # Use cached result if available and the position hasn't changed
+    def legal_moves(self):
+        """
+        Generates all legal moves for the current position, including standard chess
+        moves and custom "King's Step" moves. This is the single source of truth for move legality.
+        A move is legal if, and only if, it does not leave the player's king in check.
+        """
+        current_fen = self.board.fen()
         if self._legal_moves_cache is not None and self._last_fen == current_fen:
             return self._legal_moves_cache
-            
-        # If king is in check, use only standard legal moves
-        # This ensures checkmate is properly detected and only moves that resolve check are allowed
-        if self.board.is_check():
-            self._legal_moves_cache = list(self.board.legal_moves)
-            self._last_fen = current_fen
-            return self._legal_moves_cache
-            
-        # For non-check positions, add King's Step moves
-        standard_moves = list(self.board.legal_moves)
-        current_color = self.board.turn
-        custom_moves = []
 
-        # Add King's Step only for non-king, non-queen pieces of current player
+        legal_moves = []
+        
+        # 1. Generate standard pseudo-legal moves from python-chess
+        candidate_moves = list(self.board.pseudo_legal_moves)
+        
+        # 2. Generate "King's Step" pseudo-legal moves
         for square in chess.SQUARES:
             piece = self.board.piece_at(square)
-            if (
-                piece is None or
-                piece.piece_type in [chess.KING, chess.QUEEN] or
-                piece.color != current_color
-            ):
+            # Any piece except King or Queen can perform a King's Step
+            if piece and piece.color == self.board.turn and piece.piece_type not in [chess.KING, chess.QUEEN]:
+                for dx, dy in self.kings_step_directions:
+                    file, rank = chess.square_file(square), chess.square_rank(square)
+                    new_file, new_rank = file + dx, rank + dy
+                    if 0 <= new_file < 8 and 0 <= new_rank < 8:
+                        to_sq = chess.square(new_file, new_rank)
+                        # The destination square must be empty
+                        if self.board.piece_at(to_sq) is None:
+                            candidate_moves.append(chess.Move(square, to_sq))
+                            
+        # 3. Validate all candidate moves by simulation
+        for move in set(candidate_moves): # Use set to handle duplicates
+            try:
+                # Create a temporary board to simulate the move
+                temp_board = self.board.copy()
+                temp_board.push(move)
+                
+                # A move is legal if the player's own king is NOT in check after the move.
+                # This single check correctly handles all check/pin-related rules.
+                king_square = temp_board.king(self.board.turn)
+                if not temp_board.is_attacked_by(not self.board.turn, king_square):
+                    legal_moves.append(move)
+            except Exception:
+                # Ignore fundamentally illegal moves that python-chess might raise errors on.
                 continue
 
-            for dx, dy in self.kings_step_directions:
-                file_idx = chess.square_file(square)
-                rank_idx = chess.square_rank(square)
-                target_file = file_idx + dx
-                target_rank = rank_idx + dy
-
-                if 0 <= target_file <= 7 and 0 <= target_rank <= 7:
-                    target_square = chess.square(target_file, target_rank)
-                    # King's Step cannot capture
-                    if self.board.piece_at(target_square) is None:
-                        move = chess.Move(square, target_square)
-                        # Skip if this is already a standard legal move
-                        if any(std_move.from_square == square and std_move.to_square == target_square for std_move in standard_moves):
-                            continue
-                            
-                        # Check if this move would leave the king in check
-                        # Save current position
-                        backup_board = self.board.copy()
-                        
-                        # Try the move
-                        self.board.push(move)
-                        
-                        # Check if the king is in check after the move
-                        is_check = self.board.is_check()
-                        
-                        # Restore the position
-                        self.board = backup_board
-                        
-                        # If the move doesn't leave the king in check, it's valid
-                        if not is_check:
-                            custom_moves.append(move)
-        
-        # Store the result in cache
-        self._legal_moves_cache = standard_moves + custom_moves
+        self._legal_moves_cache = legal_moves
         self._last_fen = current_fen
-        return self._legal_moves_cache
-
-    def would_be_in_check_after_move(self, move, color):
-        """Check if a move would leave the king in check."""
-        # For regular chess moves, we can rely on python-chess's legality check
-        # But for King's Step and other custom moves, we need to verify directly
-        
-        # For standard legal moves, we trust python-chess to handle pins correctly
-        if move in self.board.legal_moves:
-            return False
-            
-        # For custom moves or to double-check standard moves, simulate the move
-        # and check if it would leave the king in check
-        self.board.push(move)
-        is_check = self.board.is_check()
-        self.board.pop()
-        return is_check
+        return legal_moves
 
     def get_move_info(self):
         """Get information about valid moves for UI display."""
@@ -153,193 +135,21 @@ class TwoHSChessBoard:
                 
         return moves_info
 
-    def is_pinned_against_king(self, square):
-        """Check if a piece is pinned against the king, and in which direction.
-        
-        Returns a tuple (is_pinned, file_dir, rank_dir) where file_dir and rank_dir
-        indicate the direction from the king to the pinning piece.
+    def is_move_valid(self, move_uci: str):
         """
-        piece = self.board.piece_at(square)
-        if piece is None:
-            return False, 0, 0
-            
-        color = piece.color
-        king_square = self.board.king(color)
-        
-        # Get the direction from king to piece
-        king_file = chess.square_file(king_square)
-        king_rank = chess.square_rank(king_square)
-        piece_file = chess.square_file(square)
-        piece_rank = chess.square_rank(square)
-        
-        print(f"DEBUG-PIN: Checking if piece at {chess.square_name(square)} is pinned against king at {chess.square_name(king_square)}")
-        print(f"DEBUG-PIN: King position: file={king_file}, rank={king_rank}")
-        print(f"DEBUG-PIN: Piece position: file={piece_file}, rank={piece_rank}")
-        
-        # If the piece is not on the same rank, file, or diagonal as the king,
-        # it cannot be pinned
-        is_on_same_line = False
-        file_dir = 0
-        rank_dir = 0
-        
-        # Check if they're on the same file
-        if king_file == piece_file:
-            is_on_same_line = True
-            rank_dir = 1 if king_rank < piece_rank else -1
-            print(f"DEBUG-PIN: Piece is on same file as king, rank_dir={rank_dir}")
-            
-        # Check if they're on the same rank
-        elif king_rank == piece_rank:
-            is_on_same_line = True
-            file_dir = 1 if king_file < piece_file else -1
-            print(f"DEBUG-PIN: Piece is on same rank as king, file_dir={file_dir}")
-            
-        # Check if they're on the same diagonal
-        elif abs(king_file - piece_file) == abs(king_rank - piece_rank):
-            is_on_same_line = True
-            file_dir = 1 if king_file < piece_file else -1
-            rank_dir = 1 if king_rank < piece_rank else -1
-            print(f"DEBUG-PIN: Piece is on same diagonal as king, file_dir={file_dir}, rank_dir={rank_dir}")
-            
-        # If not on the same line, not pinned
-        if not is_on_same_line:
-            print(f"DEBUG-PIN: Piece is not on same line as king, not pinned")
-            return False, 0, 0
-            
-        # Look for a potential attacker beyond the piece
-        current_file = piece_file + file_dir
-        current_rank = piece_rank + rank_dir
-        
-        print(f"DEBUG-PIN: Looking for attacker beyond piece in direction file_dir={file_dir}, rank_dir={rank_dir}")
-        
-        while 0 <= current_file <= 7 and 0 <= current_rank <= 7:
-            current_square = chess.square(current_file, current_rank)
-            current_piece = self.board.piece_at(current_square)
-            
-            if current_piece is not None:
-                print(f"DEBUG-PIN: Found piece {current_piece.symbol()} at {chess.square_name(current_square)}")
-                
-                # If we hit an opponent's piece, check if it can attack along this line
-                if current_piece.color != color:
-                    if file_dir != 0 and rank_dir != 0:  # Diagonal
-                        if current_piece.piece_type in [chess.BISHOP, chess.QUEEN]:
-                            print(f"DEBUG-PIN: Found diagonal attacker at {chess.square_name(current_square)}")
-                            return True, file_dir, rank_dir
-                    elif file_dir != 0 or rank_dir != 0:  # Rank or file
-                        if current_piece.piece_type in [chess.ROOK, chess.QUEEN]:
-                            print(f"DEBUG-PIN: Found rank/file attacker at {chess.square_name(current_square)}")
-                            return True, file_dir, rank_dir
-                            
-                # If we hit any other piece first, the piece is not pinned
-                print(f"DEBUG-PIN: Found non-attacking piece first, not pinned")
-                break
-                
-            current_file += file_dir
-            current_rank += rank_dir
-            
-        print(f"DEBUG-PIN: No attacker found, not pinned")
-        return False, 0, 0
-    
-    def is_move_valid(self, move):
-        """Check if a move is valid in the current position."""
-        # If game is over, no moves are valid
+        Checks if a move is valid by referencing the main legal_moves engine.
+        This ensures all rules are applied consistently from a single source of truth.
+        """
         if self.is_game_over():
             return False
             
         try:
-            m = chess.Move.from_uci(move)
-        except ValueError:
+            move = chess.Move.from_uci(move_uci)
+            # A move is legal if and only if it exists in our main function's generated list.
+            return move in self.legal_moves()
+        except (ValueError, IndexError):
+            # Handle invalid UCI format or board errors.
             return False
-            
-        # First, let's check if this is a standard move
-        is_standard_move = m in self.board.legal_moves
-        
-        # If it's a standard move, it's valid
-        if is_standard_move:
-            return True
-            
-        # If not a standard move, check if it's a valid King's Step move
-        # Get the piece at the source square
-        piece = self.board.piece_at(m.from_square)
-        
-        # If no piece or wrong color, invalid move
-        if piece is None or piece.color != self.board.turn:
-            return False
-            
-        # King's Step is not valid for king or queen (they already have full movement)
-        if piece.piece_type in [chess.KING, chess.QUEEN]:
-            return False
-            
-        # Calculate file and rank differences
-        from_file = chess.square_file(m.from_square)
-        from_rank = chess.square_rank(m.from_square)
-        to_file = chess.square_file(m.to_square)
-        to_rank = chess.square_rank(m.to_square)
-        
-        # Check if the move is a King's Step (one square in any direction)
-        file_diff = abs(from_file - to_file)
-        rank_diff = abs(from_rank - to_rank)
-        is_kings_step = file_diff <= 1 and rank_diff <= 1 and not (file_diff == 0 and rank_diff == 0)
-        
-        # King's Step cannot capture
-        if self.board.piece_at(m.to_square) is not None:
-            return False
-            
-        # If not a King's Step, invalid move
-        if not is_kings_step:
-            return False
-        
-        print(f"DEBUG-MOVE: Checking if move {m.uci()} is valid")
-        
-        # Check if the piece is pinned
-        is_pinned, pin_file_dir, pin_rank_dir = self.is_pinned_against_king(m.from_square)
-        print(f"DEBUG-MOVE: Piece pinned: {is_pinned}, pin_file_dir: {pin_file_dir}, pin_rank_dir: {pin_rank_dir}")
-        
-        # If the piece is pinned, it can only move along the pin line
-        if is_pinned:
-            # Get king position
-            color = piece.color
-            king_square = self.board.king(color)
-            king_file = chess.square_file(king_square)
-            king_rank = chess.square_rank(king_square)
-            
-            # For a pinned piece to move legally, the target square must be
-            # on the same line as the king and the piece's current position
-            
-            # Check if the target square is on the same line as the king and the piece
-            if pin_file_dir == 0:  # Vertical pin
-                # Must stay on the same file
-                if to_file != from_file:
-                    print(f"DEBUG-MOVE: Invalid move - vertical pin but changing file")
-                    return False
-            elif pin_rank_dir == 0:  # Horizontal pin
-                # Must stay on the same rank
-                if to_rank != from_rank:
-                    print(f"DEBUG-MOVE: Invalid move - horizontal pin but changing rank")
-                    return False
-            else:  # Diagonal pin
-                # Must move diagonally with the same ratio as the pin
-                file_change = to_file - from_file
-                rank_change = to_rank - from_rank
-                
-                # Must maintain diagonal movement (equal file and rank changes)
-                if abs(file_change) != abs(rank_change):
-                    print(f"DEBUG-MOVE: Invalid move - diagonal pin but not moving diagonally")
-                    return False
-                    
-                # Must maintain the same diagonal direction as the pin
-                move_file_dir = 1 if file_change > 0 else -1
-                move_rank_dir = 1 if rank_change > 0 else -1
-                
-                # The directions must match the pin direction
-                if move_file_dir != pin_file_dir or move_rank_dir != pin_rank_dir:
-                    print(f"DEBUG-MOVE: Invalid move - diagonal pin but wrong direction")
-                    return False
-                    
-            print(f"DEBUG-MOVE: Valid move along pin line")
-        
-        print(f"DEBUG-MOVE: Move {m.uci()} is valid")
-        return True
 
     def make_move(self, move):
         """Make a move on the board if it's valid."""
@@ -359,8 +169,7 @@ class TwoHSChessBoard:
             self.board.push(chess_move)
             
             # Clear the legal moves cache since the position changed
-            self._legal_moves_cache = None
-            self._last_fen = None
+            self._clear_cache()
             
             # Update position history for repetition detection
             self.update_position_history()
@@ -396,44 +205,20 @@ class TwoHSChessBoard:
     def is_checkmate(self):
         """Check if the current position is checkmate."""
         # A position is checkmate when the king is in check and there are no legal moves
-        # Use only standard legal moves for checkmate detection to ensure accuracy
-        return self.board.is_check() and len(list(self.board.legal_moves)) == 0
+        # Use all legal moves (including King's Step) for consistent detection
+        return self.board.is_check() and len(self.legal_moves()) == 0
 
     def is_stalemate(self):
         """Check if the current position is stalemate."""
         # A position is stalemate when the king is not in check and there are no legal moves
+        # Use all legal moves (including King's Step) for consistent detection
         return not self.board.is_check() and len(self.legal_moves()) == 0
 
     def is_insufficient_material(self):
         """Check if there's insufficient material to checkmate."""
-        # Implement a more sophisticated check for insufficient material
-        # that accounts for the custom "King's Step" rule
-        white_pieces = [self.board.piece_at(sq) for sq in chess.SQUARES 
-                       if self.board.piece_at(sq) and self.board.piece_at(sq).color == chess.WHITE]
-        black_pieces = [self.board.piece_at(sq) for sq in chess.SQUARES 
-                       if self.board.piece_at(sq) and self.board.piece_at(sq).color == chess.BLACK]
-        
-        # Kings only
-        if len(white_pieces) == 1 and len(black_pieces) == 1:
-            return True
-        
-        # King and bishop vs king
-        if (len(white_pieces) == 2 and len(black_pieces) == 1 and 
-            any(p.piece_type == chess.BISHOP for p in white_pieces)):
-            return True
-        if (len(white_pieces) == 1 and len(black_pieces) == 2 and 
-            any(p.piece_type == chess.BISHOP for p in black_pieces)):
-            return True
-        
-        # King and knight vs king
-        if (len(white_pieces) == 2 and len(black_pieces) == 1 and 
-            any(p.piece_type == chess.KNIGHT for p in white_pieces)):
-            return True
-        if (len(white_pieces) == 1 and len(black_pieces) == 2 and 
-            any(p.piece_type == chess.KNIGHT for p in black_pieces)):
-            return True
-        
-        return False
+        # Use python-chess's built-in insufficient material detection
+        # which correctly handles standard chess rules
+        return self.board.is_insufficient_material()
 
     def is_threefold_repetition(self):
         """Check if the current position has occurred three times."""
@@ -531,29 +316,7 @@ class TwoHSChessBoard:
         # If it passed all the above checks and is within 1 square, it's a King's Step
         return is_kings_step
 
-    def is_piece_pinned(self, square):
-        """Check if a piece is pinned against the king.
-        
-        A piece is pinned if removing it would place the king in check.
-        """
-        piece = self.board.piece_at(square)
-        if piece is None:
-            return False
-            
-        color = piece.color
-        king_square = self.board.king(color)
-        
-        # Save current board state
-        board_copy = self.board.copy()
-        
-        # Remove the piece and see if the king is now attacked
-        self.board.remove_piece_at(square)
-        is_pinned = self.board.is_attacked_by(not color, king_square)
-        
-        # Restore the board
-        self.board = board_copy
-        
-        return is_pinned
+
         
     def get_pin_direction_and_attacker(self, square):
         """Get the direction of the pin and the attacker's square for a pinned piece.
@@ -567,34 +330,14 @@ class TwoHSChessBoard:
         color = piece.color
         king_square = self.board.king(color)
         
-        # If not pinned, return None
-        if not self.is_piece_pinned(square):
+        # Check if pinned using our main method
+        is_pinned, file_dir, rank_dir = self.is_pinned_against_king(square)
+        if not is_pinned:
             return None
             
-        # Calculate king's position
-        king_file = chess.square_file(king_square)
-        king_rank = chess.square_rank(king_square)
+        # Look for the attacker in the direction from the piece away from the king
         piece_file = chess.square_file(square)
         piece_rank = chess.square_rank(square)
-        
-        # Determine the direction from king to piece
-        file_dir = 0
-        rank_dir = 0
-        
-        # Horizontal pin
-        if king_rank == piece_rank:
-            file_dir = 1 if king_file < piece_file else -1
-            
-        # Vertical pin
-        elif king_file == piece_file:
-            rank_dir = 1 if king_rank < piece_rank else -1
-            
-        # Diagonal pin
-        elif abs(king_file - piece_file) == abs(king_rank - piece_rank):
-            file_dir = 1 if king_file < piece_file else -1
-            rank_dir = 1 if king_rank < piece_rank else -1
-        
-        # Look for the attacker in the direction from the piece away from the king
         attacker_square = None
         current_file = piece_file + file_dir
         current_rank = piece_rank + rank_dir

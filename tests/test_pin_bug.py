@@ -37,14 +37,14 @@ class TestPinBug(unittest.TestCase):
         self.assertFalse(board.is_move_valid("d5d4"), "Pinned pawn should not be able to move vertically")
         
         # The pawn should not be able to move diagonally in the wrong direction
-        # c4 and e4 are off the pin line
-        self.assertFalse(board.is_move_valid("d5c4"), "Pinned pawn should not be able to move diagonally in wrong direction")
-        self.assertFalse(board.is_move_valid("d5e4"), "Pinned pawn should not be able to move diagonally in wrong direction")
+        # c4 and e6 are off the pin line (wrong diagonal - perpendicular to a8-h1)
+        self.assertFalse(board.is_move_valid("d5c4"), "Pinned pawn should not be able to move diagonally in wrong direction")  
+        self.assertFalse(board.is_move_valid("d5e6"), "Pinned pawn should not be able to move diagonally in wrong direction")
         
         # But the pawn should be able to move along the pin line in the right direction
-        # c6 (moving away from the queen) and e4 (moving towards the queen) are on the pin line
-        self.assertTrue(board.is_move_valid("d5c6"), "Pinned pawn should be able to move along the pin line")
-        self.assertTrue(board.is_move_valid("d5e4"), "Pinned pawn should be able to move along the pin line")
+        # Pin line a8-h1: from d5 can go to e4 (toward queen) or c6 (toward king)
+        self.assertTrue(board.is_move_valid("d5e4"), "Pinned pawn should be able to move along the pin line toward queen")
+        self.assertTrue(board.is_move_valid("d5c6"), "Pinned pawn should be able to move along the pin line toward king")
         
     def test_pinned_pawn_along_file(self):
         """Test that a pawn pinned along a file by a rook cannot move."""
