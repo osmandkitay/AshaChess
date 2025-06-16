@@ -1,4 +1,4 @@
-# 2HS Chess: Modern Rules
+# ASHA CHESS: Modern Rules
 
 A chess variant that adds a single elegant principle to chess: All pieces have increased maneuverability, while capturing methods remain classic.
 
@@ -57,7 +57,7 @@ In the game interface:
 
 This implementation uses:
 - Python with Flask for the backend
-- python-chess library (with custom modifications for 2HS rules)
+- python-chess library (with custom modifications for ASHA CHESS rules)
 - JavaScript and CSS for the frontend
 
 ### Prerequisites
@@ -69,8 +69,8 @@ This implementation uses:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/osmandkitay/2chs.git
-   cd 2chs
+   git clone https://github.com/osmandkitay/ASHA-CHESS.git
+   cd ASHA-CHESS
    ```
 
 2. Install the required dependencies:
@@ -91,7 +91,7 @@ This implementation uses:
 ### Project Structure
 
 ```
-2chs/
+ASHA-CHESS/
 ├── app.py              # Main Flask application with chess logic
 ├── run.py              # Script to run the server
 ├── requirements.txt    # Python dependencies
@@ -106,10 +106,10 @@ This implementation uses:
 
 ### Testing
 
-The project includes a comprehensive test suite that verifies the rules of 2HS Chess, including the custom "King's Step" rule. To run the tests:
+The project includes a comprehensive test suite that verifies the rules of ASHA CHESS, including the custom "King's Step" rule. To run the tests:
 
 ```
-cd 2chs
+cd ASHA-CHESS
 python -m tests.run_tests
 ```
 
