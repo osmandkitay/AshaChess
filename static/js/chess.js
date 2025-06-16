@@ -4,11 +4,150 @@ document.addEventListener('DOMContentLoaded', () => {
     const checkStatus = document.getElementById('check-status');
     const resetButton = document.getElementById('reset-button');
     
+    // New UI elements
+    const manifestBtn = document.getElementById('manifest-btn');
+    const rulesBtn = document.getElementById('rules-btn');
+    const manifestPopup = document.getElementById('manifest-popup');
+    const rulesPopup = document.getElementById('rules-popup');
+    const moveHistoryList = document.getElementById('move-history-list');
+    
+    // Move history tracking
+    let moveHistory = [];
+    let moveCounter = 1;
+    
     let selectedSquare = null;
     let boardState = null;
     let draggedPiece = null;
     let draggedPieceSquare = null;
     let isDragging = false;  // Flag to track if a drag operation is in progress
+    
+    // Popup functionality
+    manifestBtn.addEventListener('click', () => {
+        showPopup(manifestPopup);
+    });
+    
+    rulesBtn.addEventListener('click', () => {
+        showPopup(rulesPopup);
+    });
+    
+    // Close popups when clicking outside
+    manifestPopup.addEventListener('click', (e) => {
+        if (e.target === manifestPopup) {
+            hidePopup(manifestPopup);
+        }
+    });
+    
+    rulesPopup.addEventListener('click', (e) => {
+        if (e.target === rulesPopup) {
+            hidePopup(rulesPopup);
+        }
+    });
+    
+    // ESC key to close popups
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            hidePopup(manifestPopup);
+            hidePopup(rulesPopup);
+        }
+    });
+    
+    function showPopup(popup) {
+        popup.classList.add('active');
+    }
+    
+    function hidePopup(popup) {
+        popup.classList.remove('active');
+    }
+    
+    function addMoveToHistory(move, piece, isCapture, isCheck, isCheckmate, isKingsStep) {
+        const moveNotation = generateMoveNotation(move, piece, isCapture, isCheck, isCheckmate, isKingsStep);
+        
+        // Add to history array
+        if (boardState.turn === 'white') {
+            // White's move just finished, so this is the end of a white move
+            moveHistory.push({
+                number: moveCounter,
+                white: moveNotation,
+                black: null
+            });
+        } else {
+            // Black's move just finished
+            if (moveHistory.length > 0 && moveHistory[moveHistory.length - 1].black === null) {
+                moveHistory[moveHistory.length - 1].black = moveNotation;
+                moveCounter++;
+            } else {
+                // This shouldn't normally happen, but handle it
+                moveHistory.push({
+                    number: moveCounter,
+                    white: null,
+                    black: moveNotation
+                });
+                moveCounter++;
+            }
+        }
+        
+        updateMoveHistoryDisplay();
+    }
+    
+    function generateMoveNotation(move, piece, isCapture, isCheck, isCheckmate, isKingsStep) {
+        let notation = '';
+        
+        // Piece notation (except for pawns)
+        if (piece.toLowerCase() !== 'p') {
+            notation += piece.toUpperCase();
+        }
+        
+        // Capture notation
+        if (isCapture) {
+            if (piece.toLowerCase() === 'p') {
+                notation += move.from[0]; // Add file for pawn captures
+            }
+            notation += 'x';
+        }
+        
+        // Destination square
+        notation += move.to;
+        
+        // King's Step notation
+        if (isKingsStep) {
+            notation += '(KS)';
+        }
+        
+        // Check/Checkmate notation
+        if (isCheckmate) {
+            notation += '#';
+        } else if (isCheck) {
+            notation += '+';
+        }
+        
+        return notation;
+    }
+    
+    function updateMoveHistoryDisplay() {
+        moveHistoryList.innerHTML = '';
+        
+        moveHistory.forEach(move => {
+            const moveElement = document.createElement('div');
+            moveElement.className = 'move-entry';
+            
+            moveElement.innerHTML = `
+                <span class="move-number">${move.number}.</span>
+                <span class="move-notation">${move.white || ''}</span>
+                ${move.black ? `<span class="move-notation">${move.black}</span>` : ''}
+            `;
+            
+            moveHistoryList.appendChild(moveElement);
+        });
+        
+        // Scroll to bottom
+        moveHistoryList.scrollTop = moveHistoryList.scrollHeight;
+    }
+    
+    function clearMoveHistory() {
+        moveHistory = [];
+        moveCounter = 1;
+        updateMoveHistoryDisplay();
+    }
     
     // Unicode chess pieces
     const chessPieces = {
@@ -267,61 +406,90 @@ document.addEventListener('DOMContentLoaded', () => {
 
         if (boardState.isGameOver || boardState.isCheckmate) {
             let message = '';
+            let gameOverTitle = '';
             const winner = boardState.turn === 'white' ? 'Black' : 'White';
             
             // Set message based on the game over reason
             if (boardState.gameOverReason === "checkmate" || boardState.isCheckmate) {
+                gameOverTitle = `${winner} Wins!`;
                 message = `CHECKMATE! ${winner} wins! Press 'Reset Game' to play again.`;
             } else if (boardState.gameOverReason === "stalemate") {
+                gameOverTitle = 'Draw - Stalemate';
                 message = 'STALEMATE! Game is a draw. Press \'Reset Game\' to play again.';
             } else if (boardState.gameOverReason === "repetition") {
+                gameOverTitle = 'Draw - Repetition';
                 message = 'DRAW BY REPETITION! Same position occurred three times. Press \'Reset Game\' to play again.';
             } else if (boardState.gameOverReason === "fifty_moves") {
+                gameOverTitle = 'Draw - Fifty Moves';
                 message = 'DRAW BY FIFTY-MOVE RULE! No captures or pawn moves in the last 50 moves. Press \'Reset Game\' to play again.';
             } else if (boardState.gameOverReason === "insufficient_material") {
+                gameOverTitle = 'Draw - Insufficient Material';
                 message = 'DRAW! Insufficient material to checkmate. Press \'Reset Game\' to play again.';
             } else {
-                // Fallback message if reason not specified
+                gameOverTitle = 'Game Over';
                 message = 'GAME OVER! Press \'Reset Game\' to play again.';
             }
             
             checkStatus.textContent = message;
-            // Add styling for game over message
-            checkStatus.style.fontSize = '24px';
-            checkStatus.style.color = '#e74c3c';
-            disableBoardInteraction();
+            disableBoardInteraction(gameOverTitle);
             
             // Highlight the reset button to draw attention to it
             document.getElementById('reset-button').classList.add('highlight-reset');
         } else if (boardState.isCheck) {
             checkStatus.textContent = `${boardState.turn.toUpperCase()} IS IN CHECK!`;
-            checkStatus.style.fontSize = '20px';
-            checkStatus.style.color = '#e74c3c';
         } else {
             checkStatus.textContent = '';
-            checkStatus.style.fontSize = '';
-            checkStatus.style.color = '';
             document.getElementById('reset-button').classList.remove('highlight-reset');
         }
     }
     
     // Disable board interaction when game is over
-    function disableBoardInteraction() {
+    function disableBoardInteraction(gameOverTitle = 'Game Over') {
         selectedSquare = null;
         draggedPiece = null;
         draggedPieceSquare = null;
         isDragging = false;
         
         // Create an overlay to visually indicate the game is over
-        const boardContainer = document.querySelector('.board-container');
         let overlay = document.querySelector('.game-over-overlay');
         
         if (!overlay) {
             overlay = document.createElement('div');
             overlay.className = 'game-over-overlay';
-            overlay.innerHTML = '<div class="game-over-message">Game Over</div>';
-            boardContainer.appendChild(overlay);
+            document.body.appendChild(overlay);
+            
+            // Add click to close functionality
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    closeGameOverOverlay();
+                }
+            });
         }
+        
+        // Determine subtitle based on game state
+        let subtitle = 'Click anywhere to continue playing or reset the game.';
+        if (boardState.gameOverReason === 'checkmate') {
+            subtitle = 'The king has been checkmated! Game completed.';
+        } else if (boardState.gameOverReason === 'stalemate') {
+            subtitle = 'No legal moves available. The game ends in a draw.';
+        } else if (boardState.gameOverReason === 'repetition') {
+            subtitle = 'The same position occurred three times.';
+        } else if (boardState.gameOverReason === 'fifty_moves') {
+            subtitle = 'No captures or pawn moves in the last 50 moves.';
+        } else if (boardState.gameOverReason === 'insufficient_material') {
+            subtitle = 'Neither player has enough pieces to checkmate.';
+        }
+        
+        overlay.innerHTML = '<div class="game-over-content">' +
+            '<div class="close-hint">Click outside to close</div>' +
+            '<div class="game-over-message">' + gameOverTitle + '</div>' +
+            '<div class="game-over-subtitle">' + subtitle + '</div>' +
+            '<div class="game-over-actions">' +
+            '<button class="game-over-btn" onclick="closeGameOverOverlay()">Continue Viewing</button>' +
+            '<button class="game-over-btn reset" onclick="resetGame()">New Game</button>' +
+            '</div>' +
+            '</div>';
+        overlay.style.display = 'flex';
         
         // Disable all square click events and dragging
         document.querySelectorAll('.square').forEach(square => {
@@ -335,6 +503,20 @@ document.addEventListener('DOMContentLoaded', () => {
             piece.draggable = false;
         });
     }
+    
+    // Close game over overlay
+    function closeGameOverOverlay() {
+        const overlay = document.querySelector('.game-over-overlay');
+        if (overlay) {
+            overlay.style.display = 'none';
+        }
+        // Note: Don't reset the game state, just hide the overlay
+        // Users can still see the final position and move history
+    }
+    
+    // Make functions available globally for onclick handlers
+    window.closeGameOverOverlay = closeGameOverOverlay;
+    window.resetGame = resetGame;
     
     // Highlight valid moves for the selected square
     function highlightValidMoves(square) {
@@ -525,6 +707,9 @@ document.addEventListener('DOMContentLoaded', () => {
         // Clear any existing highlights
         clearHighlights();
         
+        // Store previous board state to track move details
+        const previousBoardState = JSON.parse(JSON.stringify(boardState));
+        
         fetch('/api/move', {
             method: 'POST',
             headers: {
@@ -540,6 +725,25 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then(data => {
             if (data.success) {
+                // Get move details for history
+                const from = move.substring(0, 2);
+                const to = move.substring(2, 4);
+                const movedPiece = getPieceAt(from, previousBoardState.fen);
+                const isCapture = data.lastMove && data.lastMove.isCapture;
+                const isCheck = data.isCheck;
+                const isCheckmate = data.isCheckmate || data.isGameOver;
+                const isKingsStep = data.lastMove && data.lastMove.isKingsStep;
+                
+                // Add move to history
+                addMoveToHistory(
+                    { from: from, to: to },
+                    movedPiece,
+                    isCapture,
+                    isCheck,
+                    isCheckmate,
+                    isKingsStep
+                );
+                
                 // Update board state with new data
                 boardState = data;
                 updateBoard();
@@ -550,7 +754,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 // If game is over after this move, disable board
                 if (data.isGameOver) {
-                    disableBoardInteraction();
+                    const winner = previousBoardState.turn === 'white' ? 'White' : 'Black';
+                    const gameOverTitle = data.gameOverReason === 'checkmate' ? `${winner} Wins!` : 'Game Over';
+                    disableBoardInteraction(gameOverTitle);
                 }
             }
         })
@@ -567,10 +773,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
+    // Helper function to get piece at square from FEN
+    function getPieceAt(square, fen) {
+        const fenBoard = fen.split(' ')[0];
+        const ranks = fenBoard.split('/');
+        
+        const file = square.charCodeAt(0) - 97; // a=0, b=1, etc.
+        const rank = parseInt(square[1]) - 1;   // 1=0, 2=1, etc.
+        
+        const boardRank = ranks[7 - rank]; // FEN ranks are from 8 to 1
+        let currentFile = 0;
+        
+        for (let i = 0; i < boardRank.length; i++) {
+            const char = boardRank[i];
+            if (isNaN(char)) {
+                if (currentFile === file) {
+                    return char;
+                }
+                currentFile++;
+            } else {
+                currentFile += parseInt(char);
+                if (currentFile > file) {
+                    return null; // Empty square
+                }
+            }
+        }
+        return null;
+    }
+    
     // Reset game
     function resetGame() {
         // Clear any selected squares and highlights
         clearHighlights();
+        
+        // Clear move history
+        clearMoveHistory();
+        
+        // Remove game over overlay if it exists
+        const overlay = document.querySelector('.game-over-overlay');
+        if (overlay) {
+            overlay.remove();
+        }
+        
+        // Remove any reset messages
+        const resetMessage = document.getElementById('reset-message');
+        if (resetMessage) {
+            resetMessage.remove();
+        }
         
         // Reset game state
         fetch('/api/reset', {
@@ -604,4 +853,4 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Initialize the board when the page loads
     initializeBoard();
-}); 
+});

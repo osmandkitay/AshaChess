@@ -3,33 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2HS Chess</title>
+    <title>ASHA CHESS</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>2HS Chess: Modern Rules</h1>
-            <p>A chess variant with increased maneuverability through the "King's Step" rule</p>
-        </header>
+    <div class="app-wrapper">
+        <div class="top-nav">
+            <h1 class="game-title">ASHA CHESS</h1>
+            <div class="nav-buttons">
+                <button id="manifest-btn" class="nav-button">MANIFEST</button>
+                <button id="rules-btn" class="nav-button">RULES</button>
+            </div>
+        </div>
 
-        <div class="game-container">
-            <div class="game-info">
-                <div class="status">
-                    <p>Turn: <span id="turn">White</span></p>
-                    <p id="check-status"></p>
+        <div class="main-container">
+            <div class="move-history-sidebar">
+                <h3>Move History</h3>
+                <div id="move-history-list">
+                    </div>
+            </div>
+
+            <div class="center-game-area">
+                <div class="board-container">
+                    <div id="chessboard"></div>
                 </div>
-                <div class="controls">
-                    <button id="reset-button">Reset Game</button>
+
+                <div class="game-controls">
+                    <button id="reset-button" class="reset-btn">Reset Game</button>
                 </div>
             </div>
 
-            <div class="board-container">
-                <div id="chessboard"></div>
+            <div class="right-side-panel">
+                <div class="game-status">
+                    <div class="turn-indicator">
+                        <span>Turn: </span>
+                        <span id="turn" class="turn-text">White</span>
+                    </div>
+                    <div id="check-status" class="check-status"></div>
+                </div>
             </div>
+        </div>
+    </div>
 
-            <div class="rules">
-                <h2>Game Rules</h2>
+    <div id="manifest-popup" class="popup-overlay">
+        <div class="popup-content">
+            <button class="popup-close" onclick="document.getElementById('manifest-popup').classList.remove('active')">&times;</button>
+            <h2>Game Manifest</h2>
+            <div class="manifest-content">
+                <h3>ASHA CHESS: Enhanced Chess Variant</h3>
+                <p><strong>Creator:</strong> Chess Innovation Lab</p>
+                <p><strong>Version:</strong> 2.0</p>
+                <p><strong>Release Date:</strong> 2024</p>
+                
+                <h4>Game Philosophy</h4>
+                <p>ASHA CHESS introduces the revolutionary "King's Step" rule to traditional chess, adding a new layer of tactical depth while maintaining the strategic essence that makes chess timeless.</p>
+                
+                <h4>Key Features</h4>
+                <ul>
+                    <li>Enhanced piece mobility through King's Step movement</li>
+                    <li>Preserved traditional capture mechanics</li>
+                    <li>Increased tactical opportunities</li>
+                    <li>Maintains chess strategic depth</li>
+                </ul>
+                
+                <h4>Design Goals</h4>
+                <p>To create a chess variant that feels both familiar and fresh, offering experienced players new tactical possibilities while remaining accessible to chess newcomers.</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="rules-popup" class="popup-overlay">
+        <div class="popup-content">
+            <button class="popup-close" onclick="document.getElementById('rules-popup').classList.remove('active')">&times;</button>
+            <h2>Game Rules</h2>
+            <div class="rules-content">
                 <h3>Main Principle: "King's Step" (For Movement Only)</h3>
                 <p>Pawns, Knights, Bishops, and Rooks gain a new ability called the "King's Step" in addition to their classic movements.</p>
                 <p>The "King's Step" is a one-square movement in any direction (horizontal, vertical, diagonal).</p>
@@ -39,10 +86,10 @@
                 <h3>Capturing Rules</h3>
                 <p>Capturing actions remain UNCHANGED. A piece can capture an opponent's piece only using its traditional attack method:</p>
                 <ul>
-                    <li>Pawn: Can only capture diagonally forward</li>
-                    <li>Knight: Can only capture at the end of its "L" move</li>
-                    <li>Bishop: Can only capture diagonally</li>
-                    <li>Rook: Can only capture horizontally or vertically</li>
+                    <li><strong>Pawn:</strong> Can only capture diagonally forward</li>
+                    <li><strong>Knight:</strong> Can only capture at the end of its "L" move</li>
+                    <li><strong>Bishop:</strong> Can only capture diagonally</li>
+                    <li><strong>Rook:</strong> Can only capture horizontally or vertically</li>
                 </ul>
                 
                 <h3>Board Highlights</h3>
@@ -59,4 +106,4 @@
 
     <script src="{{ url_for('static', filename='js/chess.js') }}"></script>
 </body>
-</html> 
+</html>
