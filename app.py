@@ -1,7 +1,11 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, render_template, request, jsonify, session
 import chess
+import os
 
 app = Flask(__name__)
+# For production, set a permanent secret key in your environment variables.
+# For development, a random key is fine.
+app.secret_key = os.environ.get('SECRET_KEY', os.urandom(24))
 
 # Custom 2HS Chess Board: With Knights + Fixed Game Termination Detection
 class TwoHSChessBoard:
@@ -418,8 +422,32 @@ class TwoHSChessBoard:
         
         return True
 
-# Global game state
-game_state = {"board": TwoHSChessBoard()}
+def get_board_from_session():
+    """Load board state from session or create a new one."""
+    if 'board_fen' not in session:
+        board = TwoHSChessBoard()
+        session['board_fen'] = board.fen()
+        session['position_history'] = board.position_history
+        session['last_move_uci'] = None
+        session['termination_reason'] = None
+    else:
+        board = TwoHSChessBoard(fen=session['board_fen'])
+        board.position_history = session.get('position_history', [])
+        last_move_uci = session.get('last_move_uci')
+        if last_move_uci:
+            try:
+                board.last_move = chess.Move.from_uci(last_move_uci)
+            except ValueError:
+                board.last_move = None  # Handle invalid UCI in session
+        board.termination_reason = session.get('termination_reason')
+    return board
+
+def save_board_to_session(board):
+    """Save the current board state to the session."""
+    session['board_fen'] = board.fen()
+    session['position_history'] = board.position_history
+    session['last_move_uci'] = board.last_move.uci() if board.last_move else None
+    session['termination_reason'] = board.termination_reason
 
 @app.route('/')
 def index():
@@ -427,7 +455,7 @@ def index():
 
 @app.route('/api/board', methods=['GET'])
 def get_board():
-    b = game_state["board"]
+    b = get_board_from_session()
     
     # Get game state information
     is_game_over = b.is_game_over()
@@ -473,7 +501,7 @@ def make_move():
     if not move:
         return jsonify({"error": "Move not provided"}), 400
 
-    b = game_state["board"]
+    b = get_board_from_session()
     
     # Check if game is already over
     if b.is_game_over():
@@ -489,6 +517,9 @@ def make_move():
         }), 400
 
     if b.make_move(move):
+        # Save the updated board state to the session
+        save_board_to_session(b)
+        
         # Get updated game state information
         is_game_over = b.is_game_over()
         checkmate = b.is_checkmate()
@@ -528,8 +559,14 @@ def make_move():
 
 @app.route('/api/reset', methods=['POST'])
 def reset_game():
-    game_state["board"] = TwoHSChessBoard()
-    return jsonify({"success": True})
+    # Reset the board by clearing the game data from the session
+    session.pop('board_fen', None)
+    session.pop('position_history', None)
+    session.pop('last_move_uci', None)
+    session.pop('termination_reason', None)
+    return jsonify({"message": "Game reset successfully"})
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    # Use threaded=True to handle multiple concurrent requests,
+    # which is essential when using sessions for different users.
+    app.run(debug=True, threaded=True)
