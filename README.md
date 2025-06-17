@@ -119,4 +119,4 @@ The test suite includes:
 
 ## License
 
-This project is licensed under the ISC License. See the LICENSE file for details.
+This project is licensed under the Creative Commons Attribution-ShareAlike 4.0 International Public License. See the LICENSE file for details.
