@@ -1,1 +1,0 @@
-# Test package for 2HS Chess 

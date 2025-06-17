@@ -83,9 +83,7 @@ This implementation uses:
    python run.py
    ```
 
-4. Open your browser and navigate to:
-   ```
-   http://localhost:5000
+4. Open your browser and navigate 
    ```
 
 ### Project Structure
