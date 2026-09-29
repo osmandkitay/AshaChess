@@ -33,7 +33,7 @@ The game starts from the standard chess position. Every piece keeps all of its c
 | Rook   | unchanged                  | King's Step              |
 | Bishop | unchanged                  | King's Step              |
 | Knight | unchanged                  | King's Step              |
-| Pawn   | unchanged (incl. en passant, promotion) | one square sideways |
+| Pawn   | unchanged (incl. double step, en passant, promotion) | one square sideways |
 
 ### King's Step (Knight, Bishop, Rook)
 
@@ -48,8 +48,9 @@ The piece may move one square in any direction (horizontal, vertical or diagonal
 
 The pawn does **not** get the King's Step. Instead:
 
-- It moves forward exactly as in classical chess: one square, or two squares from its starting rank when both squares are empty.
+- It moves forward exactly as in classical chess: one square, or two squares if it has **never moved** and both squares are empty.
 - It may additionally move **one square left or right on the same rank onto an empty square**. This sideways step never captures.
+- A sideways step is a real pawn move: the pawn loses its two-square move, even if it later returns to its original square. A pawn that played e2~d2 may play d3 but never d4, and after d2~e2 it cannot play e4 either.
 - It captures only one square diagonally forward, including en passant, and promotes on the last rank to a queen, rook, bishop or knight of the player's choice.
 - It never moves backward (straight or diagonally), never moves diagonally forward without capturing, and never moves two squares sideways.
 
@@ -59,7 +60,6 @@ Examples: a white pawn on e4 with empty surroundings may play e5, d4 or f4 — n
 
 - Check, checkmate, stalemate, castling, en passant and promotion work as in classical chess.
 - Only classical captures attack squares. Check, pins and castling safety are therefore decided by classical attack geometry — but a King's Step or sideways pawn step may block a check or give (discovered) check. For example, the classical Fool's Mate (1. f3 e5 2. g4 Qh4) is not mate: White can block with Ng1~f2, Bf1~f2, e2~f2 or f3~g3.
-- A pawn standing on its own second rank may make a two-square move, also after it stepped sideways along that rank.
 
 ### Game end and draws
 
@@ -67,8 +67,8 @@ Following the current FIDE Laws:
 
 - **Automatic:** checkmate, stalemate, insufficient material, fivefold repetition, 75-move rule (checkmate on the 75th move still wins).
 - **On claim by the side to move:** threefold repetition and the 50-move rule (the "Claim draw" button appears when available).
-- A repeated position means the same placement, side to move, castling rights and a legal en passant capture possibility.
-- The 50/75-move counters are reset by captures and forward pawn moves. A sideways pawn step is reversible, so it does **not** reset them.
+- A repeated position means the same placement, side to move, castling rights, legal en passant capture possibility and the same set of pawns that still have their two-square move.
+- The 50/75-move counters are reset by every capture and every pawn move, sideways steps included.
 - Insufficient material is declared only for K v K, K+N v K and K+B v K. The classical "bishops on the same colour" rule does not apply, because Asha bishops change colour.
 
 ### Notation
@@ -102,7 +102,8 @@ tests/             pytest suite (movement, legality, game, perft, differential, 
 
 - `asha` is a small dependency-free engine and the single source of truth. Attack geometry (`Board.is_attacked`) is kept separate from movement geometry (`Board.legal_moves`), which adds the non-capturing King's Step and pawn sideways step.
 - Every legal move carries a `kind`: `quiet`, `capture`, `en_passant`, `castling`, `kings_step` or `pawn_lateral`, plus an optional `promotion`. The UI only renders this metadata.
-- The session cookie stores just the list of played moves (and a draw claim); the server replays and re-validates them on each request.
+- Which pawns still have their two-square move (`Board.virgin`) is part of the position, used by move generation, repetition and FEN. FEN gets an optional seventh field listing those pawns' files (uppercase White, lowercase Black, `-` for none), e.g. `... w KQkq - 0 3 ABCFGHabcdefgh`. It is omitted when every pawn on its starting rank still has the right, so ordinary positions stay standard FEN.
+- The session cookie stores just the list of played moves (and a draw claim); the server replays and re-validates them on each request. Known limit: a browser cookie holds roughly 4 KB, i.e. several hundred plies; longer games would need server-side storage.
 - `Board` (`legal_moves`, `push`, `pop`, `fen`, `perft`) and `Game` are independent of Flask, so an engine or self-play loop can drive them directly.
 
 ### API
@@ -114,7 +115,7 @@ tests/             pytest suite (movement, legality, game, perft, differential, 
 | `POST /api/claim-draw` | `{"reason": "threefold_repetition" \| "fifty_moves"}` (optional) | game state, or 400 |
 | `POST /api/reset`      |                          | fresh game state |
 
-The game state contains `fen`, `turn`, `pieces`, `legalMoves`, `check`, `checkSquare`, `lastMove`, `history` (with notation and metadata), `gameOver`, `result`, `claimableDraws`, `halfmoveClock` and `fullmoveNumber`.
+The game state contains `fen` (with the optional seventh field above), `turn`, `pieces`, `legalMoves`, `check`, `checkSquare`, `lastMove`, `history` (with notation and metadata), `gameOver`, `result`, `claimableDraws`, `halfmoveClock` and `fullmoveNumber`.
 
 ## Development
 
@@ -124,6 +125,8 @@ pytest
 ruff check . && ruff format --check .
 mypy
 ```
+
+GitHub Actions runs the same four checks on every push and pull request.
 
 The tests include perft regression counts for several positions (verified against an independent generator), and a differential test that compares the engine with a python-chess based Asha generator over random games. python-chess is a test-only dependency.
 

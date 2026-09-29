@@ -21,9 +21,9 @@ document.addEventListener('DOMContentLoaded', () => {
         stalemate: ['Draw — Stalemate', 'The side to move has no legal moves and is not in check.'],
         insufficient_material: ['Draw — Insufficient Material', 'Neither side can ever deliver checkmate.'],
         fivefold_repetition: ['Draw — Fivefold Repetition', 'The same position occurred five times.'],
-        seventyfive_moves: ['Draw — 75-Move Rule', '75 moves by each side without a capture or forward pawn move.'],
+        seventyfive_moves: ['Draw — 75-Move Rule', '75 moves by each side without a capture or pawn move.'],
         threefold_repetition: ['Draw — Threefold Repetition (claimed)', 'The same position occurred three times.'],
-        fifty_moves: ['Draw — 50-Move Rule (claimed)', '50 moves by each side without a capture or forward pawn move.'],
+        fifty_moves: ['Draw — 50-Move Rule (claimed)', '50 moves by each side without a capture or pawn move.'],
     };
     const CLAIM_LABELS = {
         threefold_repetition: 'Claim draw (threefold repetition)',
@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let drag = null; // { from, x, y, ghost } while a piece is held
     let suppressClick = false;
     let gameOverDismissed = false;
+    let busy = false; // one request at a time, so responses cannot arrive out of order
     const squares = {};
 
     // ---------------------------------------------------------------- popups
@@ -83,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ? {}
             : { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) };
         const response = await fetch(path, options);
-        const data = await response.json();
+        const data = await response.json().catch(() => ({}));
         if (!response.ok) {
             if (data.state) render(data.state);
             throw new Error(data.error || `Request failed (${response.status})`);
@@ -91,15 +92,20 @@ document.addEventListener('DOMContentLoaded', () => {
         return data;
     }
 
-    function run(request) {
+    function run(path, body) {
+        if (busy) return;
+        busy = true;
         messageEl.textContent = '';
-        return request.then(render).catch((error) => { messageEl.textContent = error.message; });
+        api(path, body)
+            .then(render)
+            .catch((error) => { messageEl.textContent = error.message; })
+            .finally(() => { busy = false; });
     }
 
     function resetGame() {
         gameOverDismissed = false;
         closePopup(gameOverEl);
-        run(api('/api/reset', {}));
+        run('/api/reset', {});
     }
 
     // ----------------------------------------------------------------- board
@@ -157,7 +163,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     boardEl.addEventListener('pointerdown', (e) => {
         const from = e.target.closest('.square')?.dataset.square;
-        if (!state || e.button !== 0 || !from || !movesFrom(from).length) return;
+        if (!state || busy || e.button !== 0 || !from || !movesFrom(from).length) return;
         drag = { from, x: e.clientX, y: e.clientY, ghost: null };
     });
 
@@ -215,7 +221,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function onSquareClick(name) {
-        if (!state) return;
+        if (!state || busy) return;
         if (selected) {
             const candidates = movesBetween(selected, name);
             if (candidates.length) {
@@ -258,7 +264,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function submitMove(uci) {
         clearSelection();
-        run(api('/api/move', { move: uci }));
+        run('/api/move', { move: uci });
     }
 
     // ---------------------------------------------------------------- status
@@ -281,7 +287,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const button = document.createElement('button');
             button.className = 'claim-btn';
             button.textContent = CLAIM_LABELS[reason];
-            button.addEventListener('click', () => run(api('/api/claim-draw', { reason })));
+            button.addEventListener('click', () => run('/api/claim-draw', { reason }));
             claimButtons.appendChild(button);
         });
     }
@@ -341,5 +347,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     resetButton.addEventListener('click', resetGame);
     buildBoard();
-    run(api('/api/state'));
+    run('/api/state');
 });

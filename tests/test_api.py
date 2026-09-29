@@ -53,6 +53,16 @@ def test_asha_moves_carry_metadata(client):
     assert state["lastMove"]["kind"] == "kings_step"
 
 
+def test_sideways_pawn_step_spends_double_step_across_requests(client):
+    state = play(client, "e2e4", "b8c6", "e4e5", "c6b8", "d2e2")
+    assert state["halfmoveClock"] == 0
+    assert state["fen"].endswith(" ABCFGHabcdefgh")
+    state = play(client, "b8c6")
+    moves = {m["uci"] for m in state["legalMoves"]}
+    assert "e2e3" in moves and "e2e4" not in moves and "c2c4" in moves
+    assert client.post("/api/move", json={"move": "e2e4"}).status_code == 400
+
+
 def test_capture(client):
     state = play(client, "e2e4", "d7d5", "e4d5")
     assert state["lastMove"]["capture"] is True
@@ -85,6 +95,8 @@ def test_malformed_requests(client):
     assert client.post("/api/move", data="not json", content_type="application/json").status_code == 400
     assert client.post("/api/move", json={}).status_code == 400
     assert client.post("/api/move", json={"move": 42}).status_code == 400
+    assert client.post("/api/move", json=["e2e4"]).status_code == 400
+    assert client.post("/api/claim-draw", json=["threefold_repetition"]).status_code == 400
 
 
 def test_promotion_requires_choice_and_supports_underpromotion(client):

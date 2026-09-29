@@ -11,6 +11,14 @@ Two geometries are kept deliberately separate:
 
 Squares are integers 0..63 (a1 = 0, h1 = 7, a8 = 56). Pieces are FEN letters,
 uppercase for White.
+
+A pawn's two-square move is a right, not a matter of rank: a pawn that stepped
+sideways along its starting rank has moved and never double-steps again. The
+set of pawns that still have the right (``Board.virgin``) is therefore part of
+the position. FEN carries it as an optional seventh field listing their files
+(uppercase White, lowercase Black, e.g. ``ABCEFGHabcdefgh``, ``-`` for none).
+The field is omitted when every pawn on its starting rank still has the right,
+so ordinary positions keep standard six-field FEN.
 """
 
 from __future__ import annotations
@@ -129,6 +137,28 @@ def _is_white(piece: str) -> bool:
     return piece.isupper()
 
 
+def _default_virgin(squares: list[str | None]) -> frozenset[int]:
+    """Every pawn on its own starting rank, as in a FEN without the 7th field."""
+    return frozenset(
+        sq for sq in range(8, 56) if (sq >> 3 == 1 and squares[sq] == "P") or (sq >> 3 == 6 and squares[sq] == "p")
+    )
+
+
+def _parse_virgin(field: str) -> frozenset[int]:
+    if field == "-":
+        return frozenset()
+    squares = [FILES.index(c.lower()) + (8 if c.isupper() else 48) for c in field if c.lower() in FILES]
+    if len(squares) != len(field) or len(set(squares)) != len(squares):
+        raise ValueError(f"invalid double-step field: {field!r}")
+    return frozenset(squares)
+
+
+def _format_virgin(virgin: frozenset[int]) -> str:
+    white = "".join(FILES[sq & 7].upper() for sq in sorted(virgin) if sq >> 3 == 1)
+    black = "".join(FILES[sq & 7] for sq in sorted(virgin) if sq >> 3 == 6)
+    return white + black or "-"
+
+
 def _castling_rook(move: Move, white: bool) -> tuple[int, int]:
     right = "K" if move.to_sq > move.from_sq else "Q"
     _, _, rook_from, rook_to, _ = _CASTLING[right if white else right.lower()]
@@ -145,9 +175,9 @@ class Board:
 
     def set_fen(self, fen: str) -> None:
         parts = fen.split()
-        if len(parts) != 6:
-            raise ValueError(f"FEN must have 6 fields: {fen!r}")
-        placement, turn, castling, ep, halfmove, fullmove = parts
+        if len(parts) not in (6, 7):
+            raise ValueError(f"FEN must have 6 or 7 fields: {fen!r}")
+        placement, turn, castling, ep, halfmove, fullmove = parts[:6]
 
         squares: list[str | None] = [None] * 64
         rows = placement.split("/")
@@ -174,6 +204,10 @@ class Board:
             raise ValueError(f"invalid castling field: {castling!r}")
 
         self.squares = squares
+        if len(parts) == 7:
+            self.virgin = _parse_virgin(parts[6])
+        else:
+            self.virgin = _default_virgin(squares)
         self.turn = turn
         self.castling = "".join(c for c in "KQkq" if c in castling)
         self.ep_square = None if ep == "-" else parse_square(ep)
@@ -212,6 +246,10 @@ class Board:
             ):
                 raise ValueError("invalid en passant square")
 
+        for sq in self.virgin:
+            if s[sq] != ("P" if sq >> 3 == 1 else "p"):
+                raise ValueError(f"double-step right on {square_name(sq)} without a pawn on its starting square")
+
         if self.halfmove_clock < 0 or self.fullmove_number < 1:
             raise ValueError("invalid move counters")
         white = self.turn == "w"
@@ -231,16 +269,17 @@ class Board:
                     empty = 0
             rows.append(row + (str(empty) if empty else ""))
         ep = self.legal_ep_square()
-        return " ".join(
-            (
-                "/".join(rows),
-                self.turn,
-                self.castling or "-",
-                "-" if ep is None else square_name(ep),
-                str(self.halfmove_clock),
-                str(self.fullmove_number),
-            )
-        )
+        fields = [
+            "/".join(rows),
+            self.turn,
+            self.castling or "-",
+            "-" if ep is None else square_name(ep),
+            str(self.halfmove_clock),
+            str(self.fullmove_number),
+        ]
+        if self.virgin != _default_virgin(self.squares):
+            fields.append(_format_virgin(self.virgin))
+        return " ".join(fields)
 
     def piece_at(self, sq: int) -> str | None:
         return self.squares[sq]
@@ -363,7 +402,7 @@ class Board:
         one = sq + forward
         if s[one] is None:
             add(one, QUIET)
-            if r == (1 if white else 6) and s[one + forward] is None:
+            if sq in self.virgin and s[one + forward] is None:
                 moves.append(Move(sq, one + forward, None, QUIET))
         for df in (-1, 1):
             if not 0 <= f + df < 8:
@@ -430,7 +469,9 @@ class Board:
         white = self.turn == "w"
         piece = s[move.from_sq]
         captured = s[move.to_sq]
-        self._stack.append((move, captured, self.castling, self.ep_square, self.halfmove_clock, self.fullmove_number))
+        self._stack.append(
+            (move, captured, self.castling, self.ep_square, self.halfmove_clock, self.fullmove_number, self.virgin)
+        )
 
         s[move.to_sq] = piece
         s[move.from_sq] = None
@@ -453,12 +494,15 @@ class Board:
                 if lost:
                     self.castling = "".join(c for c in self.castling if c not in lost)
 
+        # A pawn leaving its square, or being captured on it, loses the double step.
+        if move.from_sq in self.virgin or move.to_sq in self.virgin:
+            self.virgin = self.virgin - {move.from_sq, move.to_sq}
+
         is_pawn = piece == "P" or piece == "p"
         self.ep_square = (move.from_sq + move.to_sq) // 2 if is_pawn and abs(move.to_sq - move.from_sq) == 16 else None
-        # The fifty-move clock measures irreversible progress: captures and
-        # forward pawn moves. A sideways pawn step is reversible, so it counts
-        # like any other piece move.
-        if captured is not None or (is_pawn and move.kind != PAWN_LATERAL):
+        # Every pawn move resets the clock, including a sideways step: it can
+        # spend the pawn's double-step right, so it is not reversible.
+        if captured is not None or is_pawn:
             self.halfmove_clock = 0
         else:
             self.halfmove_clock += 1
@@ -467,7 +511,7 @@ class Board:
         self.turn = "b" if white else "w"
 
     def pop(self) -> Move:
-        move, captured, castling, ep, halfmove, fullmove = self._stack.pop()
+        move, captured, castling, ep, halfmove, fullmove, virgin = self._stack.pop()
         s = self.squares
         self.turn = "w" if self.turn == "b" else "b"
         white = self.turn == "w"
@@ -489,14 +533,16 @@ class Board:
         self.ep_square = ep
         self.halfmove_clock = halfmove
         self.fullmove_number = fullmove
+        self.virgin = virgin
         return move
 
     # ------------------------------------------------------------ utilities
 
     def position_key(self) -> tuple:
         """Identity of a position for repetition: placement, side to move,
-        castling rights and a *legal* en passant possibility (FIDE 9.2.3)."""
-        return ("".join(p or "." for p in self.squares), self.turn, self.castling, self.legal_ep_square())
+        castling rights, a *legal* en passant possibility (FIDE 9.2.3) and the
+        pawns' double-step rights."""
+        return ("".join(p or "." for p in self.squares), self.turn, self.castling, self.legal_ep_square(), self.virgin)
 
     def is_insufficient_material(self) -> bool:
         """True only when no checkmate position exists for either side.

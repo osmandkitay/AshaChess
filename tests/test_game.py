@@ -20,6 +20,7 @@ from asha import (
     GameOverError,
     IllegalMoveError,
     Outcome,
+    parse_square,
 )
 from tests.helpers import ucis
 
@@ -190,6 +191,22 @@ def test_position_key_includes_en_passant_only_when_capture_is_legal():
     assert pinned_ep.position_key() == pinned_none.position_key()
 
 
+def test_repetition_counts_double_step_rights():
+    # d2~c2, c2~d2 restores the placement, but the pawn has lost its double
+    # step: the start position never occurs again.
+    fen = "4k3/8/8/8/8/8/3P4/4K3 w - - 0 1"
+    game = Game.replay(["d2c2", "e8e7", "c2d2", "e7e8"], fen=fen)
+    start = Board(fen).position_key()
+    assert game.board.position_key()[0] == start[0]
+    assert game.board.position_key() != start
+    for uci in ["e1f1", "e8f8", "f1e1", "f8e8"]:
+        game.play(uci)
+    assert game.claimable_draws() == []  # placement seen 3 times, position only twice
+    for uci in ["e1f1", "e8f8", "f1e1", "f8e8"]:
+        game.play(uci)
+    assert game.claimable_draws() == [THREEFOLD_REPETITION]
+
+
 # --------------------------------------------------------- fifty / seventy-five
 
 
@@ -214,18 +231,20 @@ def test_checkmate_takes_precedence_over_seventyfive_moves():
     assert game.outcome() == Outcome(CHECKMATE, "white")
 
 
-def test_halfmove_clock_resets_on_capture_and_forward_pawn_moves_only():
+def test_halfmove_clock_resets_on_every_pawn_move_and_capture():
     game = Game("4k3/8/8/8/3p4/8/2P1P3/R3K3 w - - 10 20")
-    game.play("c2d2")  # sideways pawn step: reversible, clock keeps running
-    assert game.board.halfmove_clock == 11
+    game.play("c2d2")  # sideways pawn step
+    assert game.board.halfmove_clock == 0
     game.play("e8e7")
-    assert game.board.halfmove_clock == 12
+    assert game.board.halfmove_clock == 1
     game.play("e2e3")  # forward pawn move
     assert game.board.halfmove_clock == 0
     game.play("d4e3")  # capture
     assert game.board.halfmove_clock == 0
     game.play("a1a2")
     assert game.board.halfmove_clock == 1
+    game.play("e3f3")  # black sideways step
+    assert game.board.halfmove_clock == 0
 
 
 # ------------------------------------------------------------------- notation
@@ -287,10 +306,24 @@ def test_capture_promotion_notation_and_metadata():
         "rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3",
         "4k3/8/8/8/3p4/8/8/4K3 b - - 17 42",
         "r3k3/8/8/8/8/8/8/4K2R b Kq - 3 9",
+        "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 ABCDFGHabcdefgh",
+        "4k3/3p4/8/8/8/8/3P4/4K3 b - - 0 3 -",
     ],
 )
 def test_fen_round_trip(fen):
     assert Board(fen).fen() == fen
+
+
+def test_fen_carries_double_step_rights():
+    game = Game.replay(["e2e4", "a7a6", "d2e2", "a6a5"])
+    fen = game.board.fen()
+    assert fen == "rnbqkbnr/1ppppppp/8/p7/4P3/8/PPP1PPPP/RNBQKBNR w KQkq - 0 3 ABCFGHbcdefgh"
+    restored = Board(fen)
+    assert restored.virgin == game.board.virgin
+    assert {m.uci() for m in restored.legal_moves()} == {m.uci() for m in game.legal_moves()}
+    assert "e2e4" not in {m.uci() for m in restored.legal_moves()}
+    # Without the seventh field every pawn on its starting rank keeps the right.
+    assert parse_square("e2") in Board(" ".join(fen.split()[:6])).virgin
 
 
 @pytest.mark.parametrize(
@@ -306,6 +339,11 @@ def test_fen_round_trip(fen):
         "4k3/8/8/8/8/8/8/4K3 w - e3 0 1",  # impossible en passant square
         "4k3/8/8/8/8/8/8/4K2r b - - 0 1",  # side not to move is in check
         "4k3/8/8/8/8/8/8/4K3 w - - -1 1",  # negative clock
+        "4k3/8/8/8/8/8/3P4/4K3 w - - 0 1 E",  # double-step right without a pawn
+        "4k3/8/8/8/8/8/3P4/4K3 w - - 0 1 DD",  # duplicate file
+        "4k3/8/8/8/8/8/3P4/4K3 w - - 0 1 x",  # not a file
+        "4k3/8/8/8/8/8/3P4/4K3 w - - 0 1 d",  # black right on an empty d7
+        "4k3/8/8/8/8/8/3P4/4K3 w - - 0 1 D -",  # 8 fields
     ],
 )
 def test_invalid_fen_is_rejected(fen):

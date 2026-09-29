@@ -85,8 +85,9 @@
 
                 <h3>Pawn</h3>
                 <ul>
-                    <li>Moves forward exactly as in classical chess (one square, or two from its starting rank).</li>
+                    <li>Moves forward exactly as in classical chess: one square, or two if it has never moved.</li>
                     <li>Additionally may step one square left or right on the same rank onto an <strong>empty</strong> square. This sideways step never captures.</li>
+                    <li>A sideways step counts as the pawn's move: afterwards it can no longer make the two-square move, even back on its original square.</li>
                     <li>Captures only one square diagonally forward, including en passant.</li>
                     <li>Never moves backward, and never moves diagonally without capturing.</li>
                     <li>Promotes on the last rank to a Queen, Rook, Bishop or Knight of your choice.</li>
@@ -97,7 +98,7 @@
 
                 <h3>Everything Else</h3>
                 <p>Check, checkmate, stalemate, castling, en passant and promotion work as in classical chess. Only classical captures attack squares, so only they give check.</p>
-                <p>Automatic draws: stalemate, insufficient material, fivefold repetition and the 75-move rule. Threefold repetition and the 50-move rule can be claimed by the side to move. A sideways pawn step, being reversible, does not reset the 50/75-move count.</p>
+                <p>Automatic draws: stalemate, insufficient material, fivefold repetition and the 75-move rule. Threefold repetition and the 50-move rule can be claimed by the side to move. Every pawn move, sideways steps included, and every capture resets the 50/75-move count.</p>
 
                 <h3>Board Highlights</h3>
                 <ul>

@@ -87,6 +87,11 @@ def _load_game() -> Game:
         return Game()
 
 
+def _json_body() -> dict:
+    data = request.get_json(silent=True)
+    return data if isinstance(data, dict) else {}
+
+
 def _save_game(game: Game) -> None:
     session["moves"] = " ".join(played.move.uci() for played in game.history)
     session["claim"] = game.claimed
@@ -109,7 +114,7 @@ def create_app(config: dict | None = None) -> Flask:
     @app.post("/api/move")
     def make_move():
         game = _load_game()
-        data = request.get_json(silent=True) or {}
+        data = _json_body()
         uci = data.get("move")
         if not isinstance(uci, str):
             return jsonify({"error": "Request body must be JSON with a 'move' string.", "state": game_state(game)}), 400
@@ -123,7 +128,7 @@ def create_app(config: dict | None = None) -> Flask:
     @app.post("/api/claim-draw")
     def claim_draw():
         game = _load_game()
-        data = request.get_json(silent=True) or {}
+        data = _json_body()
         try:
             game.claim_draw(data.get("reason"))
         except IllegalMoveError as e:

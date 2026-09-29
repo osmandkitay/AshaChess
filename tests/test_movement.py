@@ -149,12 +149,31 @@ def test_sideways_step_on_seventh_rank_keeps_a_pawn():
     assert game.board.piece_at(parse_square("d7")) == "P"
 
 
-def test_pawn_that_stepped_sideways_on_its_start_rank_may_still_double_push():
-    # The double step is allowed from the pawn's starting rank.
+def test_sideways_step_on_the_start_rank_spends_the_double_step():
     game = Game("4k3/8/8/8/8/8/4P3/4K3 w - - 0 1")
     game.play("e2d2")
     game.play("e8e7")
-    assert {m.uci() for m in game.legal_moves()} >= {"d2d3", "d2d4"}
+    assert targets(game.board.fen(), "d2") == {"d3": QUIET, "c2": PAWN_LATERAL, "e2": PAWN_LATERAL}
+    assert "d2d4" not in {m.uci() for m in game.legal_moves()}
+    # Returning to the original square does not restore the right.
+    game.play("d2e2")
+    game.play("e7e8")
+    assert targets(game.board.fen(), "e2") == {"e3": QUIET, "d2": PAWN_LATERAL, "f2": PAWN_LATERAL}
+
+
+def test_black_sideways_step_spends_the_double_step():
+    game = Game("4k3/3p4/8/8/8/8/8/4K3 b - - 0 1")
+    game.play("d7c7")
+    game.play("e1e2")
+    assert targets(game.board.fen(), "c7") == {"c6": QUIET, "b7": PAWN_LATERAL, "d7": PAWN_LATERAL}
+
+
+def test_other_pawns_keep_their_double_step():
+    game = Game.replay(["e2e4", "a7a6", "e4d4", "a6a5"])
+    assert {"d2d3", "c2c4", "f2f4"} <= {m.uci() for m in game.legal_moves()}
+    game = Game.replay(["e2e4", "a7a6", "e4e5", "a6a5", "d2e2", "a5a4"])
+    moves = {m.uci() for m in game.legal_moves()}
+    assert "e2e3" in moves and "c2c4" in moves and "e2e4" not in moves
 
 
 # -------------------------------------------------------------------- knight
