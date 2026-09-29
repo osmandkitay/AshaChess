@@ -90,7 +90,16 @@ pip install -r requirements.txt
 python run.py
 ```
 
-Then open http://127.0.0.1:5000. `HOST`, `PORT` and `FLASK_DEBUG=1` environment variables are honoured. For deployment set `SECRET_KEY` and serve `app:app` with any WSGI server; without `SECRET_KEY` a development key is generated in `instance/secret_key`.
+Then open http://127.0.0.1:5000. `HOST`, `PORT` and `FLASK_DEBUG=1` environment variables are honoured. `run.py` is for local development only; without `SECRET_KEY` a development key is generated in `instance/secret_key`.
+
+## Deployment (Render)
+
+Web Service, Python runtime (version from `.python-version`):
+
+- Build Command: `pip install -r requirements.txt`
+- Start Command: `gunicorn app:app` (binds to Render's `PORT` automatically)
+- Environment: set `SECRET_KEY` to a long random value
+- Health Check Path: `/`
 
 ## Implementation
 
