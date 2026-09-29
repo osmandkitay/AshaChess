@@ -4,9 +4,18 @@ __pycache__/
 *$py.class
 
 # Virtual environment
+.venv/
 venv/
 env/
 ENV/
+
+# Tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Flask instance folder (holds the generated development secret key)
+instance/
 
 # Distribution / packaging
 dist/

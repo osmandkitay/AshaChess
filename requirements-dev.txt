@@ -1,0 +1,5 @@
+-r requirements.txt
+pytest~=8.4
+chess~=1.11
+ruff~=0.13
+mypy~=1.18

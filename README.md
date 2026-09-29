@@ -1,6 +1,6 @@
-# ASHA CHESS: Modern Rules
+# ASHA CHESS
 
-A chess variant that adds a single elegant principle to chess: All pieces have increased maneuverability, while capturing methods remain classic.
+A chess variant that adds one idea to chess: pieces gain extra freedom of movement, while every capture stays classical.
 
 ## ASHA CHESS: A Manifesto for a New Era
 
@@ -10,7 +10,7 @@ It has been said that "chess is a mirror to life," and traditional chess was a p
 
 The modern era, born from the fires of revolution and built on the ideals of democracy and universal rights, presents us with a new paradigm. It suggests, even if only as a beautiful illusion, that all individuals possess a fundamental freedom of movement. ASHA CHESS embraces this with a postmodern touch, asking a simple yet profound question: What if every piece on the board was granted the right to move like a king?
 
-In ASHA CHESS, we do not erase tradition; we build upon it. The "King's Step"—a single-square move in any direction—is now bestowed upon Pawns, Knights, Bishops, and Rooks. However, their methods of capture remain classic, tied to their unique histories. This creates a breathtaking new dynamic. A Bishop, no longer confined to a single color, can now step onto a neighboring square, reflecting a world where even the most rigid dogmas can evolve. The Pawn, once a fated foot soldier, becomes an unpredictable force, capable of both subtle repositioning and sudden threats.
+In ASHA CHESS, we do not erase tradition; we build upon it. The "King's Step"—a single-square move in any direction—is now bestowed upon Knights, Bishops, and Rooks, while the Pawn gains a single sideways step. However, their methods of capture remain classic, tied to their unique histories. This creates a breathtaking new dynamic. A Bishop, no longer confined to a single color, can now step onto a neighboring square, reflecting a world where even the most rigid dogmas can evolve. The Pawn, once a fated foot soldier, becomes an unpredictable force, capable of both subtle repositioning and sudden threats.
 
 Our goal is to resurrect the spirit of players like Mikhail Tal, Rashid Nezhmetdinov, and Joseph Blackburne—artists who played with character, whose moves were a signature of their very being. We should not see AI-approved lines when we look at Magnus Carlsen; we should see Magnus. Chess must be a canvas for grand strategies and profound, personal expression.
 
@@ -24,98 +24,108 @@ Together, let's usher in its next great movement.
 
 ## Game Rules
 
-### Main Principle: "King's Step" (For Movement Only)
+The game starts from the standard chess position. Every piece keeps all of its classical moves and captures. Some pieces gain extra moves, and **none of the extra moves can ever capture**.
 
-New Ability: Pawns, Knights, Bishops, and Rooks gain a new ability called the "King's Step" in addition to their classic movements.
+| Piece  | Classical moves & captures | Extra non-capturing move |
+|--------|----------------------------|--------------------------|
+| King   | unchanged                  | none                     |
+| Queen  | unchanged                  | none                     |
+| Rook   | unchanged                  | King's Step              |
+| Bishop | unchanged                  | King's Step              |
+| Knight | unchanged                  | King's Step              |
+| Pawn   | unchanged (incl. en passant, promotion) | one square sideways |
 
-Rule Definition: The "King's Step" is a one-square movement in any direction (horizontal, vertical, diagonal).
+### King's Step (Knight, Bishop, Rook)
 
-Most Important Rule: This "King's Step" move CANNOT be used to capture opponent pieces. This ability is only for changing position, setting up defenses, or moving to a new attack position.
+The piece may move one square in any direction (horizontal, vertical or diagonal) onto an **empty** square. It can never capture with this move.
 
-### Capturing Rules
+- A knight on d4 of an empty board has its 8 L-jumps plus 8 King's Steps (c3, c4, c5, d3, d5, e3, e4, e5).
+- A bishop on d4 can step to d3, d5, c4 or e4, so bishops can change square colour.
+- A rook on d4 can step to c3, c5, e3 or e5.
+- An enemy piece on an adjacent square cannot be taken by the step; it can only be captured with the piece's classical movement (e.g. a rook takes an orthogonally adjacent piece, a bishop a diagonally adjacent one, a knight never an adjacent one).
 
-Capturing actions remain UNCHANGED. A piece can capture an opponent's piece only using its traditional attack method:
+### Pawn
 
-- Pawn: Can only capture pieces diagonally forward
-- Knight: Can only capture pieces at the end of its "L" move
-- Bishop: Can only capture by moving diagonally
-- Rook: Can only capture by moving horizontally or vertically
+The pawn does **not** get the King's Step. Instead:
 
-### Unchanged Rules
+- It moves forward exactly as in classical chess: one square, or two squares from its starting rank when both squares are empty.
+- It may additionally move **one square left or right on the same rank onto an empty square**. This sideways step never captures.
+- It captures only one square diagonally forward, including en passant, and promotes on the last rank to a queen, rook, bishop or knight of the player's choice.
+- It never moves backward (straight or diagonally), never moves diagonally forward without capturing, and never moves two squares sideways.
 
-- Queen and King: Their movements and capturing methods are identical to traditional chess
-- Other Rules: Castling, Check, Checkmate, Stalemate, Promotion, and other chess rules remain valid
+Examples: a white pawn on e4 with empty surroundings may play e5, d4 or f4 — never e3, d3, f3, d5 or f5. With a black pawn on d4 and a white knight on f4, it may only play e5.
 
-## How to Play
+### Everything else
 
-In the game interface:
-- Valid movement squares are highlighted in green
-- Valid capturing squares are highlighted in orange
-- Pieces in check are highlighted in red
+- Check, checkmate, stalemate, castling, en passant and promotion work as in classical chess.
+- Only classical captures attack squares. Check, pins and castling safety are therefore decided by classical attack geometry — but a King's Step or sideways pawn step may block a check or give (discovered) check. For example, the classical Fool's Mate (1. f3 e5 2. g4 Qh4) is not mate: White can block with Ng1~f2, Bf1~f2, e2~f2 or f3~g3.
+- A pawn standing on its own second rank may make a two-square move, also after it stepped sideways along that rank.
 
-## Python Web Implementation
+### Game end and draws
 
-This implementation uses:
-- Python with Flask for the backend
-- python-chess library (with custom modifications for ASHA CHESS rules)
-- JavaScript and CSS for the frontend
+Following the current FIDE Laws:
 
-### Prerequisites
+- **Automatic:** checkmate, stalemate, insufficient material, fivefold repetition, 75-move rule (checkmate on the 75th move still wins).
+- **On claim by the side to move:** threefold repetition and the 50-move rule (the "Claim draw" button appears when available).
+- A repeated position means the same placement, side to move, castling rights and a legal en passant capture possibility.
+- The 50/75-move counters are reset by captures and forward pawn moves. A sideways pawn step is reversible, so it does **not** reset them.
+- Insufficient material is declared only for K v K, K+N v K and K+B v K. The classical "bishops on the same colour" rule does not apply, because Asha bishops change colour.
 
-- Python 3.7 or higher
-- pip (Python package manager)
+### Notation
 
-### Installation and Setup
+Classical moves use standard algebraic notation (`e4`, `Nf3`, `exd5`, `e8=Q`, `O-O`, `+`, `#`). Asha moves always name their origin and use a tilde, so they can never be confused with SAN: King's Step `Nb1~b2`, pawn sideways step `e4~d4`. Moves are sent to the server in UCI form (`e2e4`, promotions as `e7e8q`).
 
-1. Clone the repository:
-   ```
-   git clone https://github.com/osmandkitay/ASHA-CHESS.git
-   cd ASHA-CHESS
-   ```
+## Running the game
 
-2. Install the required dependencies:
-   ```
-   pip install -r requirements.txt
-   ```
-
-3. Run the application:
-   ```
-   python run.py
-   ```
-
-4. Open your browser and navigate 
-   ```
-
-### Project Structure
+Requires Python 3.10+.
 
 ```
-ASHA-CHESS/
-├── app.py              # Main Flask application with chess logic
-├── run.py              # Script to run the server
-├── requirements.txt    # Python dependencies
-├── static/             # Static files
-│   ├── css/            # Stylesheets
-│   │   └── style.css   # Main stylesheet
-│   └── js/             # JavaScript files
-│       └── chess.js    # Frontend chess logic
-└── templates/          # HTML templates
-    └── index.html      # Main game page
-```
-
-### Testing
-
-The project includes a comprehensive test suite that verifies the rules of ASHA CHESS, including the custom "King's Step" rule. To run the tests:
-
-```
+git clone https://github.com/osmandkitay/ASHA-CHESS.git
 cd ASHA-CHESS
-python -m tests.run_tests
+python -m venv .venv
+.venv\Scripts\activate          # Windows; on macOS/Linux: source .venv/bin/activate
+pip install -r requirements.txt
+python run.py
 ```
 
-The test suite includes:
-- Basic chess rule tests
-- King's Step move tests
-- Edge cases and special situations
-- Pin detection and handling
+Then open http://127.0.0.1:5000. `HOST`, `PORT` and `FLASK_DEBUG=1` environment variables are honoured. For deployment set `SECRET_KEY` and serve `app:app` with any WSGI server; without `SECRET_KEY` a development key is generated in `instance/secret_key`.
+
+## Implementation
+
+```
+asha/board.py      Rules engine: position, FEN, attack geometry, move generation, push/pop, notation, perft
+asha/game.py       Game: history, repetition, termination and draw claims
+app.py             Flask app: JSON API and session handling only
+static/js/chess.js Renders server state; no rule logic
+tests/             pytest suite (movement, legality, game, perft, differential, API)
+```
+
+- `asha` is a small dependency-free engine and the single source of truth. Attack geometry (`Board.is_attacked`) is kept separate from movement geometry (`Board.legal_moves`), which adds the non-capturing King's Step and pawn sideways step.
+- Every legal move carries a `kind`: `quiet`, `capture`, `en_passant`, `castling`, `kings_step` or `pawn_lateral`, plus an optional `promotion`. The UI only renders this metadata.
+- The session cookie stores just the list of played moves (and a draw claim); the server replays and re-validates them on each request.
+- `Board` (`legal_moves`, `push`, `pop`, `fen`, `perft`) and `Game` are independent of Flask, so an engine or self-play loop can drive them directly.
+
+### API
+
+| Method & path          | Body                     | Returns |
+|------------------------|--------------------------|---------|
+| `GET /api/state`       |                          | game state |
+| `POST /api/move`       | `{"move": "e7e8q"}`      | game state, or 400 `{error, state}` |
+| `POST /api/claim-draw` | `{"reason": "threefold_repetition" \| "fifty_moves"}` (optional) | game state, or 400 |
+| `POST /api/reset`      |                          | fresh game state |
+
+The game state contains `fen`, `turn`, `pieces`, `legalMoves`, `check`, `checkSquare`, `lastMove`, `history` (with notation and metadata), `gameOver`, `result`, `claimableDraws`, `halfmoveClock` and `fullmoveNumber`.
+
+## Development
+
+```
+pip install -r requirements-dev.txt
+pytest
+ruff check . && ruff format --check .
+mypy
+```
+
+The tests include perft regression counts for several positions (verified against an independent generator), and a differential test that compares the engine with a python-chess based Asha generator over random games. python-chess is a test-only dependency.
 
 ## License
 

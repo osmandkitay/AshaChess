@@ -187,6 +187,11 @@ html, body {
 .move-notation {
     color: #e4e7eb;
     font-weight: 600;
+    min-width: 70px;
+}
+
+.move-notation.asha-move {
+    color: #93c5fd;
 }
 
 /* Center Game Area */
@@ -240,6 +245,34 @@ html, body {
     min-height: 30px;
     text-shadow: 0 0 15px rgba(239, 68, 68, 0.7);
     animation: checkPulse 1.5s ease-in-out infinite alternate;
+}
+
+.claim-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.claim-btn {
+    background: linear-gradient(135deg, #0f766e, #14b8a6);
+    color: #ffffff;
+    border: none;
+    padding: 10px 14px;
+    font-weight: 700;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.message {
+    color: #fca5a5;
+    font-size: 0.9em;
+    min-height: 1em;
+    text-align: center;
+}
+
+.popup-content code {
+    font-family: 'Monaco', 'Consolas', monospace;
+    color: #93c5fd;
 }
 
 /* Chess Board */
@@ -301,22 +334,31 @@ html, body {
     align-items: center;
     width: 100%;
     height: 100%;
-    cursor: grab;
+    cursor: pointer;
     user-select: none;
     z-index: 10;
     transition: transform 0.2s ease;
 }
 
-.piece:hover {
-    transform: scale(1.05);
+.piece.movable {
+    cursor: grab;
+    touch-action: none;
 }
 
-.piece.dragging {
-    opacity: 0.8;
-    position: absolute;
+.piece.drag-source {
+    opacity: 0.3;
+}
+
+.piece.drag-ghost {
+    position: fixed;
     pointer-events: none;
-    z-index: 1000;
-    transform: scale(1.1);
+    z-index: 1500;
+    transform: translate(-50%, -50%) scale(1.1);
+    cursor: grabbing;
+}
+
+.piece.movable:hover {
+    transform: scale(1.05);
 }
 
 .white {
@@ -377,11 +419,6 @@ html, body {
 
 .reset-btn.highlight-reset {
     animation: resetPulse 1.5s ease-in-out infinite alternate;
-}
-
-/* Right Spacer */
-.right-spacer {
-    width: 220px;
 }
 
 /* Popup Styles */
@@ -527,6 +564,11 @@ html, body {
     box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
 }
 
+.teal {
+    background-color: #14b8a6;
+    box-shadow: 0 0 10px rgba(20, 184, 166, 0.4);
+}
+
 .yellow {
     background-color: #eab308;
     box-shadow: 0 0 10px rgba(234, 179, 8, 0.4);
@@ -576,6 +618,19 @@ html, body {
     z-index: 5;
 }
 
+.square.valid-pawn-lateral::after {
+    content: '';
+    position: absolute;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 4px solid rgba(20, 184, 166, 0.9);
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+}
+
 .square.in-check {
     background-color: #F56565 !important;
     animation: checkPulse 1s ease-in-out infinite alternate;
@@ -589,7 +644,7 @@ html, body {
     background-color: rgba(236, 201, 75, 0.8) !important;
 }
 
-.square.kings-step-destination {
+.square.last-move-asha {
     box-shadow: inset 0 0 15px rgba(66, 153, 225, 0.8);
 }
 
@@ -597,36 +652,35 @@ html, body {
     box-shadow: inset 0 0 20px rgba(255, 255, 255, 0.4);
 }
 
-/* Game Over Overlay */
-.game-over-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
+/* Game Over, Promotion */
+.game-over-content {
+    text-align: center;
+    max-width: 500px;
+    animation: bounceIn 0.6s ease;
+}
+
+.promotion-content {
+    text-align: center;
+}
+
+.promotion-choices {
     display: flex;
+    gap: 12px;
     justify-content: center;
-    align-items: center;
-    z-index: 2000;
-    animation: fadeIn 0.5s ease;
+}
+
+.promotion-choice {
+    width: 80px;
+    height: 80px;
+    font-size: 56px;
+    background: #f0d9b5;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-radius: 12px;
     cursor: pointer;
 }
 
-.game-over-content {
-    background: linear-gradient(135deg, #2D3748, #1A202C);
-    color: #FFFFFF;
-    padding: 40px 60px;
-    border-radius: 20px;
-    border: 2px solid rgba(197, 198, 208, 0.3);
-    box-shadow: 0 20px 80px rgba(0, 0, 0, 0.8);
-    animation: bounceIn 0.6s ease;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    position: relative;
-    cursor: default;
-    max-width: 500px;
-    text-align: center;
+.promotion-choice:hover {
+    background: #b58863;
 }
 
 .game-over-message {
@@ -675,15 +729,6 @@ html, body {
 
 .game-over-btn.reset:hover {
     background: linear-gradient(135deg, #F56565, #E53E3E);
-}
-
-.close-hint {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    font-size: 0.9em;
-    color: rgba(197, 198, 208, 0.7);
-    font-weight: 400;
 }
 
 /* Animations */
@@ -752,7 +797,7 @@ html, body {
     }
     
     .move-history-sidebar,
-    .right-spacer {
+    .right-side-panel {
         width: 100%;
         max-width: 400px;
     }

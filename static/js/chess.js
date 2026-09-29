@@ -1,856 +1,345 @@
+'use strict';
+
+// Rendering only: every rule decision (legal moves, move kinds, check, results,
+// notation) comes from the server state.
 document.addEventListener('DOMContentLoaded', () => {
-    const chessboard = document.getElementById('chessboard');
-    const turnDisplay = document.getElementById('turn');
-    const checkStatus = document.getElementById('check-status');
-    const resetButton = document.getElementById('reset-button');
-    
-    // New UI elements
-    const manifestBtn = document.getElementById('manifest-btn');
-    const rulesBtn = document.getElementById('rules-btn');
-    const manifestPopup = document.getElementById('manifest-popup');
-    const rulesPopup = document.getElementById('rules-popup');
-    const moveHistoryList = document.getElementById('move-history-list');
-    
-    // Move history tracking
-    let moveHistory = [];
-    let moveCounter = 1;
-    
-    let selectedSquare = null;
-    let boardState = null;
-    let draggedPiece = null;
-    let draggedPieceSquare = null;
-    let isDragging = false;  // Flag to track if a drag operation is in progress
-    
-    // Popup functionality
-    manifestBtn.addEventListener('click', () => {
-        showPopup(manifestPopup);
-    });
-    
-    rulesBtn.addEventListener('click', () => {
-        showPopup(rulesPopup);
-    });
-    
-    // Close popups when clicking outside
-    manifestPopup.addEventListener('click', (e) => {
-        if (e.target === manifestPopup) {
-            hidePopup(manifestPopup);
-        }
-    });
-    
-    rulesPopup.addEventListener('click', (e) => {
-        if (e.target === rulesPopup) {
-            hidePopup(rulesPopup);
-        }
-    });
-    
-    // ESC key to close popups
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            hidePopup(manifestPopup);
-            hidePopup(rulesPopup);
-        }
-    });
-    
-    function showPopup(popup) {
-        popup.classList.add('active');
-    }
-    
-    function hidePopup(popup) {
-        popup.classList.remove('active');
-    }
-    
-    function addMoveToHistory(move, piece, isCapture, isCheck, isCheckmate, isKingsStep) {
-        const moveNotation = generateMoveNotation(move, piece, isCapture, isCheck, isCheckmate, isKingsStep);
-        
-        // Add to history array
-        if (boardState.turn === 'white') {
-            // White's move just finished, so this is the end of a white move
-            moveHistory.push({
-                number: moveCounter,
-                white: moveNotation,
-                black: null
-            });
-        } else {
-            // Black's move just finished
-            if (moveHistory.length > 0 && moveHistory[moveHistory.length - 1].black === null) {
-                moveHistory[moveHistory.length - 1].black = moveNotation;
-                moveCounter++;
-            } else {
-                // This shouldn't normally happen, but handle it
-                moveHistory.push({
-                    number: moveCounter,
-                    white: null,
-                    black: moveNotation
-                });
-                moveCounter++;
-            }
-        }
-        
-        updateMoveHistoryDisplay();
-    }
-    
-    function generateMoveNotation(move, piece, isCapture, isCheck, isCheckmate, isKingsStep) {
-        let notation = '';
-        
-        // Piece notation (except for pawns)
-        if (piece.toLowerCase() !== 'p') {
-            notation += piece.toUpperCase();
-        }
-        
-        // Capture notation
-        if (isCapture) {
-            if (piece.toLowerCase() === 'p') {
-                notation += move.from[0]; // Add file for pawn captures
-            }
-            notation += 'x';
-        }
-        
-        // Destination square
-        notation += move.to;
-        
-        // King's Step notation
-        if (isKingsStep) {
-            notation += '(KS)';
-        }
-        
-        // Check/Checkmate notation
-        if (isCheckmate) {
-            notation += '#';
-        } else if (isCheck) {
-            notation += '+';
-        }
-        
-        return notation;
-    }
-    
-    function updateMoveHistoryDisplay() {
-        moveHistoryList.innerHTML = '';
-        
-        moveHistory.forEach(move => {
-            const moveElement = document.createElement('div');
-            moveElement.className = 'move-entry';
-            
-            moveElement.innerHTML = `
-                <span class="move-number">${move.number}.</span>
-                <span class="move-notation">${move.white || ''}</span>
-                ${move.black ? `<span class="move-notation">${move.black}</span>` : ''}
-            `;
-            
-            moveHistoryList.appendChild(moveElement);
-        });
-        
-        // Scroll to bottom
-        moveHistoryList.scrollTop = moveHistoryList.scrollHeight;
-    }
-    
-    function clearMoveHistory() {
-        moveHistory = [];
-        moveCounter = 1;
-        updateMoveHistoryDisplay();
-    }
-    
-    // Unicode chess pieces
-    const chessPieces = {
-        'K': '♔', 'Q': '♕', 'R': '♖', 'B': '♗', 'N': '♘', 'P': '♙',
-        'k': '♚', 'q': '♛', 'r': '♜', 'b': '♝', 'n': '♞', 'p': '♟'
+    const GLYPHS = {
+        K: '♔', Q: '♕', R: '♖', B: '♗', N: '♘', P: '♙',
+        k: '♚', q: '♛', r: '♜', b: '♝', n: '♞', p: '♟',
     };
-    
-    // Initialize the board
-    function initializeBoard() {
-        chessboard.innerHTML = '';
-        
-        // Reset all state
-        selectedSquare = null;
-        draggedPiece = null;
-        draggedPieceSquare = null;
-        isDragging = false;
-        
-        // Create 64 squares
-        for (let rank = 7; rank >= 0; rank--) {
+    const PROMOTION_ORDER = ['q', 'r', 'b', 'n'];
+    const TARGET_CLASS = {
+        quiet: 'valid-move',
+        castling: 'valid-move',
+        capture: 'valid-capture',
+        en_passant: 'valid-capture',
+        kings_step: 'valid-kings-step',
+        pawn_lateral: 'valid-pawn-lateral',
+    };
+    const TERMINATIONS = {
+        checkmate: ['Checkmate', 'The king is checkmated.'],
+        stalemate: ['Draw — Stalemate', 'The side to move has no legal moves and is not in check.'],
+        insufficient_material: ['Draw — Insufficient Material', 'Neither side can ever deliver checkmate.'],
+        fivefold_repetition: ['Draw — Fivefold Repetition', 'The same position occurred five times.'],
+        seventyfive_moves: ['Draw — 75-Move Rule', '75 moves by each side without a capture or forward pawn move.'],
+        threefold_repetition: ['Draw — Threefold Repetition (claimed)', 'The same position occurred three times.'],
+        fifty_moves: ['Draw — 50-Move Rule (claimed)', '50 moves by each side without a capture or forward pawn move.'],
+    };
+    const CLAIM_LABELS = {
+        threefold_repetition: 'Claim draw (threefold repetition)',
+        fifty_moves: 'Claim draw (50-move rule)',
+    };
+    const CLASSES_TO_CLEAR = [
+        'selected', 'valid-move', 'valid-capture', 'valid-kings-step', 'valid-pawn-lateral',
+        'in-check', 'last-move-from', 'last-move-to', 'last-move-asha', 'drag-over',
+    ];
+
+    const boardEl = document.getElementById('chessboard');
+    const turnEl = document.getElementById('turn');
+    const statusEl = document.getElementById('check-status');
+    const messageEl = document.getElementById('message');
+    const resetButton = document.getElementById('reset-button');
+    const claimButtons = document.getElementById('claim-buttons');
+    const historyEl = document.getElementById('move-history-list');
+    const promotionEl = document.getElementById('promotion-popup');
+    const promotionChoices = document.getElementById('promotion-choices');
+    const gameOverEl = document.getElementById('game-over-popup');
+
+    let state = null;
+    let selected = null;
+    let drag = null; // { from, x, y, ghost } while a piece is held
+    let suppressClick = false;
+    let gameOverDismissed = false;
+    const squares = {};
+
+    // ---------------------------------------------------------------- popups
+
+    function openPopup(popup) { popup.classList.add('active'); }
+    function closePopup(popup) { popup.classList.remove('active'); }
+
+    document.getElementById('manifest-btn').addEventListener('click', () => openPopup(document.getElementById('manifest-popup')));
+    document.getElementById('rules-btn').addEventListener('click', () => openPopup(document.getElementById('rules-popup')));
+    document.querySelectorAll('.popup-overlay').forEach((popup) => {
+        popup.addEventListener('click', (e) => {
+            if (e.target === popup || e.target.closest('.popup-close')) closePopup(popup);
+        });
+    });
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') document.querySelectorAll('.popup-overlay.active').forEach(closePopup);
+    });
+    gameOverEl.addEventListener('click', (e) => {
+        if (e.target === gameOverEl) gameOverDismissed = true;
+    });
+    document.getElementById('game-over-close').addEventListener('click', () => {
+        gameOverDismissed = true;
+        closePopup(gameOverEl);
+    });
+    document.getElementById('game-over-reset').addEventListener('click', resetGame);
+
+    // ------------------------------------------------------------------- API
+
+    async function api(path, body) {
+        const options = body === undefined
+            ? {}
+            : { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) };
+        const response = await fetch(path, options);
+        const data = await response.json();
+        if (!response.ok) {
+            if (data.state) render(data.state);
+            throw new Error(data.error || `Request failed (${response.status})`);
+        }
+        return data;
+    }
+
+    function run(request) {
+        messageEl.textContent = '';
+        return request.then(render).catch((error) => { messageEl.textContent = error.message; });
+    }
+
+    function resetGame() {
+        gameOverDismissed = false;
+        closePopup(gameOverEl);
+        run(api('/api/reset', {}));
+    }
+
+    // ----------------------------------------------------------------- board
+
+    function buildBoard() {
+        for (let rank = 8; rank >= 1; rank--) {
             for (let file = 0; file < 8; file++) {
+                const name = 'abcdefgh'[file] + rank;
                 const square = document.createElement('div');
                 square.className = `square ${(rank + file) % 2 === 0 ? 'light' : 'dark'}`;
-                
-                // Data attributes for position
-                const squareName = String.fromCharCode(97 + file) + (rank + 1);
-                square.dataset.square = squareName;
-                
-                // Click handler for move selection
-                square.addEventListener('click', (e) => {
-                    // Only handle click if not in the middle of a drag operation
-                    if (!isDragging) {
-                        handleSquareClick(squareName);
-                    }
-                    e.stopPropagation(); // Prevent event bubbling
+                square.dataset.square = name;
+                square.addEventListener('click', () => {
+                    if (!suppressClick) onSquareClick(name);
                 });
-                
-                // Drag and drop event listeners
-                square.addEventListener('dragover', (e) => {
-                    e.preventDefault(); // Allow drop
-                    square.classList.add('drag-over');
-                });
-                
-                square.addEventListener('dragleave', () => {
-                    square.classList.remove('drag-over');
-                });
-                
-                square.addEventListener('drop', (e) => {
-                    e.preventDefault();
-                    square.classList.remove('drag-over');
-                    if (draggedPiece && draggedPieceSquare) {
-                        handleDrop(squareName);
-                    }
-                });
-                
-                chessboard.appendChild(square);
-            }
-        }
-        
-        // Add a click handler to the whole board to deselect when clicking outside
-        document.addEventListener('click', (e) => {
-            // If clicking outside a square and not dragging, deselect
-            if (!e.target.closest('.square') && !isDragging && selectedSquare) {
-                clearHighlights();
-            }
-        });
-        
-        // Fetch initial board state
-        fetchBoardState();
-    }
-    
-    // Fetch the current board state from the server
-    function fetchBoardState() {
-        // Clear any existing highlights first
-        clearHighlights();
-        
-        fetch('/api/board')
-            .then(response => response.json())
-            .then(data => {
-                boardState = data;
-                updateBoard();
-                updateGameStatus();
-                
-                // If checkmate is detected, immediately disable the board
-                if (boardState.isGameOver) {
-                    disableBoardInteraction();
-                }
-            })
-            .catch(error => console.error('Error fetching board state:', error));
-    }
-    
-    // Update the board display based on current state
-    function updateBoard() {
-        // Clear previous highlights
-        document.querySelectorAll('.square').forEach(square => {
-            square.classList.remove('selected', 'valid-move', 'valid-capture', 'in-check', 'drag-over', 'last-move-from', 'last-move-to', 'kings-step-destination');
-            square.innerHTML = '';
-        });
-        
-        // Parse FEN string to place pieces
-        const fen = boardState.fen.split(' ')[0];
-        const rows = fen.split('/');
-        
-        // Highlight last move if present
-        if (boardState.lastMove) {
-            const fromSquare = document.querySelector(`.square[data-square="${boardState.lastMove.from}"]`);
-            const toSquare = document.querySelector(`.square[data-square="${boardState.lastMove.to}"]`);
-            
-            if (fromSquare) fromSquare.classList.add('last-move-from');
-            if (toSquare) toSquare.classList.add('last-move-to');
-            
-            // If it was a King's Step move, add special class
-            if (boardState.lastMove.isKingsStep && toSquare) {
-                toSquare.classList.add('kings-step-destination');
-            }
-        }
-        
-        // Highlight king in check
-        if (boardState.inCheck) {
-            const checkSquare = document.querySelector(`.square[data-square="${boardState.inCheck}"]`);
-            if (checkSquare) {
-                checkSquare.classList.add('in-check');
-            }
-        }
-        
-        rows.forEach((row, rank) => {
-            let file = 0;
-            
-            for (let i = 0; i < row.length; i++) {
-                const char = row[i];
-                
-                if (!isNaN(char)) {
-                    file += parseInt(char);
-                } else {
-                    const squareName = String.fromCharCode(97 + file) + (8 - rank);
-                    const squareElement = document.querySelector(`.square[data-square="${squareName}"]`);
-                    
-                    if (squareElement) {
-                        const pieceElement = document.createElement('div');
-                        pieceElement.className = 'piece';
-                        pieceElement.textContent = chessPieces[char];
-                        pieceElement.dataset.piece = char;
-                        
-                        // Add color class
-                        if (char === char.toUpperCase()) {
-                            pieceElement.classList.add('white');
-                        } else {
-                            pieceElement.classList.add('black');
-                        }
-                        
-                        // Add drag and drop event listeners to pieces
-                        pieceElement.draggable = true;
-                        
-                        pieceElement.addEventListener('mousedown', (e) => {
-                            // Prevent drag conflicts with click handling
-                            e.stopPropagation();
-                        });
-                        
-                        pieceElement.addEventListener('dragstart', (e) => {
-                            // Only allow dragging if it's the correct player's turn
-                            const isPieceWhite = pieceElement.classList.contains('white');
-                            const isWhiteTurn = boardState.turn === 'white';
-                            
-                            if ((isPieceWhite && isWhiteTurn) || (!isPieceWhite && !isWhiteTurn)) {
-                                isDragging = true;
-                                draggedPiece = pieceElement;
-                                draggedPieceSquare = squareName;
-                                
-                                // Set drag image (transparent)
-                                const dragImage = document.createElement('div');
-                                dragImage.textContent = pieceElement.textContent;
-                                dragImage.style.opacity = '0.01';
-                                document.body.appendChild(dragImage);
-                                e.dataTransfer.setDragImage(dragImage, 0, 0);
-                                setTimeout(() => document.body.removeChild(dragImage), 0);
-                                
-                                setTimeout(() => {
-                                    pieceElement.classList.add('dragging');
-                                }, 0);
-                                
-                                // Also select the piece to show valid moves
-                                if (selectedSquare !== squareName) {
-                                    clearHighlights();
-                                    selectedSquare = squareName;
-                                    highlightValidMoves(squareName);
-                                }
-                            } else {
-                                e.preventDefault(); // Prevent dragging if it's not this player's turn
-                            }
-                        });
-                        
-                        pieceElement.addEventListener('dragend', () => {
-                            isDragging = false;
-                            if (draggedPiece) {
-                                draggedPiece.classList.remove('dragging');
-                                draggedPiece = null;
-                            }
-                        });
-                        
-                        // Add click handler for piece selection (compatible with drag-and-drop)
-                        pieceElement.addEventListener('click', (e) => {
-                            // Avoid triggering when ending a drag operation
-                            if (!isDragging) {
-                                handleSquareClick(squareName);
-                            }
-                            e.stopPropagation(); // Prevent event from bubbling to square
-                        });
-                        
-                        squareElement.appendChild(pieceElement);
-                    }
-                    
-                    file++;
-                }
-            }
-        });
-        
-        // If game is over or in checkmate, don't show any valid moves
-        if (boardState.isGameOver || boardState.isCheckmate) {
-            selectedSquare = null;
-            return;
-        }
-        
-        // Restore selection if any
-        if (selectedSquare) {
-            const squareElement = document.querySelector(`.square[data-square="${selectedSquare}"]`);
-            if (squareElement) {
-                squareElement.classList.add('selected');
-                highlightValidMoves(selectedSquare);
+                squares[name] = square;
+                boardEl.appendChild(square);
             }
         }
     }
-    
-    // Handle drop event
-    function handleDrop(targetSquare) {
-        // Ignore if same square (dropped on original position)
-        if (targetSquare === draggedPieceSquare) {
-            return;
-        }
-        
-        // Check if the drop is on a valid move square
-        const isValidMove = boardState.moveInfo[draggedPieceSquare]?.moves.includes(targetSquare);
-        const isValidCapture = boardState.moveInfo[draggedPieceSquare]?.captures.includes(targetSquare);
-        
-        if (isValidMove || isValidCapture) {
-            const move = `${draggedPieceSquare}${targetSquare}`;
-            makeMove(move);
-        }
-        
-        // Reset drag state
-        draggedPieceSquare = null;
-        clearHighlights();
-    }
-    
-    // Update game status display
-    function updateGameStatus() {
-        turnDisplay.textContent = boardState.turn.charAt(0).toUpperCase() + boardState.turn.slice(1);
 
-        if (boardState.isGameOver || boardState.isCheckmate) {
-            let message = '';
-            let gameOverTitle = '';
-            const winner = boardState.turn === 'white' ? 'Black' : 'White';
-            
-            // Set message based on the game over reason
-            if (boardState.gameOverReason === "checkmate" || boardState.isCheckmate) {
-                gameOverTitle = `${winner} Wins!`;
-                message = `CHECKMATE! ${winner} wins! Press 'Reset Game' to play again.`;
-            } else if (boardState.gameOverReason === "stalemate") {
-                gameOverTitle = 'Draw - Stalemate';
-                message = 'STALEMATE! Game is a draw. Press \'Reset Game\' to play again.';
-            } else if (boardState.gameOverReason === "repetition") {
-                gameOverTitle = 'Draw - Repetition';
-                message = 'DRAW BY REPETITION! Same position occurred three times. Press \'Reset Game\' to play again.';
-            } else if (boardState.gameOverReason === "fifty_moves") {
-                gameOverTitle = 'Draw - Fifty Moves';
-                message = 'DRAW BY FIFTY-MOVE RULE! No captures or pawn moves in the last 50 moves. Press \'Reset Game\' to play again.';
-            } else if (boardState.gameOverReason === "insufficient_material") {
-                gameOverTitle = 'Draw - Insufficient Material';
-                message = 'DRAW! Insufficient material to checkmate. Press \'Reset Game\' to play again.';
-            } else {
-                gameOverTitle = 'Game Over';
-                message = 'GAME OVER! Press \'Reset Game\' to play again.';
-            }
-            
-            checkStatus.textContent = message;
-            disableBoardInteraction(gameOverTitle);
-            
-            // Highlight the reset button to draw attention to it
-            document.getElementById('reset-button').classList.add('highlight-reset');
-        } else if (boardState.isCheck) {
-            checkStatus.textContent = `${boardState.turn.toUpperCase()} IS IN CHECK!`;
-        } else {
-            checkStatus.textContent = '';
-            document.getElementById('reset-button').classList.remove('highlight-reset');
-        }
+    function movesFrom(from) {
+        return state.legalMoves.filter((m) => m.from === from);
     }
-    
-    // Disable board interaction when game is over
-    function disableBoardInteraction(gameOverTitle = 'Game Over') {
-        selectedSquare = null;
-        draggedPiece = null;
-        draggedPieceSquare = null;
-        isDragging = false;
-        
-        // Create an overlay to visually indicate the game is over
-        let overlay = document.querySelector('.game-over-overlay');
-        
-        if (!overlay) {
-            overlay = document.createElement('div');
-            overlay.className = 'game-over-overlay';
-            document.body.appendChild(overlay);
-            
-            // Add click to close functionality
-            overlay.addEventListener('click', (e) => {
-                if (e.target === overlay) {
-                    closeGameOverOverlay();
-                }
-            });
-        }
-        
-        // Determine subtitle based on game state
-        let subtitle = 'Click anywhere to continue playing or reset the game.';
-        if (boardState.gameOverReason === 'checkmate') {
-            subtitle = 'The king has been checkmated! Game completed.';
-        } else if (boardState.gameOverReason === 'stalemate') {
-            subtitle = 'No legal moves available. The game ends in a draw.';
-        } else if (boardState.gameOverReason === 'repetition') {
-            subtitle = 'The same position occurred three times.';
-        } else if (boardState.gameOverReason === 'fifty_moves') {
-            subtitle = 'No captures or pawn moves in the last 50 moves.';
-        } else if (boardState.gameOverReason === 'insufficient_material') {
-            subtitle = 'Neither player has enough pieces to checkmate.';
-        }
-        
-        overlay.innerHTML = '<div class="game-over-content">' +
-            '<div class="close-hint">Click outside to close</div>' +
-            '<div class="game-over-message">' + gameOverTitle + '</div>' +
-            '<div class="game-over-subtitle">' + subtitle + '</div>' +
-            '<div class="game-over-actions">' +
-            '<button class="game-over-btn" onclick="closeGameOverOverlay()">Continue Viewing</button>' +
-            '<button class="game-over-btn reset" onclick="resetGame()">New Game</button>' +
-            '</div>' +
-            '</div>';
-        overlay.style.display = 'flex';
-        
-        // Disable all square click events and dragging
-        document.querySelectorAll('.square').forEach(square => {
-            square.style.cursor = 'default';
-            const clone = square.cloneNode(true);
-            square.parentNode.replaceChild(clone, square);
-        });
-        
-        // Disable dragging on all pieces
-        document.querySelectorAll('.piece').forEach(piece => {
-            piece.draggable = false;
-        });
-    }
-    
-    // Close game over overlay
-    function closeGameOverOverlay() {
-        const overlay = document.querySelector('.game-over-overlay');
-        if (overlay) {
-            overlay.style.display = 'none';
-        }
-        // Note: Don't reset the game state, just hide the overlay
-        // Users can still see the final position and move history
-    }
-    
-    // Make functions available globally for onclick handlers
-    window.closeGameOverOverlay = closeGameOverOverlay;
-    window.resetGame = resetGame;
-    
-    // Highlight valid moves for the selected square
-    function highlightValidMoves(square) {
-        // First, highlight the selected square
-        const selectedElement = document.querySelector(`.square[data-square="${square}"]`);
-        if (selectedElement) {
-            selectedElement.classList.add('selected');
-        }
-        
-        // Get move info for this square
-        const moveInfo = boardState.moveInfo[square];
-        if (!moveInfo) return;
-        
-        // Get piece information to determine if King's Step is applicable
-        const pieceElement = selectedElement?.querySelector('.piece');
-        const piece = pieceElement?.dataset.piece;
-        const isWhite = piece && piece === piece.toUpperCase();
-        const pieceType = piece ? piece.toLowerCase() : null;
-        
-        // Determine if this piece can make King's Step moves (not king, not queen)
-        const canMakeKingsStep = pieceType && !['k', 'q'].includes(pieceType);
-        
-        // Helper function to check if a move is likely a King's Step
-        function isLikelyKingsStep(from, to) {
-            // Only non-kings, non-queens can make King's Step
-            if (!canMakeKingsStep) return false;
-            
-            // Get algebraic coordinates
-            const fromFile = from.charCodeAt(0) - 97; // 'a' -> 0
-            const fromRank = parseInt(from[1]) - 1;   // '1' -> 0
-            const toFile = to.charCodeAt(0) - 97;
-            const toRank = parseInt(to[1]) - 1;
-            
-            // Calculate distance
-            const fileDiff = Math.abs(fromFile - toFile);
-            const rankDiff = Math.abs(fromRank - toRank);
-            
-            // For pawns, forward one square is normal move
-            if (pieceType === 'p') {
-                // White pawn moving up or black pawn moving down
-                const normalDirection = isWhite ? (toRank - fromRank === 1) : (fromRank - toRank === 1);
-                const sameFile = fromFile === toFile;
-                
-                // Normal pawn move
-                if (normalDirection && sameFile) return false;
-                
-                // Initial two-square move
-                if (isWhite && fromRank === 1 && toRank === 3 && sameFile) return false;
-                if (!isWhite && fromRank === 6 && toRank === 4 && sameFile) return false;
-            }
-            
-            // For knights, L-shape is normal move
-            if (pieceType === 'n') {
-                if ((fileDiff === 1 && rankDiff === 2) || (fileDiff === 2 && rankDiff === 1)) {
-                    return false;
-                }
-            }
-            
-            // For bishops, diagonal is normal move
-            if (pieceType === 'b') {
-                if (fileDiff === rankDiff) return false;
-            }
-            
-            // For rooks, straight line is normal move
-            if (pieceType === 'r') {
-                if (fileDiff === 0 || rankDiff === 0) return false;
-            }
-            
-            // King's Step is one square in any direction
-            return fileDiff <= 1 && rankDiff <= 1;
-        }
-        
-        // Highlight valid moves (non-captures)
-        moveInfo.moves.forEach(targetSquare => {
-            const squareElement = document.querySelector(`.square[data-square="${targetSquare}"]`);
-            if (squareElement) {
-                if (isLikelyKingsStep(square, targetSquare)) {
-                    squareElement.classList.add('valid-kings-step');
-                } else {
-                    squareElement.classList.add('valid-move');
-                }
-            }
-        });
-        
-        // Highlight valid captures
-        moveInfo.captures.forEach(targetSquare => {
-            const squareElement = document.querySelector(`.square[data-square="${targetSquare}"]`);
-            if (squareElement) {
-                squareElement.classList.add('valid-capture');
-            }
-        });
-    }
-    
-    // Handle square click
-    function handleSquareClick(squareName) {
-        // Check if the game is over or in checkmate
-        if (boardState.isGameOver || boardState.isCheckmate) {
-            // Highlight the reset button and show a message prompting restart
-            document.getElementById('reset-button').classList.add('highlight-reset');
-            // Add a pulsing animation to the reset button
-            if (!document.getElementById('reset-message')) {
-                const message = document.createElement('div');
-                message.id = 'reset-message';
-                message.textContent = 'Game is over. Click Reset to play again.';
-                message.style.color = '#e74c3c';
-                message.style.fontWeight = 'bold';
-                message.style.margin = '10px 0';
-                document.querySelector('.controls').appendChild(message);
-            }
-            return; // Exit the function
-        }
 
-        const squareElement = document.querySelector(`.square[data-square="${squareName}"]`);
+    function movesBetween(from, to) {
+        return state.legalMoves.filter((m) => m.from === from && m.to === to);
+    }
 
-        // If no square is currently selected
-        if (!selectedSquare) {
-            // Check if the square has a piece of the current player's color
-            const piece = squareElement.querySelector('.piece');
+    function renderBoard() {
+        Object.entries(squares).forEach(([name, square]) => {
+            square.classList.remove(...CLASSES_TO_CLEAR);
+            square.replaceChildren();
+            const piece = state.pieces[name];
             if (!piece) return;
+            const pieceEl = document.createElement('div');
+            pieceEl.className = `piece ${piece === piece.toUpperCase() ? 'white' : 'black'}`;
+            pieceEl.textContent = GLYPHS[piece];
+            if (movesFrom(name).length) pieceEl.classList.add('movable');
+            square.appendChild(pieceEl);
+        });
 
-            const isPieceWhite = piece.classList.contains('white');
-            const isWhiteTurn = boardState.turn === 'white';
+        const last = state.lastMove;
+        if (last) {
+            squares[last.from].classList.add('last-move-from');
+            squares[last.to].classList.add('last-move-to');
+            if (last.kind === 'kings_step' || last.kind === 'pawn_lateral') squares[last.to].classList.add('last-move-asha');
+        }
+        if (state.checkSquare) squares[state.checkSquare].classList.add('in-check');
+    }
 
-            if ((isPieceWhite && isWhiteTurn) || (!isPieceWhite && !isWhiteTurn)) {
-                selectedSquare = squareName;
-                squareElement.classList.add('selected');
-                highlightValidMoves(squareName);
-            }
-        } 
-        // If a square is already selected
-        else {
-            // If clicking the same square, deselect it
-            if (squareName === selectedSquare) {
-                selectedSquare = null;
-                squareElement.classList.remove('selected');
-                clearHighlights();
+    // Pointer-event dragging works for mouse, pen and touch alike.
+    function squareAt(x, y) {
+        return document.elementFromPoint(x, y)?.closest('.square')?.dataset.square ?? null;
+    }
+
+    boardEl.addEventListener('pointerdown', (e) => {
+        const from = e.target.closest('.square')?.dataset.square;
+        if (!state || e.button !== 0 || !from || !movesFrom(from).length) return;
+        drag = { from, x: e.clientX, y: e.clientY, ghost: null };
+    });
+
+    window.addEventListener('pointermove', (e) => {
+        if (!drag) return;
+        if (!drag.ghost) {
+            if (Math.hypot(e.clientX - drag.x, e.clientY - drag.y) < 5) return;
+            select(drag.from);
+            const pieceEl = squares[drag.from].querySelector('.piece');
+            drag.ghost = pieceEl.cloneNode(true);
+            drag.ghost.classList.add('drag-ghost');
+            drag.ghost.style.width = `${squares[drag.from].offsetWidth}px`;
+            drag.ghost.style.height = `${squares[drag.from].offsetHeight}px`;
+            document.body.appendChild(drag.ghost);
+            pieceEl.classList.add('drag-source');
+        }
+        e.preventDefault();
+        drag.ghost.style.left = `${e.clientX}px`;
+        drag.ghost.style.top = `${e.clientY}px`;
+        const over = squareAt(e.clientX, e.clientY);
+        Object.entries(squares).forEach(([name, square]) => {
+            square.classList.toggle('drag-over', name === over && movesBetween(drag.from, name).length > 0);
+        });
+    });
+
+    function endDrag(e, drop) {
+        if (!drag) return;
+        const { from, ghost } = drag;
+        drag = null;
+        if (!ghost) return; // a plain click; the click handler takes over
+        ghost.remove();
+        squares[from].querySelector('.piece')?.classList.remove('drag-source');
+        Object.values(squares).forEach((square) => square.classList.remove('drag-over'));
+        suppressClick = true;
+        setTimeout(() => { suppressClick = false; }, 0);
+        const to = drop ? squareAt(e.clientX, e.clientY) : null;
+        if (to) attempt(movesBetween(from, to));
+    }
+
+    window.addEventListener('pointerup', (e) => endDrag(e, true));
+    window.addEventListener('pointercancel', (e) => endDrag(e, false));
+
+    function clearSelection() {
+        selected = null;
+        Object.values(squares).forEach((square) => {
+            square.classList.remove('selected', 'valid-move', 'valid-capture', 'valid-kings-step', 'valid-pawn-lateral');
+        });
+    }
+
+    function select(name) {
+        clearSelection();
+        selected = name;
+        squares[name].classList.add('selected');
+        movesFrom(name).forEach((move) => squares[move.to].classList.add(TARGET_CLASS[move.kind]));
+    }
+
+    function onSquareClick(name) {
+        if (!state) return;
+        if (selected) {
+            const candidates = movesBetween(selected, name);
+            if (candidates.length) {
+                attempt(candidates);
                 return;
             }
-            
-            const isValidMove = boardState.moveInfo[selectedSquare]?.moves.includes(squareName);
-            const isValidCapture = boardState.moveInfo[selectedSquare]?.captures.includes(squareName);
-
-            if (isValidMove || isValidCapture) {
-                const move = `${selectedSquare}${squareName}`;
-                makeMove(move);
-            } else {
-                // Check if the new square has a piece of the current player's color
-                const piece = squareElement.querySelector('.piece');
-                if (piece) {
-                    const isPieceWhite = piece.classList.contains('white');
-                    const isWhiteTurn = boardState.turn === 'white';
-
-                    if ((isPieceWhite && isWhiteTurn) || (!isPieceWhite && !isWhiteTurn)) {
-                        // Change selection to the new piece
-                        clearHighlights();
-                        selectedSquare = squareName;
-                        squareElement.classList.add('selected');
-                        highlightValidMoves(squareName);
-                    }
-                } else {
-                    // Clicked on an empty square that's not a valid move
-                    selectedSquare = null;
-                    clearHighlights();
-                }
+            if (name === selected) {
+                clearSelection();
+                return;
             }
         }
+        if (movesFrom(name).length) select(name);
+        else clearSelection();
     }
-    
-    // Clear all highlights
-    function clearHighlights() {
-        document.querySelectorAll('.square').forEach(square => {
-            square.classList.remove('selected', 'valid-move', 'valid-capture', 'drag-over', 'last-move-from', 'last-move-to', 'valid-kings-step', 'kings-step-destination');
-            
-            // Reset any piece styling
-            const piece = square.querySelector('.piece');
-            if (piece) {
-                piece.style.transform = '';
-                piece.style.transition = '';
-            }
+
+    function attempt(candidates) {
+        if (!candidates.length) return;
+        if (candidates.length === 1) {
+            submitMove(candidates[0].uci);
+            return;
+        }
+        // Several moves share from/to only when promoting: let the player choose.
+        const color = state.turn === 'white';
+        promotionChoices.replaceChildren();
+        PROMOTION_ORDER.forEach((piece) => {
+            const move = candidates.find((m) => m.promotion === piece);
+            if (!move) return;
+            const button = document.createElement('button');
+            button.className = `promotion-choice piece ${color ? 'white' : 'black'}`;
+            button.dataset.promotion = piece;
+            button.textContent = GLYPHS[color ? piece.toUpperCase() : piece];
+            button.addEventListener('click', () => {
+                closePopup(promotionEl);
+                submitMove(move.uci);
+            });
+            promotionChoices.appendChild(button);
         });
-        
-        // Set a flag to indicate no square is selected
-        selectedSquare = null;
+        openPopup(promotionEl);
     }
-    
-    // Make a move
-    function makeMove(move) {
-        // Clear any existing highlights
-        clearHighlights();
-        
-        // Store previous board state to track move details
-        const previousBoardState = JSON.parse(JSON.stringify(boardState));
-        
-        fetch('/api/move', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ move: move })
-        })
-        .then(response => {
-            if (!response.ok) {
-                return response.json().then(data => Promise.reject(data));
-            }
-            return response.json();
-        })
-        .then(data => {
-            if (data.success) {
-                // Get move details for history
-                const from = move.substring(0, 2);
-                const to = move.substring(2, 4);
-                const movedPiece = getPieceAt(from, previousBoardState.fen);
-                const isCapture = data.lastMove && data.lastMove.isCapture;
-                const isCheck = data.isCheck;
-                const isCheckmate = data.isCheckmate || data.isGameOver;
-                const isKingsStep = data.lastMove && data.lastMove.isKingsStep;
-                
-                // Add move to history
-                addMoveToHistory(
-                    { from: from, to: to },
-                    movedPiece,
-                    isCapture,
-                    isCheck,
-                    isCheckmate,
-                    isKingsStep
-                );
-                
-                // Update board state with new data
-                boardState = data;
-                updateBoard();
-                updateGameStatus();
-                
-                // Deselect the current square
-                selectedSquare = null;
-                
-                // If game is over after this move, disable board
-                if (data.isGameOver) {
-                    const winner = previousBoardState.turn === 'white' ? 'White' : 'Black';
-                    const gameOverTitle = data.gameOverReason === 'checkmate' ? `${winner} Wins!` : 'Game Over';
-                    disableBoardInteraction(gameOverTitle);
-                }
-            }
-        })
-        .catch(error => {
-            console.error('Error making move:', error);
-            
-            // If this was an invalid move due to game over, update UI
-            if (error.isGameOver) {
-                boardState.isGameOver = error.isGameOver;
-                boardState.isCheckmate = error.isCheckmate;
-                updateGameStatus();
-                disableBoardInteraction();
-            }
+
+    function submitMove(uci) {
+        clearSelection();
+        run(api('/api/move', { move: uci }));
+    }
+
+    // ---------------------------------------------------------------- status
+
+    function renderStatus() {
+        turnEl.textContent = state.turn === 'white' ? 'White' : 'Black';
+        const result = state.result;
+        if (result) {
+            const [title] = TERMINATIONS[result.termination];
+            statusEl.textContent = result.winner ? `${title} — ${capitalize(result.winner)} wins` : title;
+        } else if (state.check) {
+            statusEl.textContent = `${state.turn.toUpperCase()} IS IN CHECK!`;
+        } else {
+            statusEl.textContent = '';
+        }
+        resetButton.classList.toggle('highlight-reset', state.gameOver);
+
+        claimButtons.replaceChildren();
+        state.claimableDraws.forEach((reason) => {
+            const button = document.createElement('button');
+            button.className = 'claim-btn';
+            button.textContent = CLAIM_LABELS[reason];
+            button.addEventListener('click', () => run(api('/api/claim-draw', { reason })));
+            claimButtons.appendChild(button);
         });
     }
-    
-    // Helper function to get piece at square from FEN
-    function getPieceAt(square, fen) {
-        const fenBoard = fen.split(' ')[0];
-        const ranks = fenBoard.split('/');
-        
-        const file = square.charCodeAt(0) - 97; // a=0, b=1, etc.
-        const rank = parseInt(square[1]) - 1;   // 1=0, 2=1, etc.
-        
-        const boardRank = ranks[7 - rank]; // FEN ranks are from 8 to 1
-        let currentFile = 0;
-        
-        for (let i = 0; i < boardRank.length; i++) {
-            const char = boardRank[i];
-            if (isNaN(char)) {
-                if (currentFile === file) {
-                    return char;
-                }
-                currentFile++;
-            } else {
-                currentFile += parseInt(char);
-                if (currentFile > file) {
-                    return null; // Empty square
-                }
+
+    function renderHistory() {
+        historyEl.replaceChildren();
+        let row = null;
+        state.history.forEach((entry) => {
+            if (entry.color === 'white' || !row) {
+                row = document.createElement('div');
+                row.className = 'move-entry';
+                const number = document.createElement('span');
+                number.className = 'move-number';
+                number.textContent = `${Math.ceil(entry.ply / 2)}.`;
+                row.appendChild(number);
+                if (entry.color === 'black') row.appendChild(notationSpan({ notation: '…', kind: '' }));
+                historyEl.appendChild(row);
             }
-        }
-        return null;
+            row.appendChild(notationSpan(entry));
+        });
+        historyEl.scrollTop = historyEl.scrollHeight;
     }
-    
-    // Reset game
-    function resetGame() {
-        // Clear any selected squares and highlights
-        clearHighlights();
-        
-        // Clear move history
-        clearMoveHistory();
-        
-        // Remove game over overlay if it exists
-        const overlay = document.querySelector('.game-over-overlay');
-        if (overlay) {
-            overlay.remove();
-        }
-        
-        // Remove any reset messages
-        const resetMessage = document.getElementById('reset-message');
-        if (resetMessage) {
-            resetMessage.remove();
-        }
-        
-        // Reset game state
-        fetch('/api/reset', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                // Refresh the board with new state
-                fetchBoardState();
-            } else {
-                console.error('Failed to reset game:', data.error);
-            }
-        })
-        .catch(error => console.error('Error resetting game:', error));
+
+    function notationSpan(entry) {
+        const span = document.createElement('span');
+        span.className = `move-notation ${entry.kind === 'kings_step' || entry.kind === 'pawn_lateral' ? 'asha-move' : ''}`;
+        span.textContent = entry.notation;
+        if (entry.uci) span.title = `${entry.uci} (${entry.kind.replace('_', ' ')})`;
+        return span;
     }
-    
-    // Event listeners
+
+    function renderGameOver() {
+        if (!state.result) {
+            closePopup(gameOverEl);
+            return;
+        }
+        const [title, subtitle] = TERMINATIONS[state.result.termination];
+        document.getElementById('game-over-title').textContent =
+            state.result.winner ? `${capitalize(state.result.winner)} Wins!` : title;
+        document.getElementById('game-over-subtitle').textContent = subtitle;
+        if (!gameOverDismissed) openPopup(gameOverEl);
+    }
+
+    function capitalize(text) {
+        return text.charAt(0).toUpperCase() + text.slice(1);
+    }
+
+    function render(newState) {
+        state = newState;
+        selected = null;
+        closePopup(promotionEl);
+        renderBoard();
+        renderStatus();
+        renderHistory();
+        renderGameOver();
+    }
+
     resetButton.addEventListener('click', resetGame);
-    
-    // Add window resize event listener to clear any lingering highlights
-    window.addEventListener('resize', () => {
-        // Clear highlights on resize to avoid UI issues
-        clearHighlights();
-        // Redraw the board with current state
-        updateBoard();
-    });
-    
-    // Initialize the board when the page loads
-    initializeBoard();
+    buildBoard();
+    run(api('/api/state'));
 });
