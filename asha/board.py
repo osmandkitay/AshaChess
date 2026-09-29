@@ -6,8 +6,9 @@ Two geometries are kept deliberately separate:
   captures, check, pins and castling safety (``is_attacked``).
 * **Movement geometry** is the attack geometry plus Asha's non-capturing extras:
   the King's Step (one square in any direction onto an empty square) for
-  knights, bishops and rooks, and the pawn's one-square sideways step onto an
-  empty square. Neither extra can capture, so neither ever attacks a square.
+  knights, bishops and rooks, and the pawn's one-square sideways or
+  diagonally-forward step onto an empty square. None of these extras can
+  capture, so none of them ever attacks a square.
 
 Squares are integers 0..63 (a1 = 0, h1 = 7, a8 = 56). Pieces are FEN letters,
 uppercase for White.
@@ -36,9 +37,10 @@ EN_PASSANT = "en_passant"
 CASTLING = "castling"
 KINGS_STEP = "kings_step"  # Asha: non-capturing one-square step (N, B, R)
 PAWN_LATERAL = "pawn_lateral"  # Asha: non-capturing sideways pawn step
+PAWN_DIAGONAL = "pawn_diagonal"  # Asha: non-capturing diagonally-forward pawn step
 
 CAPTURE_KINDS = frozenset({CAPTURE, EN_PASSANT})
-ASHA_KINDS = frozenset({KINGS_STEP, PAWN_LATERAL})
+ASHA_KINDS = frozenset({KINGS_STEP, PAWN_LATERAL, PAWN_DIAGONAL})
 
 PROMOTION_PIECES = ("q", "r", "b", "n")
 
@@ -414,6 +416,8 @@ class Board:
                     add(target, CAPTURE)
             elif target == self.ep_square:
                 moves.append(Move(sq, target, None, EN_PASSANT))
+            else:
+                add(target, PAWN_DIAGONAL)
             side = sq + df
             if s[side] is None:
                 moves.append(Move(sq, side, None, PAWN_LATERAL))
@@ -500,8 +504,8 @@ class Board:
 
         is_pawn = piece == "P" or piece == "p"
         self.ep_square = (move.from_sq + move.to_sq) // 2 if is_pawn and abs(move.to_sq - move.from_sq) == 16 else None
-        # Every pawn move resets the clock, including a sideways step: it can
-        # spend the pawn's double-step right, so it is not reversible.
+        # Every pawn move resets the clock, including sideways and diagonal
+        # steps: they can spend the pawn's double-step right.
         if captured is not None or is_pawn:
             self.halfmove_clock = 0
         else:
@@ -559,7 +563,8 @@ class Board:
 
         Classical moves use standard SAN. Asha moves are written with their
         origin and a tilde so they can never be mistaken for SAN:
-        King's Step ``Nb1~b2``, pawn sideways step ``e4~d4``.
+        King's Step ``Nb1~b2``, pawn sideways step ``e4~d4``, pawn diagonal
+        step ``e4~d5`` (``e7~d8=Q`` when it promotes).
         """
         piece = self.piece_type(move.from_sq)
         to = square_name(move.to_sq)
@@ -567,9 +572,9 @@ class Board:
             return "O-O" if move.to_sq > move.from_sq else "O-O-O"
         if move.kind == KINGS_STEP:
             return f"{piece}{square_name(move.from_sq)}~{to}"
-        if move.kind == PAWN_LATERAL:
-            return f"{square_name(move.from_sq)}~{to}"
         promotion = f"={move.promotion.upper()}" if move.promotion else ""
+        if move.kind in (PAWN_LATERAL, PAWN_DIAGONAL):
+            return f"{square_name(move.from_sq)}~{to}{promotion}"
         if piece == "P":
             if move.is_capture:
                 return f"{FILES[move.from_sq & 7]}x{to}{promotion}"

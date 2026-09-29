@@ -57,7 +57,7 @@
                 
                 <p>The modern era, born from the fires of revolution and built on the ideals of democracy and universal rights, presents us with a new paradigm. It suggests, even if only as a beautiful illusion, that all individuals possess a fundamental freedom of movement. ASHA CHESS embraces this with a postmodern touch, asking a simple yet profound question: What if every piece on the board was granted the right to move like a king?</p>
                 
-                <p>In ASHA CHESS, we do not erase tradition; we build upon it. The "King's Step"—a single-square move in any direction—is now bestowed upon Knights, Bishops, and Rooks, while the Pawn gains a single sideways step. However, their methods of capture remain classic, tied to their unique histories. This creates a breathtaking new dynamic. A Bishop, no longer confined to a single color, can now step onto a neighboring square, reflecting a world where even the most rigid dogmas can evolve. The Pawn, once a fated foot soldier, becomes an unpredictable force, capable of both subtle repositioning and sudden threats.</p>
+                <p>In ASHA CHESS, we do not erase tradition; we build upon it. The "King's Step"—a single-square move in any direction—is now bestowed upon Knights, Bishops, and Rooks, while the Pawn gains a single step sideways or diagonally forward. However, their methods of capture remain classic, tied to their unique histories. This creates a breathtaking new dynamic. A Bishop, no longer confined to a single color, can now step onto a neighboring square, reflecting a world where even the most rigid dogmas can evolve. The Pawn, once a fated foot soldier, becomes an unpredictable force, capable of both subtle repositioning and sudden threats.</p>
                 
                 <p>Our goal is to resurrect the spirit of players like Mikhail Tal, Rashid Nezhmetdinov, and Joseph Blackburne—artists who played with character, whose moves were a signature of their very being. We should not see AI-approved lines when we look at Magnus Carlsen; we should see Magnus. Chess must be a canvas for grand strategies and profound, personal expression.</p>
                 
@@ -86,10 +86,10 @@
                 <h3>Pawn</h3>
                 <ul>
                     <li>Moves forward exactly as in classical chess: one square, or two if it has never moved.</li>
-                    <li>Additionally may step one square left or right on the same rank onto an <strong>empty</strong> square. This sideways step never captures.</li>
-                    <li>A sideways step counts as the pawn's move: afterwards it can no longer make the two-square move, even back on its original square.</li>
-                    <li>Captures only one square diagonally forward, including en passant.</li>
-                    <li>Never moves backward, and never moves diagonally without capturing.</li>
+                    <li>Additionally may step one square left or right on the same rank, or one square diagonally forward, onto an <strong>empty</strong> square. These steps never capture.</li>
+                    <li>A sideways or diagonal step counts as the pawn's move: afterwards it can no longer make the two-square move, even back on its original square.</li>
+                    <li>Captures only one square diagonally forward, including en passant — never straight ahead or sideways.</li>
+                    <li>Never moves backward.</li>
                     <li>Promotes on the last rank to a Queen, Rook, Bishop or Knight of your choice.</li>
                 </ul>
 
@@ -98,18 +98,18 @@
 
                 <h3>Everything Else</h3>
                 <p>Check, checkmate, stalemate, castling, en passant and promotion work as in classical chess. Only classical captures attack squares, so only they give check.</p>
-                <p>Automatic draws: stalemate, insufficient material, fivefold repetition and the 75-move rule. Threefold repetition and the 50-move rule can be claimed by the side to move. Every pawn move, sideways steps included, and every capture resets the 50/75-move count.</p>
+                <p>Automatic draws: stalemate, insufficient material, fivefold repetition and the 75-move rule. Threefold repetition and the 50-move rule can be claimed by the side to move. Every pawn move, sideways and diagonal steps included, and every capture resets the 50/75-move count.</p>
 
                 <h3>Board Highlights</h3>
                 <ul>
                     <li><span class="highlight green"></span> Classical move</li>
                     <li><span class="highlight orange"></span> Capture</li>
                     <li><span class="highlight blue"></span> King's Step</li>
-                    <li><span class="highlight teal"></span> Pawn sideways step</li>
+                    <li><span class="highlight teal"></span> Pawn sideways or diagonal step</li>
                     <li><span class="highlight red"></span> King in check</li>
                     <li><span class="highlight yellow"></span> Last move</li>
                 </ul>
-                <p>In the move list, Asha moves are written with their origin and a tilde: <code>Nb1~b2</code> (King's Step), <code>e4~d4</code> (pawn sideways step). Classical moves use standard notation.</p>
+                <p>In the move list, Asha moves are written with their origin and a tilde: <code>Nb1~b2</code> (King's Step), <code>e4~d4</code> (pawn sideways step), <code>e4~d5</code> (pawn diagonal step). Classical moves use standard notation.</p>
             </div>
         </div>
     </div>

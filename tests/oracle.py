@@ -1,7 +1,8 @@
 """Independent Asha move generator used only as a test oracle.
 
 It shares no code with ``asha``: classical moves come from python-chess, Asha's
-extra steps are added naively and filtered by python-chess's own check test.
+extra steps (King's Step, pawn sideways and diagonally-forward steps onto empty
+squares) are added naively and filtered by python-chess's own check test.
 This is valid because Asha's attack geometry is exactly classical.
 
 python-chess allows a double push from any pawn on its second rank, so the
@@ -41,18 +42,22 @@ def asha_legal_ucis(board: chess.Board, virgin: frozenset[int]) -> set[str]:
         if piece.piece_type in (chess.KNIGHT, chess.BISHOP, chess.ROOK):
             deltas = _ADJACENT
         elif piece.piece_type == chess.PAWN:
-            deltas = [(-1, 0), (1, 0)]
+            forward = 1 if piece.color == chess.WHITE else -1
+            deltas = [(-1, 0), (1, 0), (-1, forward), (1, forward)]
         else:
             continue
         for df, dr in deltas:
             if 0 <= f + df < 8 and 0 <= r + dr < 8:
                 to = chess.square(f + df, r + dr)
-                if board.piece_at(to) is None:
-                    move = chess.Move(sq, to)
-                    board.push(move)
-                    if not board.was_into_check():
-                        moves.add(move.uci())
-                    board.pop()
+                # A pawn moving diagonally onto the en passant square captures en passant.
+                if board.piece_at(to) is None and not (piece.piece_type == chess.PAWN and dr and to == board.ep_square):
+                    promotes = piece.piece_type == chess.PAWN and chess.square_rank(to) in (0, 7)
+                    for promotion in (chess.QUEEN, chess.ROOK, chess.BISHOP, chess.KNIGHT) if promotes else (None,):
+                        move = chess.Move(sq, to, promotion)
+                        board.push(move)
+                        if not board.was_into_check():
+                            moves.add(move.uci())
+                        board.pop()
     return moves
 
 

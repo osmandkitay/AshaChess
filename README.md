@@ -10,7 +10,7 @@ It has been said that "chess is a mirror to life," and traditional chess was a p
 
 The modern era, born from the fires of revolution and built on the ideals of democracy and universal rights, presents us with a new paradigm. It suggests, even if only as a beautiful illusion, that all individuals possess a fundamental freedom of movement. ASHA CHESS embraces this with a postmodern touch, asking a simple yet profound question: What if every piece on the board was granted the right to move like a king?
 
-In ASHA CHESS, we do not erase tradition; we build upon it. The "King's Step"—a single-square move in any direction—is now bestowed upon Knights, Bishops, and Rooks, while the Pawn gains a single sideways step. However, their methods of capture remain classic, tied to their unique histories. This creates a breathtaking new dynamic. A Bishop, no longer confined to a single color, can now step onto a neighboring square, reflecting a world where even the most rigid dogmas can evolve. The Pawn, once a fated foot soldier, becomes an unpredictable force, capable of both subtle repositioning and sudden threats.
+In ASHA CHESS, we do not erase tradition; we build upon it. The "King's Step"—a single-square move in any direction—is now bestowed upon Knights, Bishops, and Rooks, while the Pawn gains a single step sideways or diagonally forward. However, their methods of capture remain classic, tied to their unique histories. This creates a breathtaking new dynamic. A Bishop, no longer confined to a single color, can now step onto a neighboring square, reflecting a world where even the most rigid dogmas can evolve. The Pawn, once a fated foot soldier, becomes an unpredictable force, capable of both subtle repositioning and sudden threats.
 
 Our goal is to resurrect the spirit of players like Mikhail Tal, Rashid Nezhmetdinov, and Joseph Blackburne—artists who played with character, whose moves were a signature of their very being. We should not see AI-approved lines when we look at Magnus Carlsen; we should see Magnus. Chess must be a canvas for grand strategies and profound, personal expression.
 
@@ -33,7 +33,7 @@ The game starts from the standard chess position. Every piece keeps all of its c
 | Rook   | unchanged                  | King's Step              |
 | Bishop | unchanged                  | King's Step              |
 | Knight | unchanged                  | King's Step              |
-| Pawn   | unchanged (incl. double step, en passant, promotion) | one square sideways |
+| Pawn   | unchanged (incl. double step, en passant, promotion) | one square sideways or diagonally forward |
 
 ### King's Step (Knight, Bishop, Rook)
 
@@ -49,17 +49,19 @@ The piece may move one square in any direction (horizontal, vertical or diagonal
 The pawn does **not** get the King's Step. Instead:
 
 - It moves forward exactly as in classical chess: one square, or two squares if it has **never moved** and both squares are empty.
-- It may additionally move **one square left or right on the same rank onto an empty square**. This sideways step never captures.
-- A sideways step is a real pawn move: the pawn loses its two-square move, even if it later returns to its original square. A pawn that played e2~d2 may play d3 but never d4, and after d2~e2 it cannot play e4 either.
-- It captures only one square diagonally forward, including en passant, and promotes on the last rank to a queen, rook, bishop or knight of the player's choice.
-- It never moves backward (straight or diagonally), never moves diagonally forward without capturing, and never moves two squares sideways.
+- It may additionally move **one square left or right on the same rank**, or **one square diagonally forward (left or right)**, onto an **empty** square. These steps never capture.
+- Sideways and diagonal steps are real pawn moves: the pawn loses its two-square move for good, even if it later returns to its original square. A pawn that played e2~d2 may play d3 but never d4, and after d2~e2 it cannot play e4 either.
+- It captures exactly as in classical chess: only one square diagonally forward, including en passant, never straight ahead or sideways. A diagonal move onto an enemy piece is a capture; onto the en passant square it is the en passant capture. It promotes on the last rank — by a straight move, a capture or a diagonal step — to a queen, rook, bishop or knight of the player's choice.
+- It never moves backward (straight or diagonally) and never moves more than one square sideways or diagonally.
 
-Examples: a white pawn on e4 with empty surroundings may play e5, d4 or f4 — never e3, d3, f3, d5 or f5. With a black pawn on d4 and a white knight on f4, it may only play e5.
+Examples: a white pawn on e4 with d5, e5, f5, d4 and f4 empty may move to any of them — never to e3, d3 or f3. With black pieces on d5 and f5 it captures them classically. With a black pawn on d4 and a white knight on f4 it may play e5, e4~d5 or e4~f5. Black moves the same way towards rank 1.
+
+Because of the diagonal steps the start position has **34** legal moves instead of classical chess's 20: the 20 classical moves plus 14 diagonal pawn steps onto the third rank (and likewise for Black).
 
 ### Everything else
 
 - Check, checkmate, stalemate, castling, en passant and promotion work as in classical chess.
-- Only classical captures attack squares. Check, pins and castling safety are therefore decided by classical attack geometry — but a King's Step or sideways pawn step may block a check or give (discovered) check. For example, the classical Fool's Mate (1. f3 e5 2. g4 Qh4) is not mate: White can block with Ng1~f2, Bf1~f2, e2~f2 or f3~g3.
+- Only classical captures attack squares. Check, pins and castling safety are therefore decided by classical attack geometry — but a King's Step or a sideways or diagonal pawn step may block a check or give (discovered) check. For example, the classical Fool's Mate (1. f3 e5 2. g4 Qh4) is not mate: White can block with Ng1~f2, Bf1~f2, e2~f2, f3~g3 or h2~g3.
 
 ### Game end and draws
 
@@ -68,12 +70,12 @@ Following the current FIDE Laws:
 - **Automatic:** checkmate, stalemate, insufficient material, fivefold repetition, 75-move rule (checkmate on the 75th move still wins).
 - **On claim by the side to move:** threefold repetition and the 50-move rule (the "Claim draw" button appears when available).
 - A repeated position means the same placement, side to move, castling rights, legal en passant capture possibility and the same set of pawns that still have their two-square move.
-- The 50/75-move counters are reset by every capture and every pawn move, sideways steps included.
+- The 50/75-move counters are reset by every capture and every pawn move, sideways and diagonal steps included.
 - Insufficient material is declared only for K v K, K+N v K and K+B v K. The classical "bishops on the same colour" rule does not apply, because Asha bishops change colour.
 
 ### Notation
 
-Classical moves use standard algebraic notation (`e4`, `Nf3`, `exd5`, `e8=Q`, `O-O`, `+`, `#`). Asha moves always name their origin and use a tilde, so they can never be confused with SAN: King's Step `Nb1~b2`, pawn sideways step `e4~d4`. Moves are sent to the server in UCI form (`e2e4`, promotions as `e7e8q`).
+Classical moves use standard algebraic notation (`e4`, `Nf3`, `exd5`, `e8=Q`, `O-O`, `+`, `#`). Asha moves always name their origin and use a tilde, so they can never be confused with SAN: King's Step `Nb1~b2`, pawn sideways step `e4~d4`, pawn diagonal step `e4~d5` (`e7~f8=Q` when it promotes). Moves are sent to the server in UCI form (`e2e4`, promotions as `e7e8q`).
 
 ## Running the game
 
@@ -100,8 +102,8 @@ static/js/chess.js Renders server state; no rule logic
 tests/             pytest suite (movement, legality, game, perft, differential, API)
 ```
 
-- `asha` is a small dependency-free engine and the single source of truth. Attack geometry (`Board.is_attacked`) is kept separate from movement geometry (`Board.legal_moves`), which adds the non-capturing King's Step and pawn sideways step.
-- Every legal move carries a `kind`: `quiet`, `capture`, `en_passant`, `castling`, `kings_step` or `pawn_lateral`, plus an optional `promotion`. The UI only renders this metadata.
+- `asha` is a small dependency-free engine and the single source of truth. Attack geometry (`Board.is_attacked`) is kept separate from movement geometry (`Board.legal_moves`), which adds the non-capturing King's Step and the pawn's sideways and diagonal steps.
+- Every legal move carries a `kind`: `quiet`, `capture`, `en_passant`, `castling`, `kings_step`, `pawn_lateral` or `pawn_diagonal`, plus an optional `promotion`. The UI only renders this metadata.
 - Which pawns still have their two-square move (`Board.virgin`) is part of the position, used by move generation, repetition and FEN. FEN gets an optional seventh field listing those pawns' files (uppercase White, lowercase Black, `-` for none), e.g. `... w KQkq - 0 3 ABCFGHabcdefgh`. It is omitted when every pawn on its starting rank still has the right, so ordinary positions stay standard FEN.
 - The session cookie stores just the list of played moves (and a draw claim); the server replays and re-validates them on each request. Known limit: a browser cookie holds roughly 4 KB, i.e. several hundred plies; longer games would need server-side storage.
 - `Board` (`legal_moves`, `push`, `pop`, `fen`, `perft`) and `Game` are independent of Flask, so an engine or self-play loop can drive them directly.

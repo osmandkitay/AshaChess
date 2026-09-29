@@ -1,6 +1,6 @@
 """King safety: pins, checks, castling and en passant under Asha movement."""
 
-from asha import CASTLING, EN_PASSANT, KINGS_STEP, PAWN_LATERAL, QUIET, Board, Game, parse_square
+from asha import CASTLING, EN_PASSANT, KINGS_STEP, PAWN_DIAGONAL, PAWN_LATERAL, QUIET, Board, Game, parse_square
 from tests.helpers import targets, ucis
 
 # ---------------------------------------------------------------------- pins
@@ -24,13 +24,20 @@ def test_pinned_knight_may_only_kings_step_along_the_pin():
     assert targets("7k/8/8/8/8/2b5/3N4/4K3 w - - 0 1", "d2") == {}
 
 
-def test_pinned_pawn_cannot_step_sideways_off_the_pin_line():
+def test_pinned_pawn_cannot_step_sideways_or_diagonally_off_the_pin_line():
     assert targets("4r2k/8/8/8/8/8/4P3/4K3 w - - 0 1", "e2") == {"e3": QUIET, "e4": QUIET}
 
 
 def test_pawn_pinned_along_its_rank_may_step_sideways_along_the_pin():
     # Rook a5, pawn d5, king e5: stepping to c5 keeps the line blocked.
     assert targets("7k/8/8/r2PK3/8/8/8/8 w - - 0 1", "d5") == {"c5": PAWN_LATERAL}
+
+
+def test_pawn_pinned_diagonally_may_step_diagonally_along_the_pin():
+    # King a1, pawn b2, bishop e5: only the non-capturing step to c3 stays on the line.
+    assert targets("7k/8/8/4b3/8/8/1P6/K7 w - - 0 1", "b2") == {"c3": PAWN_DIAGONAL}
+    # With the bishop on c3 the same square is a classical capture instead.
+    assert targets("7k/8/8/8/8/2b5/1P6/K7 w - - 0 1", "b2") == {"c3": "capture"}
 
 
 # --------------------------------------------------------------------- checks
@@ -49,6 +56,13 @@ def test_pawn_sideways_step_can_give_check():
     played = game.play("b4c4")
     assert played.move.kind == PAWN_LATERAL
     assert played.check and played.notation == "b4~c4+"
+
+
+def test_pawn_diagonal_step_can_give_check():
+    game = Game("8/8/5k2/8/3P4/8/8/K7 w - - 0 1")
+    played = game.play("d4e5")
+    assert played.move.kind == PAWN_DIAGONAL
+    assert played.check and played.notation == "d4~e5+"
 
 
 def test_kings_step_can_give_discovered_check():
@@ -70,8 +84,8 @@ def test_check_can_be_blocked_by_kings_step():
     assert targets("4k3/8/8/3b4/8/8/8/K3R3 b - - 0 1", "d5") == {"e4": QUIET, "e6": QUIET, "e5": KINGS_STEP}
 
 
-def test_check_can_be_blocked_by_pawn_sideways_step():
-    assert targets("4k3/8/3p4/8/8/8/8/K3R3 b - - 0 1", "d6") == {"e6": PAWN_LATERAL}
+def test_check_can_be_blocked_by_pawn_sideways_or_diagonal_step():
+    assert targets("4k3/8/3p4/8/8/8/8/K3R3 b - - 0 1", "d6") == {"e6": PAWN_LATERAL, "e5": PAWN_DIAGONAL}
 
 
 def test_kings_step_cannot_capture_the_checking_piece():
@@ -164,16 +178,30 @@ def test_en_passant_capture():
 def test_en_passant_right_expires_after_one_move():
     game = Game("4k3/3p4/8/4P3/8/8/8/4K3 b - - 0 1")
     game.play("d7d5")
-    assert "e5d6" in {m.uci() for m in game.legal_moves()}
+    assert targets(game.board.fen(), "e5")["d6"] == EN_PASSANT
     game.play("e1e2")
-    game.play("e8e7")
-    assert "e5d6" not in {m.uci() for m in game.legal_moves()}
+    game.play("e8f7")
+    # Later the same square is only a non-capturing diagonal step: d5 survives.
+    assert targets(game.board.fen(), "e5")["d6"] == PAWN_DIAGONAL
+    played = game.play("e5d6")
+    assert played.captured is None and played.notation == "e5~d6"
+    assert game.board.piece_at(parse_square("d5")) == "p"
+
+
+def test_diagonal_move_onto_the_en_passant_square_is_the_en_passant_capture():
+    moves = targets("4k3/8/8/3pP3/8/8/8/4K3 w - d6 0 2", "e5")
+    assert moves == {"d6": EN_PASSANT, "e6": QUIET, "f6": PAWN_DIAGONAL, "f5": PAWN_LATERAL}
 
 
 def test_sideways_step_next_to_a_pawn_creates_no_en_passant():
     game = Game("4k3/8/8/2p1P3/8/8/8/4K3 b - - 0 1")
     game.play("c5d5")
-    assert targets(game.board.fen(), "e5") == {"e6": QUIET, "f5": PAWN_LATERAL}
+    assert targets(game.board.fen(), "e5") == {
+        "e6": QUIET,
+        "f5": PAWN_LATERAL,
+        "d6": PAWN_DIAGONAL,
+        "f6": PAWN_DIAGONAL,
+    }
 
 
 def test_en_passant_that_exposes_own_king_is_illegal():

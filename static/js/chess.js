@@ -15,7 +15,9 @@ document.addEventListener('DOMContentLoaded', () => {
         en_passant: 'valid-capture',
         kings_step: 'valid-kings-step',
         pawn_lateral: 'valid-pawn-lateral',
+        pawn_diagonal: 'valid-pawn-lateral',
     };
+    const ASHA_KINDS = new Set(['kings_step', 'pawn_lateral', 'pawn_diagonal']);
     const TERMINATIONS = {
         checkmate: ['Checkmate', 'The king is checkmated.'],
         stalemate: ['Draw — Stalemate', 'The side to move has no legal moves and is not in check.'],
@@ -151,7 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (last) {
             squares[last.from].classList.add('last-move-from');
             squares[last.to].classList.add('last-move-to');
-            if (last.kind === 'kings_step' || last.kind === 'pawn_lateral') squares[last.to].classList.add('last-move-asha');
+            if (ASHA_KINDS.has(last.kind)) squares[last.to].classList.add('last-move-asha');
         }
         if (state.checkSquare) squares[state.checkSquare].classList.add('in-check');
     }
@@ -313,7 +315,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function notationSpan(entry) {
         const span = document.createElement('span');
-        span.className = `move-notation ${entry.kind === 'kings_step' || entry.kind === 'pawn_lateral' ? 'asha-move' : ''}`;
+        span.className = `move-notation ${ASHA_KINDS.has(entry.kind) ? 'asha-move' : ''}`;
         span.textContent = entry.notation;
         if (entry.uci) span.title = `${entry.uci} (${entry.kind.replace('_', ' ')})`;
         return span;

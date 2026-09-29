@@ -10,6 +10,7 @@ from asha import (
     FIVEFOLD_REPETITION,
     INSUFFICIENT_MATERIAL,
     KINGS_STEP,
+    PAWN_DIAGONAL,
     PAWN_LATERAL,
     SEVENTYFIVE_MOVES,
     STALEMATE,
@@ -47,8 +48,14 @@ def test_fools_mate_is_not_mate_because_of_kings_steps():
     assert game.outcome() is None
     assert game.history[-1].notation == "Qh4+"
     kinds = {m.uci(): m.kind for m in game.legal_moves()}
-    # Classically mate; in Asha four non-capturing moves block the diagonal.
-    assert kinds == {"g1f2": KINGS_STEP, "f1f2": KINGS_STEP, "e2f2": PAWN_LATERAL, "f3g3": PAWN_LATERAL}
+    # Classically mate; in Asha five non-capturing moves block the diagonal.
+    assert kinds == {
+        "g1f2": KINGS_STEP,
+        "f1f2": KINGS_STEP,
+        "e2f2": PAWN_LATERAL,
+        "f3g3": PAWN_LATERAL,
+        "h2g3": PAWN_DIAGONAL,
+    }
 
 
 def test_stalemate():
@@ -58,10 +65,10 @@ def test_stalemate():
     assert game.outcome() == Outcome(STALEMATE, None)
 
 
-def test_classical_stalemate_is_not_stalemate_when_a_pawn_can_step_sideways():
+def test_classical_stalemate_is_not_stalemate_when_a_pawn_can_step_sideways_or_diagonally():
     game = Game("7k/5Q2/6K1/p7/P7/8/8/8 b - - 0 1")
     assert game.outcome() is None
-    assert [m.uci() for m in game.legal_moves()] == ["a5b5"]
+    assert {m.uci(): m.kind for m in game.legal_moves()} == {"a5b5": PAWN_LATERAL, "a5b4": PAWN_DIAGONAL}
 
 
 def test_no_moves_after_game_over():
@@ -75,7 +82,7 @@ def test_no_moves_after_game_over():
 
 def test_illegal_and_malformed_moves_are_rejected():
     game = Game()
-    for bad in ("e2e5", "e2d3", "e1e2", "", "e2", "zz99", "e2e4x", "e7e5"):
+    for bad in ("e2e5", "e2c3", "e1e2", "", "e2", "zz99", "e2e4x", "e7e5"):
         with pytest.raises(IllegalMoveError):
             game.play(bad)
     assert game.history == []
@@ -207,6 +214,16 @@ def test_repetition_counts_double_step_rights():
     assert game.claimable_draws() == [THREEFOLD_REPETITION]
 
 
+def test_diagonal_step_spends_only_the_moving_pawns_double_step():
+    game = Game.replay(["e2d3", "f7g6"])
+    assert [(p.move.kind, p.notation) for p in game.history] == [(PAWN_DIAGONAL, "e2~d3"), (PAWN_DIAGONAL, "f7~g6")]
+    assert game.board.virgin == Board().virgin - {parse_square("e2"), parse_square("f7")}
+    assert game.board.fen() == "rnbqkbnr/ppppp1pp/6p1/8/8/3P4/PPPP1PPP/RNBQKBNR w KQkq - 0 2"
+    moves = {m.uci() for m in game.legal_moves()}
+    assert {"c2c4", "f2f4", "d3d4", "d3c4", "d3e4"} <= moves
+    assert "d3d5" not in moves
+
+
 # --------------------------------------------------------- fifty / seventy-five
 
 
@@ -245,6 +262,10 @@ def test_halfmove_clock_resets_on_every_pawn_move_and_capture():
     assert game.board.halfmove_clock == 1
     game.play("e3f3")  # black sideways step
     assert game.board.halfmove_clock == 0
+    game.play("a2a3")
+    assert game.board.halfmove_clock == 1
+    game.play("f3g2")  # black diagonal step
+    assert game.board.halfmove_clock == 0
 
 
 # ------------------------------------------------------------------- notation
@@ -282,6 +303,8 @@ def test_history_metadata():
         ("black", "Q", "quiet", None, "Qe6+", True),
         ("white", "N", "kings_step", None, "Nf3~e3", False),
     ]
+    game.play("e7f6")
+    assert (game.history[-1].move.kind, game.history[-1].notation) == ("pawn_diagonal", "e7~f6")
 
 
 def test_capture_promotion_notation_and_metadata():

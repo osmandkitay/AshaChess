@@ -22,8 +22,9 @@ def test_initial_state(client):
     state = client.get("/api/state").get_json()
     assert state["turn"] == "white"
     assert len(state["pieces"]) == 32 and state["pieces"]["e1"] == "K"
-    assert len(state["legalMoves"]) == 20
-    assert {m["kind"] for m in state["legalMoves"]} == {"quiet"}
+    assert len(state["legalMoves"]) == 34
+    kinds = [m["kind"] for m in state["legalMoves"]]
+    assert kinds.count("quiet") == 20 and kinds.count("pawn_diagonal") == 14 and len(set(kinds)) == 2
     assert state["history"] == [] and state["lastMove"] is None
     assert state["gameOver"] is False and state["result"] is None
     assert state["check"] is False and state["checkSquare"] is None
@@ -47,10 +48,14 @@ def test_asha_moves_carry_metadata(client):
     moves = {m["uci"]: m for m in state["legalMoves"]}
     assert moves["e4f4"]["kind"] == "pawn_lateral" and moves["e4f4"]["capture"] is False
     assert moves["e4d5"]["kind"] == "capture" and moves["e4d5"]["capture"] is True
-    assert "e4e3" not in moves and "e4f5" not in moves
+    assert moves["e4f5"]["kind"] == "pawn_diagonal" and moves["e4f5"]["capture"] is False
+    assert not {"e4e3", "e4d3", "e4f3"} & set(moves)
     state = play(client, "e4f4", "g8f6", "g1e2", "f6e6")
     assert [h["notation"] for h in state["history"]] == ["e4", "d5", "e4~f4", "Nf6", "Ne2", "Nf6~e6"]
     assert state["lastMove"]["kind"] == "kings_step"
+    state = play(client, "f4g5")
+    assert state["lastMove"]["kind"] == "pawn_diagonal" and state["lastMove"]["notation"] == "f4~g5"
+    assert state["lastMove"]["capture"] is False and state["lastMove"]["captured"] is None
 
 
 def test_sideways_pawn_step_spends_double_step_across_requests(client):
@@ -78,7 +83,7 @@ def test_check(client):
 
 
 def test_illegal_move_is_rejected_with_state(client):
-    for bad in ("e2e5", "e2d3", "e1e2", "nonsense", "e7e5"):
+    for bad in ("e2e5", "e2c3", "e1e2", "nonsense", "e7e5"):
         response = client.post("/api/move", json={"move": bad})
         assert response.status_code == 400
         body = response.get_json()
@@ -89,6 +94,7 @@ def test_pawn_cannot_move_backward_through_api(client):
     play(client, "e2e4", "a7a6")
     assert client.post("/api/move", json={"move": "e4e3"}).status_code == 400
     assert client.post("/api/move", json={"move": "e4d3"}).status_code == 400
+    assert client.post("/api/move", json={"move": "e4f3"}).status_code == 400
 
 
 def test_malformed_requests(client):
@@ -148,7 +154,7 @@ def test_reset_returns_fresh_state(client):
     response = client.post("/api/reset")
     assert response.status_code == 200
     state = response.get_json()
-    assert state["history"] == [] and state["gameOver"] is False and len(state["legalMoves"]) == 20
+    assert state["history"] == [] and state["gameOver"] is False and len(state["legalMoves"]) == 34
     assert client.get("/api/state").get_json() == state
 
 
