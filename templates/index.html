@@ -28,6 +28,16 @@
                 </div>
 
                 <div class="game-controls">
+                    <select id="opponent" class="control-select" aria-label="Opponent">
+                        <option value="human">Two players</option>
+                        <option value="black">Play vs AI (AI Black)</option>
+                        <option value="white">Play vs AI (AI White)</option>
+                    </select>
+                    <select id="ai-level" class="control-select" aria-label="AI level">
+                        <option value="easy">Easy</option>
+                        <option value="medium" selected>Medium</option>
+                        <option value="hard">Hard</option>
+                    </select>
                     <button id="reset-button" class="reset-btn">Reset Game</button>
                 </div>
             </div>
@@ -132,6 +142,7 @@
         </div>
     </div>
 
+    <script src="{{ url_for('static', filename='js/asha-ai.js') }}"></script>
     <script src="{{ url_for('static', filename='js/chess.js') }}"></script>
 </body>
 </html>

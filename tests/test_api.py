@@ -1,5 +1,7 @@
 """HTTP API: the full game flow as the frontend uses it."""
 
+from asha import Board
+
 PROMOTION_LINE = ["a2a4", "h7h5", "a4a5", "h5h4", "a5a6", "h4h3", "a6b7", "h3g2"]
 SCHOLARS_MATE = ["e2e4", "e7e5", "f1c4", "b8c6", "d1h5", "g8f6", "h5f7"]
 
@@ -177,3 +179,48 @@ def test_forged_cookie_is_ignored(client):
     play(client, "e2e4")
     client.set_cookie("session", "forged.value.here", domain="localhost")
     assert client.get("/api/state").get_json()["history"] == []
+
+
+def test_engine_position_starts_after_last_pawn_move_or_capture(client):
+    state = play(client, "e2e4", "d7d5", "e4e5", "f7f5", "g1f3", "b8c6", "f3g1")
+    assert state["enginePosition"] == {
+        "fen": "rnbqkbnr/ppp1p1pp/8/3pPp2/8/8/PPPP1PPP/RNBQKBNR w KQkq f6 0 3",
+        "moves": ["g1f3", "b8c6", "f3g1"],
+    }
+    # The rebuilt position is untouched by computing the engine position.
+    assert client.get("/api/state").get_json() == state
+
+
+def test_engine_position_drops_the_double_step_field(client):
+    state = play(client, "e2d3", "a7a6", "d2e2")
+    assert state["fen"].endswith(" ABCFGHbcdefgh")
+    assert state["enginePosition"] == {"fen": state["fen"].rsplit(" ", 1)[0], "moves": []}
+
+
+def test_engine_position_absent_when_game_over(client):
+    assert play(client, *SCHOLARS_MATE)["enginePosition"] is None
+
+
+def test_pages_are_cross_origin_isolated(client):
+    response = client.get("/")
+    assert response.headers["Cross-Origin-Opener-Policy"] == "same-origin"
+    assert response.headers["Cross-Origin-Embedder-Policy"] == "require-corp"
+
+
+def test_server_rejects_engine_moves_that_asha_forbids(client):
+    # Fairy-Stockfish grants the double step by square, so it may propose e2e4 for a
+    # pawn that already stepped sideways; the server stays the referee.
+    before = play(client, "e2d3", "a7a6", "d2e2", "a6a5")
+    response = client.post("/api/move", json={"move": "e2e4"})
+    assert response.status_code == 400
+    assert response.get_json()["state"] == before
+    assert client.get("/api/state").get_json() == before
+
+
+def test_engine_position_moves_replay_from_its_fen(client):
+    state = play(client, "e2e4", "e7e5", "g1f3", "b8c6", "f3g1", "c6b8", "g1f3")
+    position = state["enginePosition"]
+    board = Board(position["fen"])
+    for uci in position["moves"]:
+        board.push(next(m for m in board.legal_moves() if m.uci() == uci))
+    assert board.fen() == state["fen"]

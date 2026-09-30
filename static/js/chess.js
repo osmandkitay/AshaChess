@@ -46,6 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const promotionEl = document.getElementById('promotion-popup');
     const promotionChoices = document.getElementById('promotion-choices');
     const gameOverEl = document.getElementById('game-over-popup');
+    const opponentEl = document.getElementById('opponent');
+    const levelEl = document.getElementById('ai-level');
 
     let state = null;
     let selected = null;
@@ -53,6 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let suppressClick = false;
     let gameOverDismissed = false;
     let busy = false; // one request at a time, so responses cannot arrive out of order
+    let aiThinking = false;
+    let aiLoaded = false;
     const squares = {};
 
     // ---------------------------------------------------------------- popups
@@ -101,8 +105,84 @@ document.addEventListener('DOMContentLoaded', () => {
         api(path, body)
             .then(render)
             .catch((error) => { messageEl.textContent = error.message; })
-            .finally(() => { busy = false; });
+            .finally(() => {
+                busy = false;
+                maybeAiMove();
+            });
     }
+
+    // ------------------------------------------------------------------- AI
+
+    // The engine only picks among state.legalMoves; the server validates the move.
+    async function maybeAiMove() {
+        if (!state || busy || aiThinking || state.gameOver || state.turn !== aiColor()) return;
+        const searched = state;
+        const color = aiColor();
+        let stale = false;
+        aiThinking = true;
+        messageEl.textContent = aiLoaded ? 'AI is thinking…' : 'Loading AI…';
+        try {
+            let move = await window.AshaAI.bestMove(searched, levelEl.value);
+            aiLoaded = true;
+            if (state !== searched || aiColor() !== color) { // reset, or opponent changed meanwhile
+                stale = true;
+                return;
+            }
+            if (!move) {
+                console.warn('Engine offered no legal move; playing a random one.');
+                move = searched.legalMoves[Math.floor(Math.random() * searched.legalMoves.length)].uci;
+            }
+            aiThinking = false;
+            run('/api/move', { move });
+        } catch (error) {
+            disableAi(error.message);
+        } finally {
+            aiThinking = false;
+            if (stale) {
+                messageEl.textContent = '';
+                maybeAiMove();
+            }
+        }
+    }
+
+    // Two players always works; the AI switches itself off where it cannot run.
+    function disableAi(reason) {
+        opponentEl.value = 'human';
+        messageEl.textContent = `AI unavailable: ${reason}`;
+        if (state) render(state);
+    }
+
+    function prepareAi() {
+        if (!aiColor()) return;
+        window.AshaAI.load().then(() => { aiLoaded = true; }, (error) => disableAi(error.message));
+    }
+
+    function saveSettings() {
+        try {
+            localStorage.setItem('asha-ai', JSON.stringify({ opponent: opponentEl.value, level: levelEl.value }));
+        } catch (e) { /* storage unavailable: settings last for this page only */ }
+    }
+
+    try {
+        const saved = JSON.parse(localStorage.getItem('asha-ai') || '{}');
+        if (saved.opponent) opponentEl.value = saved.opponent;
+        if (saved.level) levelEl.value = saved.level;
+    } catch (e) { /* ignore */ }
+    const unsupported = window.AshaAI.unsupportedReason();
+    if (unsupported) {
+        opponentEl.querySelectorAll('option:not([value="human"])').forEach((option) => { option.disabled = true; });
+        opponentEl.title = `AI unavailable: ${unsupported}`;
+        opponentEl.value = 'human';
+    }
+    opponentEl.addEventListener('change', () => {
+        saveSettings();
+        messageEl.textContent = '';
+        if (state) render(state);
+        prepareAi();
+        maybeAiMove();
+    });
+    levelEl.addEventListener('change', saveSettings);
+    prepareAi();
 
     function resetGame() {
         gameOverDismissed = false;
@@ -128,7 +208,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
+    function aiColor() {
+        return opponentEl.value === 'human' ? null : opponentEl.value;
+    }
+
     function movesFrom(from) {
+        if (state.turn === aiColor()) return []; // the AI's pieces cannot be moved by hand
         return state.legalMoves.filter((m) => m.from === from);
     }
 
@@ -165,7 +250,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     boardEl.addEventListener('pointerdown', (e) => {
         const from = e.target.closest('.square')?.dataset.square;
-        if (!state || busy || e.button !== 0 || !from || !movesFrom(from).length) return;
+        if (!state || busy || aiThinking || e.button !== 0 || !from || !movesFrom(from).length) return;
         drag = { from, x: e.clientX, y: e.clientY, ghost: null };
     });
 
@@ -223,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function onSquareClick(name) {
-        if (!state || busy) return;
+        if (!state || busy || aiThinking) return;
         if (selected) {
             const candidates = movesBetween(selected, name);
             if (candidates.length) {

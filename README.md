@@ -108,6 +108,8 @@ asha/board.py      Rules engine: position, FEN, attack geometry, move generation
 asha/game.py       Game: history, repetition, termination and draw claims
 app.py             Flask app: JSON API and session handling only
 static/js/chess.js Renders server state; no rule logic
+static/js/asha-ai.js  Browser opponent: Fairy-Stockfish (WebAssembly) set up for Asha
+static/vendor/fairy-stockfish/  Unmodified Fairy-Stockfish WASM build (GPL-3.0)
 tests/             pytest suite (movement, legality, game, perft, differential, API)
 ```
 
@@ -116,6 +118,16 @@ tests/             pytest suite (movement, legality, game, perft, differential, 
 - Which pawns still have their two-square move (`Board.virgin`) is part of the position, used by move generation, repetition and FEN. FEN gets an optional seventh field listing those pawns' files (uppercase White, lowercase Black, `-` for none), e.g. `... w KQkq - 0 3 ABCFGHabcdefgh`. It is omitted when every pawn on its starting rank still has the right, so ordinary positions stay standard FEN.
 - The session cookie stores just the list of played moves (and a draw claim); the server replays and re-validates them on each request. Known limit: a browser cookie holds roughly 4 KB, i.e. several hundred plies; longer games would need server-side storage.
 - `Board` (`legal_moves`, `push`, `pop`, `fen`, `perft`) and `Game` are independent of Flask, so an engine or self-play loop can drive them directly.
+
+### Playing against the AI
+
+The opponent runs in the player's browser: Fairy-Stockfish compiled to WebAssembly, configured as an Asha variant (`static/js/asha-ai.js`). It is loaded only when an AI opponent is chosen, and it only *suggests* moves:
+
+- It starts from `enginePosition` (the FEN after the last pawn move or capture, plus the piece moves since), because it cannot replay every Asha pawn move faithfully.
+- Its search is restricted at the root to the server's `legalMoves` (`go searchmoves ...`), since it grants the two-square pawn move by square rather than by whether the pawn has moved.
+- The chosen move is posted to `/api/move` like a human move, so the `asha` engine on the server remains the only referee.
+
+Levels: Easy (skill 0, 0.3 s), Medium (skill 8, 0.8 s), Hard (skill 20, 2 s). The threaded WebAssembly build needs a cross-origin isolated page, so every response carries `Cross-Origin-Opener-Policy: same-origin` and `Cross-Origin-Embedder-Policy: require-corp`; such pages cannot embed cross-origin resources that do not opt in. Browsers without WebAssembly threads and SIMD (roughly before iOS Safari 16.4 / Chrome 91) see the AI as unavailable, and the two-player game works as before.
 
 ### API
 
@@ -126,7 +138,7 @@ tests/             pytest suite (movement, legality, game, perft, differential, 
 | `POST /api/claim-draw` | `{"reason": "threefold_repetition" \| "fifty_moves"}` (optional) | game state, or 400 |
 | `POST /api/reset`      |                          | fresh game state |
 
-The game state contains `fen` (with the optional seventh field above), `turn`, `pieces`, `legalMoves`, `check`, `checkSquare`, `lastMove`, `history` (with notation and metadata), `gameOver`, `result`, `claimableDraws`, `halfmoveClock` and `fullmoveNumber`.
+The game state contains `fen` (with the optional seventh field above), `turn`, `pieces`, `legalMoves`, `check`, `checkSquare`, `lastMove`, `history` (with notation and metadata), `gameOver`, `result`, `claimableDraws`, `halfmoveClock`, `fullmoveNumber` and `enginePosition` (for the browser AI: the FEN after the last pawn move or capture plus the moves since; `null` once the game is over).
 
 ## Development
 

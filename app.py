@@ -57,6 +57,23 @@ def _played_json(ply: int, played: PlayedMove) -> dict:
     }
 
 
+def engine_position(game: Game) -> dict:
+    """Where a browser engine should start: the position after the last pawn
+    move or capture, plus the piece moves since.
+
+    Fairy-Stockfish cannot replay every Asha move faithfully (it reads a pawn's
+    diagonal step onto the en passant square as a non-capture), but it does
+    replay piece moves, and those still let it see repetitions. The FEN is the
+    standard six fields: the engine cannot read the double-step field.
+    """
+    board = game.board
+    undone = [board.pop() for _ in range(min(board.halfmove_clock, len(game.history)))]
+    fen = board.fen()
+    for move in reversed(undone):
+        board.push(move)
+    return {"fen": " ".join(fen.split()[:6]), "moves": [move.uci() for move in reversed(undone)]}
+
+
 def game_state(game: Game) -> dict:
     board = game.board
     outcome = game.outcome()
@@ -76,6 +93,7 @@ def game_state(game: Game) -> dict:
         "claimableDraws": game.claimable_draws(),
         "halfmoveClock": board.halfmove_clock,
         "fullmoveNumber": board.fullmove_number,
+        "enginePosition": None if outcome is not None else engine_position(game),
     }
 
 
@@ -102,6 +120,14 @@ def create_app(config: dict | None = None) -> Flask:
     app.config.update(config or {})
     if not app.secret_key:
         app.secret_key = _secret_key(app)
+
+    @app.after_request
+    def cross_origin_isolate(response):
+        # The browser engine runs threaded WebAssembly, which needs SharedArrayBuffer,
+        # which browsers only enable on cross-origin isolated pages.
+        response.headers["Cross-Origin-Opener-Policy"] = "same-origin"
+        response.headers["Cross-Origin-Embedder-Policy"] = "require-corp"
+        return response
 
     @app.get("/")
     def index():
