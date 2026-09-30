@@ -218,3 +218,27 @@ def test_difference_of_identical_samples_is_centred_on_zero():
     rows = [{"x": i % 3 == 0, "n": 1} for i in range(300)]
     d = difference(Bootstrap(rows, 400, "a"), Bootstrap(rows, 400, "b"), "x", "n")
     assert d.value == 0 and d.low < 0 < d.high
+
+
+# ---------------------------------------------------------------- moments
+
+
+def test_moment_candidates_skip_the_opening_classical_games_and_errors():
+    from lab.moments import candidates
+
+    games = [
+        _game(),  # ply 4: best 40 vs classical -200 -> flagged; ply 0 is an opening ply
+        _game(variant="chess"),
+        _game(error="EngineError: boom"),
+        _game(alternatives=[[4, "f3g5", -100]]),  # gap 140: not a moment
+    ]
+    assert [(g is games[0], ply) for g, ply in candidates(games, opening_plies=2)] == [(True, 4)]
+
+
+def test_notation_of_a_line_stops_at_the_first_move_asha_rejects():
+    from lab.moments import notation
+
+    assert notation(["e2e4"], ["e7e5", "g1f3", "b8c6"]) == ["e5", "Nf3", "Nc6"]
+    assert notation(["e2e4"], ["e7e5", "e4e5", "b8c6"]) == ["e5"]  # e4-e5 is blocked
+    assert notation([], ["g1f2"]) == []  # f2 is occupied
+    assert notation(["e2e4", "e7e5"], ["g1e2", "b8c6", "e2e3"]) == ["Ne2", "Nc6", "Ne2~e3"]

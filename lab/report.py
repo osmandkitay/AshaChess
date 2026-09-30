@@ -229,6 +229,13 @@ def build(run: Path, resamples: int) -> tuple[str, dict]:
     for game in games:
         (errors if "error" in game else by_variant).setdefault(game["variant"], []).append(game)
     rows = {v: [summarize(g, opening_plies, margin) for g in gs] for v, gs in by_variant.items()}
+    moments_file = run / "moments.json"
+    moments = json.loads(moments_file.read_text(encoding="utf-8")) if moments_file.exists() else None
+    if moments is not None and "asha" in rows:
+        confirmed = Counter(x["index"] for x in moments["moments"] if x["confirmed"])
+        for game, row in zip(by_variant["asha"], rows["asha"], strict=True):
+            row["confirmed"] = confirmed[game["index"]]
+            row["games_with_confirmed"] = confirmed[game["index"]] > 0
     boots = {v: Bootstrap(r, resamples, f"{cfg['seed']}:{v}") for v, r in rows.items()}
     variants = [v for v in ("asha", "chess") if v in rows]
     summary: dict = {"run": run.name, "config": cfg, "engine": config["engine"], "variants": {}}
@@ -373,6 +380,36 @@ def build(run: Path, resamples: int) -> tuple[str, dict]:
             f"{b.estimate('games_with_moment', 'games').fmt()} |"
         )
         w("")
+        if moments is not None:
+            m = moments["summary"]
+            share = m["confirmed"] / m["flagged"] if m["flagged"] else math.nan
+            w(f"**Re-checked at {m['nodes']:,} nodes** (lab/moments.py)\n")
+            w(
+                f"Of {m['flagged']} flagged moments, {m['confirmed']} ({100 * share:.0f} %) were confirmed by the "
+                f"bigger search; {m['puzzles']} of those have a single best move (at least {m['unique_gap']} cp "
+                "ahead of the second best) and make puzzles. Unflagged positions were not re-searched, so these "
+                "counts can only undercount.\n"
+            )
+            w("| | per 100 engine moves | games with at least one |")
+            w("|---|---|---|")
+            w(
+                f"| Confirmed Asha moment | {_per100(b, 'confirmed')} | "
+                f"{b.estimate('games_with_confirmed', 'games').fmt()} |"
+            )
+            w("")
+            tags = Counter(t for x in moments["moments"] if x["confirmed"] for t in x["tags"])
+            kinds = Counter(
+                x["best"]["kind"] + (f" ({x['best']['piece']})" if x["best"]["kind"] == "kings_step" else "")
+                for x in moments["moments"]
+                if x["confirmed"]
+            )
+            w("| Confirmed moments by theme | count |")
+            w("|---|---|")
+            for tag, count in tags.most_common():
+                w(f"| {tag} | {count} |")
+            for kind, count in kinds.most_common():
+                w(f"| move: {kind} | {count} |")
+            w("")
 
     if len(variants) == 2:
         w("## Pre-registered checks\n")
@@ -382,7 +419,7 @@ def build(run: Path, resamples: int) -> tuple[str, dict]:
         )
         w("| | condition | this run | verdict |")
         w("|---|---|---|---|")
-        for row in checks(boots["asha"], boots["chess"]):
+        for row in checks(boots["asha"], boots["chess"], confirmed=moments is not None):
             w("| " + " | ".join(row) + " |")
         w("")
 
@@ -412,11 +449,16 @@ def build(run: Path, resamples: int) -> tuple[str, dict]:
             "distinct_openings": distinct[v],
             "knuth_openings": vars(knuth[v]),
         }
+    if moments is not None:
+        summary["moments"] = moments["summary"]
     return "\n".join(out) + "\n", summary
 
 
-def checks(asha: Bootstrap, chess: Bootstrap) -> list[tuple[str, str, str, str]]:
-    """The hypotheses of lab/HYPOTHESES.md, each checked against its 95 % interval."""
+def checks(asha: Bootstrap, chess: Bootstrap, confirmed: bool = False) -> list[tuple[str, str, str, str]]:
+    """The hypotheses of lab/HYPOTHESES.md, each checked against its 95 % interval.
+
+    With ``confirmed``, H3 is also checked on the re-checked moments (Amendment 1).
+    """
 
     def verdict(supported: bool, contradicted: bool) -> str:
         return "supported" if supported else "contradicted" if contradicted else "not supported"
@@ -441,6 +483,25 @@ def checks(asha: Bootstrap, chess: Bootstrap) -> list[tuple[str, str, str, str]]
     )
     e = asha.estimate("games_with_moment", "games")
     rows.append(("H3 (games)", "games with an Asha moment ≥ 25 %", e.fmt(), verdict(e.low >= 0.25, e.high < 0.25)))
+    if confirmed:
+        e = asha.estimate("confirmed", "engine_moves")
+        rows.append(
+            (
+                "H3 (rate, confirmed)",
+                "confirmed moments ≥ 1 per 100 engine moves",
+                _per100(asha, "confirmed"),
+                verdict(e.low >= 0.01, e.high < 0.01),
+            )
+        )
+        e = asha.estimate("games_with_confirmed", "games")
+        rows.append(
+            (
+                "H3 (games, confirmed)",
+                "games with a confirmed moment ≥ 25 %",
+                e.fmt(),
+                verdict(e.low >= 0.25, e.high < 0.25),
+            )
+        )
     d = difference(asha, chess, "decisive", "games")
     direction = "more decisive" if d.low > 0 else "fewer decisive" if d.high < 0 else "no clear difference"
     rows.append(("H4", "decisive games, Asha − classical (two-sided)", d.fmt("pp"), direction))

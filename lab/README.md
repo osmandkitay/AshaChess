@@ -22,10 +22,17 @@ Nothing here changes the game: the lab only reads `asha`, `app.py`,
    searches the moves it allows), python-chess referees classical chess.
    Both end games the same way (lab/rules.py).
 
+`moments.py` searches every flagged *Asha moment* (only an Asha move holds
+the position) again with ten times the nodes, keeps the confirmed ones and
+marks those with a single best move as puzzles (`moments.json`).
+
 `report.py` turns a run into `report.md` and `summary.json`: results, game
 shape, playable opening moves, how often Asha moves are played and how often
-only an Asha move holds the position, each with a 95 % bootstrap interval, and
-the pre-registered checks.
+only an Asha move holds the position (first pass and confirmed), each with a
+95 % bootstrap interval, and the pre-registered checks.
+
+`pgn.py` writes the games as PGN (`games-asha.pgn`, `games-chess.pgn`), so
+the numbers can be checked against the games themselves.
 
 ## Engine
 
@@ -43,7 +50,9 @@ Needs Python 3.10+ with `requirements-dev.txt` installed, and Node.js.
 
 ```
 python -m lab.selfplay --games 400 --nodes 20000 --seed 2 --out lab/runs/main
+python -m lab.moments lab/runs/main
 python -m lab.report lab/runs/main
+python -m lab.pgn lab/runs/main
 pytest lab/tests
 ```
 
