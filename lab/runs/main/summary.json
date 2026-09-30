@@ -1,0 +1,160 @@
+{
+  "run": "main",
+  "config": {
+    "variants": [
+      "asha",
+      "chess"
+    ],
+    "games": 400,
+    "nodes": 20000,
+    "opening_plies": 8,
+    "opening_depth": 10,
+    "margin": 30,
+    "max_plies": 600,
+    "hash_mb": 16,
+    "seed": 2
+  },
+  "engine": "Fairy-Stockfish [commit: b2e693ef, upstream: , emscripten: 2.0.26] LB",
+  "variants": {
+    "asha": {
+      "games": 400,
+      "errors": 0,
+      "metrics": {
+        "White wins": {
+          "value": 0.3975,
+          "low": 0.35,
+          "high": 0.445
+        },
+        "Draws": {
+          "value": 0.13,
+          "low": 0.0975,
+          "high": 0.1625
+        },
+        "Black wins": {
+          "value": 0.4725,
+          "low": 0.425,
+          "high": 0.52
+        },
+        "White score": {
+          "value": 0.4625,
+          "low": 0.4175,
+          "high": 0.50625
+        },
+        "Decisive games": {
+          "value": 0.87,
+          "low": 0.8375,
+          "high": 0.9025
+        },
+        "Game length (half-moves)": {
+          "value": 122.8225,
+          "low": 118.71,
+          "high": 127.1725
+        },
+        "Captures per game": {
+          "value": 23.525,
+          "low": 23.0125,
+          "high": 24.0025
+        },
+        "Checks per game": {
+          "value": 15.1575,
+          "low": 14.165,
+          "high": 16.33
+        },
+        "Move of the first capture": {
+          "value": 8.345959595959595,
+          "low": 8.055696202531646,
+          "high": 8.649746192893401
+        }
+      },
+      "terminations": {
+        "checkmate": 348,
+        "threefold_repetition": 40,
+        "fifty_moves": 1,
+        "insufficient_material": 11
+      },
+      "distinct_openings": 400,
+      "knuth_openings": {
+        "value": 22634203.22,
+        "low": 15161455.24,
+        "high": 31101595.64
+      }
+    },
+    "chess": {
+      "games": 400,
+      "errors": 0,
+      "metrics": {
+        "White wins": {
+          "value": 0.39,
+          "low": 0.3425,
+          "high": 0.4375
+        },
+        "Draws": {
+          "value": 0.25,
+          "low": 0.2075,
+          "high": 0.2925
+        },
+        "Black wins": {
+          "value": 0.36,
+          "low": 0.315,
+          "high": 0.4075
+        },
+        "White score": {
+          "value": 0.515,
+          "low": 0.47125,
+          "high": 0.55625
+        },
+        "Decisive games": {
+          "value": 0.75,
+          "low": 0.7075,
+          "high": 0.7925
+        },
+        "Game length (half-moves)": {
+          "value": 151.565,
+          "low": 146.645,
+          "high": 156.7225
+        },
+        "Captures per game": {
+          "value": 26.0975,
+          "low": 25.7575,
+          "high": 26.425
+        },
+        "Checks per game": {
+          "value": 14.02,
+          "low": 13.2025,
+          "high": 14.9125
+        },
+        "Move of the first capture": {
+          "value": 6.1075,
+          "low": 5.7925,
+          "high": 6.405
+        }
+      },
+      "terminations": {
+        "checkmate": 300,
+        "insufficient_material": 51,
+        "threefold_repetition": 23,
+        "stalemate": 3,
+        "fifty_moves": 23
+      },
+      "distinct_openings": 365,
+      "knuth_openings": {
+        "value": 40243.52,
+        "low": 32004.19,
+        "high": 50823.57
+      }
+    }
+  },
+  "moments": {
+    "nodes": 200000,
+    "moment_gap": 200,
+    "decided": 300,
+    "unique_gap": 150,
+    "games": 400,
+    "engine_moves": 45929,
+    "flagged": 720,
+    "confirmed": 337,
+    "puzzles": 206,
+    "games_with_confirmed": 203,
+    "confirmed_per_100_engine_moves": 0.7337412092577674
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "config": {
+    "variants": [
+      "asha",
+      "chess"
+    ],
+    "games": 400,
+    "nodes": 20000,
+    "opening_plies": 8,
+    "opening_depth": 10,
+    "margin": 30,
+    "max_plies": 600,
+    "hash_mb": 16,
+    "seed": 2
+  },
+  "engine": "Fairy-Stockfish [commit: b2e693ef, upstream: , emscripten: 2.0.26] LB",
+  "engine_options": {
+    "Threads": 1,
+    "Hash": 16,
+    "Use NNUE": false
+  },
+  "asha_variant": "[asha:chess]\ncustomPiece1 = p:fmWsmWfmFfceFifmnD\ncustomPiece2 = n:NmK\ncustomPiece3 = b:BmW\ncustomPiece4 = r:RmF\npawnTypes = p\npromotionPawnTypes = p\nenPassantTypes = p\nnMoveRuleTypes = p\ncastlingRookPieces = r\npromotionPieceTypes = qrbn",
+  "git_commit": "ca6cae968304fd4c0d09d5b13a597b8338f523db",
+  "git_dirty": false,
+  "python": "3.12.4",
+  "python_chess": "1.11.2",
+  "node": "v22.11.0",
+  "platform": "Windows-10-10.0.19045-SP0",
+  "started": "2026-09-30 20:28:57 +0300"
+}

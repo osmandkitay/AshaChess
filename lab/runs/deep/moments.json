@@ -1,0 +1,7831 @@
+{
+ "summary": {
+  "nodes": 1000000,
+  "moment_gap": 200,
+  "decided": 300,
+  "unique_gap": 150,
+  "games": 100,
+  "engine_moves": 11263,
+  "flagged": 135,
+  "confirmed": 82,
+  "puzzles": 51,
+  "games_with_confirmed": 48,
+  "confirmed_per_100_engine_moves": 0.7280475894521886
+ },
+ "moments": [
+  {
+   "index": 4,
+   "ply": 37,
+   "fen": "rb2k3/pp3p2/1Pp2p2/3P3p/1bB5/2P3P1/1P3PP1/R1B1K3 b Q - 0 19",
+   "to_move": "black",
+   "played": "b4b5",
+   "first_pass": {
+    "score": -293,
+    "classical": -535
+   },
+   "best": {
+    "move": "c6d5",
+    "kind": "capture",
+    "piece": "P",
+    "score": -577,
+    "depth": 13
+   },
+   "solution": [
+    "cxd5",
+    "Bxd5"
+   ],
+   "second": {
+    "move": "b4c5",
+    "kind": "quiet",
+    "score": -577
+   },
+   "classical": {
+    "move": "b4c5",
+    "score": -575,
+    "line": [
+     "Bc5",
+     "dxc6"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 4,
+   "ply": 40,
+   "fen": "rb2k3/pp3p2/1P3p2/1p1P3p/8/2P3P1/1P3PP1/R1B1K3 w Q - 0 21",
+   "to_move": "white",
+   "played": "d5c6",
+   "first_pass": {
+    "score": 484,
+    "classical": 273
+   },
+   "best": {
+    "move": "d5c6",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 715,
+    "depth": 15
+   },
+   "solution": [
+    "d5~c6",
+    "Bb8~c8"
+   ],
+   "second": {
+    "move": "c1e3",
+    "kind": "quiet",
+    "score": 444
+   },
+   "classical": {
+    "move": "c1e3",
+    "score": 446,
+    "line": [
+     "Be3",
+     "Kd7",
+     "b6~c6+",
+     "bxc6",
+     "dxc6+",
+     "Kxc6",
+     "Be3~f3+",
+     "Kb6",
+     "Bxa8",
+     "a7~b7",
+     "g2~f3",
+     "Bd6",
+     "Ba8~a7+",
+     "Kc6",
+     "b4",
+     "b5~c5",
+     "b4~c4"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 5,
+   "ply": 36,
+   "fen": "r3k2r/n1b1ppb1/2n3p1/pppq3p/6N1/1P2P1P1/1PNB1PP1/R2QKB1R w KQkq - 0 19",
+   "to_move": "white",
+   "played": "c2c3",
+   "first_pass": {
+    "score": -111,
+    "classical": -373
+   },
+   "best": {
+    "move": "c2c3",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": -121,
+    "depth": 16
+   },
+   "solution": [
+    "Nc2~c3",
+    "Qd7"
+   ],
+   "second": {
+    "move": "g4f4",
+    "kind": "kings_step",
+    "score": -263
+   },
+   "classical": {
+    "move": "g4h2",
+    "score": -449,
+    "line": [
+     "Nh2",
+     "Qxb3",
+     "Nc2~d3",
+     "Qxd1+",
+     "Rxd1",
+     "c4",
+     "Nd3~d4",
+     "Nxd4",
+     "exd4",
+     "Bxd4",
+     "Bf4",
+     "Bxf4",
+     "Rxd4",
+     "Bc1",
+     "Nf3",
+     "Ra8~b7",
+     "Rd4~c5",
+     "Bxb2",
+     "Rh4"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 5,
+   "ply": 55,
+   "fen": "2kr4/n2q1pb1/1bn2p2/p5pQ/1pB1N3/4P1PN/1P1B1PP1/R3K3 b Q - 0 28",
+   "to_move": "black",
+   "played": "g7g6",
+   "first_pass": {
+    "score": 451,
+    "classical": 135
+   },
+   "best": {
+    "move": "g7g6",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": 430,
+    "depth": 16
+   },
+   "solution": [
+    "Bg7~g6",
+    "Ne4~d5"
+   ],
+   "second": {
+    "move": "c6e5",
+    "kind": "quiet",
+    "score": 159
+   },
+   "classical": {
+    "move": "c6e5",
+    "score": 114,
+    "line": [
+     "Ne5",
+     "Qe2"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 7,
+   "ply": 38,
+   "fen": "1n2k3/Npp2p2/2p1b1p1/2b5/2P3Pr/1P1BP1R1/1P3P2/4K1N1 w - - 1 20 BFbc",
+   "to_move": "white",
+   "played": "a7a8",
+   "first_pass": {
+    "score": 15,
+    "classical": -201
+   },
+   "best": {
+    "move": "a7a8",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 22,
+    "depth": 17
+   },
+   "solution": [
+    "Na7~a8",
+    "Bxg4",
+    "Nxc7+",
+    "Kd8",
+    "Na8",
+    "Bd6",
+    "f4",
+    "Na6",
+    "Ng1~f2",
+    "Nc5",
+    "Bxg6",
+    "fxg6",
+    "Rxg4",
+    "Rxg4",
+    "Nxg4",
+    "Nxb3",
+    "Ng4~g5"
+   ],
+   "second": {
+    "move": "g4f5",
+    "kind": "pawn_diagonal",
+    "score": 0
+   },
+   "classical": {
+    "move": "a7c6",
+    "score": -191,
+    "line": [
+     "Nxc6",
+     "Nxc6"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 8,
+   "ply": 61,
+   "fen": "r2k4/ppp2p2/1n2b3/3p1P2/1P6/P2BN3/3P2P1/2R1K3 b - - 0 31 Gabcf",
+   "to_move": "black",
+   "played": "e6e5",
+   "first_pass": {
+    "score": -30,
+    "classical": -263
+   },
+   "best": {
+    "move": "e6e5",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": -30,
+    "depth": 16
+   },
+   "solution": [
+    "Be6~e5",
+    "b4~a5",
+    "Nd7",
+    "Nxd5",
+    "a7~b6",
+    "a6",
+    "bxa6",
+    "f6",
+    "Bxf6",
+    "Nxc7",
+    "Ne5",
+    "Bxa6",
+    "Rxa6",
+    "Nxa6",
+    "Nd3+",
+    "Kd1",
+    "Nxc1",
+    "Kxc1"
+   ],
+   "second": {
+    "move": "e6f6",
+    "kind": "kings_step",
+    "score": -53
+   },
+   "classical": {
+    "move": "e6d7",
+    "score": -227,
+    "line": [
+     "Bd7"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 9,
+   "ply": 63,
+   "fen": "r7/1p1pk3/4p3/1p1pPpbB/1P1P4/2P1P3/2PK4/6R1 b - - 2 32 C",
+   "to_move": "black",
+   "played": "e6f6",
+   "first_pass": {
+    "score": -30,
+    "classical": -268
+   },
+   "best": {
+    "move": "e6f6",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": -37,
+    "depth": 15
+   },
+   "solution": [
+    "e6~f6",
+    "exf6+",
+    "Bxf6",
+    "e3~f4",
+    "Rh8",
+    "Bg6",
+    "d7~e6",
+    "d4~e5",
+    "Bg7",
+    "Bxf5",
+    "Bxe5",
+    "fxe5",
+    "exf5",
+    "Rg7+",
+    "Ke6",
+    "c3~d4"
+   ],
+   "second": {
+    "move": "g5g4",
+    "kind": "kings_step",
+    "score": -144
+   },
+   "classical": {
+    "move": "a8g8",
+    "score": -358,
+    "line": [
+     "Rg8",
+     "Rxg5"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 9,
+   "ply": 79,
+   "fen": "7r/1Pp2k2/4pP2/1p1pP3/3P1Rp1/2P5/2PK4/8 b - - 2 40 C",
+   "to_move": "black",
+   "played": "e6f5",
+   "first_pass": {
+    "score": -191,
+    "classical": -405
+   },
+   "best": {
+    "move": "e6d6",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": -353,
+    "depth": 10
+   },
+   "solution": [
+    "e6~d6",
+    "Rxg4",
+    "dxe5",
+    "dxe5",
+    "c6",
+    "Rg7+",
+    "Ke6",
+    "f7",
+    "Kxe5",
+    "f7~g8=R",
+    "Rxg8",
+    "Rxg8"
+   ],
+   "second": {
+    "move": "c7d6",
+    "kind": "pawn_diagonal",
+    "score": -511
+   },
+   "classical": {
+    "move": "h8b8",
+    "score": -622,
+    "line": [
+     "Rb8",
+     "Rxg4"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 11,
+   "ply": 126,
+   "fen": "8/4k3/3Rp2r/4Pp2/2P1pP2/8/2K2p2/8 w - - 1 64",
+   "to_move": "white",
+   "played": "d6c7",
+   "first_pass": {
+    "score": -137,
+    "classical": -497
+   },
+   "best": {
+    "move": "d6c7",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": -324,
+    "depth": 12
+   },
+   "solution": [
+    "Rd6~c7+",
+    "Kd8",
+    "Rc7~b8+",
+    "Kc7",
+    "Rb8~a7+",
+    "Kb6",
+    "Ra1",
+    "Rh2",
+    "Kc3",
+    "Rh2~g3+",
+    "Kb4",
+    "f2~g1=B",
+    "Rxg1",
+    "Rxg1",
+    "e5~d6",
+    "Rg8",
+    "c5+",
+    "Kc6"
+   ],
+   "second": {
+    "move": "f4g5",
+    "kind": "pawn_diagonal",
+    "score": -546
+   },
+   "classical": {
+    "move": "d6d1",
+    "score": -782,
+    "line": [
+     "Rd1",
+     "Rh2"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "gives check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 13,
+   "ply": 42,
+   "fen": "b2q1b1r/3n1k2/2p1p2p/2p5/1p2NP2/4P3/1P3PP1/3QKB1R w K - 0 22",
+   "to_move": "white",
+   "played": "e4e5",
+   "first_pass": {
+    "score": 246,
+    "classical": -50
+   },
+   "best": {
+    "move": "e4e5",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 176,
+    "depth": 14
+   },
+   "solution": [
+    "Ne4~e5+",
+    "Ke7"
+   ],
+   "second": {
+    "move": "d1h5",
+    "kind": "quiet",
+    "score": -100
+   },
+   "classical": {
+    "move": "d1h5",
+    "score": 0,
+    "line": [
+     "Qh5+",
+     "Ke7",
+     "Qh4+",
+     "Ke8",
+     "Qh5+"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "gives check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 14,
+   "ply": 58,
+   "fen": "2k2b2/1pp1rNp1/8/5P2/P1p5/6P1/4Q2P/q2BK2R w K - 2 30",
+   "to_move": "white",
+   "played": "f5e6",
+   "first_pass": {
+    "score": 295,
+    "classical": -153
+   },
+   "best": {
+    "move": "f5e6",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 226,
+    "depth": 15
+   },
+   "solution": [
+    "f5~e6"
+   ],
+   "second": {
+    "move": "f7e6",
+    "kind": "kings_step",
+    "score": 106
+   },
+   "classical": {
+    "move": "f7d6",
+    "score": -87,
+    "line": [
+     "Nd6+"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 14,
+   "ply": 61,
+   "fen": "2k2b2/1pp1rNp1/4P3/8/P3Q3/3p2P1/7P/q2BK2R b K - 1 31",
+   "to_move": "black",
+   "played": "d3c2",
+   "first_pass": {
+    "score": -28,
+    "classical": -359
+   },
+   "best": {
+    "move": "d3c2",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": -61,
+    "depth": 14
+   },
+   "solution": [
+    "d3~c2",
+    "Nd6+",
+    "cxd6",
+    "Qxc2+",
+    "Kb8",
+    "O-O",
+    "Bf8~e8",
+    "Qf2",
+    "Qb1",
+    "Bc2",
+    "Qb4",
+    "Qe3",
+    "Re7~f6",
+    "Rxf6",
+    "gxf6",
+    "Qf2",
+    "Qc5",
+    "e7"
+   ],
+   "second": {
+    "move": "a1c3",
+    "kind": "quiet",
+    "score": -115
+   },
+   "classical": {
+    "move": "d3d2",
+    "score": 0,
+    "line": [
+     "d2+",
+     "Kxd2",
+     "Qa2+",
+     "Ke1",
+     "Qxe6",
+     "Qxe6+",
+     "Rxe6+",
+     "Be2",
+     "Bb4+",
+     "Kf2",
+     "Bc5+",
+     "Ke1",
+     "Bb4+"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 14,
+   "ply": 115,
+   "fen": "3k4/3p2p1/8/8/2r5/2p5/2R2P2/4K3 b - - 1 58 g",
+   "to_move": "black",
+   "played": "c4b3",
+   "first_pass": {
+    "score": 403,
+    "classical": 103
+   },
+   "best": {
+    "move": "c4b3",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": 523,
+    "depth": 16
+   },
+   "solution": [
+    "Rc4~b3",
+    "Kd1",
+    "c3~b2",
+    "Rc2~b1",
+    "Rb3~a2",
+    "Ke1",
+    "b2~c2",
+    "Rb8+",
+    "Ke7",
+    "Re8+",
+    "Kxe8"
+   ],
+   "second": {
+    "move": "c3b3",
+    "kind": "pawn_lateral",
+    "score": 433
+   },
+   "classical": {
+    "move": "g7g5",
+    "score": 308,
+    "line": [
+     "g5"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 15,
+   "ply": 59,
+   "fen": "2r5/2p1kpQ1/1p2b3/1p4Pr/2pR1P2/5PP1/PP2P3/4K3 b - - 2 30 ABcf",
+   "to_move": "black",
+   "played": "h5g6",
+   "first_pass": {
+    "score": -261,
+    "classical": -808
+   },
+   "best": {
+    "move": "h5g6",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": -205,
+    "depth": 13
+   },
+   "solution": [
+    "Rh5~g6",
+    "Qe5",
+    "b5~c5",
+    "f5",
+    "cxd4",
+    "fxg6",
+    "fxg6"
+   ],
+   "second": {
+    "move": "c7d6",
+    "kind": "pawn_diagonal",
+    "score": -823
+   },
+   "classical": {
+    "move": "h5h1",
+    "score": -874,
+    "line": [
+     "Rh1+",
+     "Kd2"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 16,
+   "ply": 38,
+   "fen": "2kr4/pp2bpp1/2p5/5pP1/4pP2/1PP1P3/1P1KQ1P1/2B4r w - - 1 20 BGabf",
+   "to_move": "white",
+   "played": "c3d4",
+   "first_pass": {
+    "score": -167,
+    "classical": -797
+   },
+   "best": {
+    "move": "c3d4",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": -153,
+    "depth": 14
+   },
+   "solution": [
+    "c3~d4",
+    "Bb4+",
+    "b2~c3",
+    "Bb4~b5",
+    "b3~c4",
+    "Bb5~a5",
+    "c4~b4",
+    "Ba5~a4",
+    "Bc1~c2",
+    "Ba4~a3",
+    "Bd1",
+    "f7~e6",
+    "b5",
+    "Rd5",
+    "bxc6"
+   ],
+   "second": {
+    "move": "e3d4",
+    "kind": "pawn_diagonal",
+    "score": -226
+   },
+   "classical": {
+    "move": "d2c2",
+    "score": -823,
+    "line": [
+     "Kc2",
+     "e4~d3+"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "answers check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 18,
+   "ply": 89,
+   "fen": "8/8/2kr3b/8/4p3/2P1P1R1/2P5/2K5 b - - 0 45",
+   "to_move": "black",
+   "played": "e4f4",
+   "first_pass": {
+    "score": 431,
+    "classical": 231
+   },
+   "best": {
+    "move": "e4f4",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": 464,
+    "depth": 15
+   },
+   "solution": [
+    "e4~f4",
+    "Rg1",
+    "fxe3",
+    "Kb2",
+    "e2",
+    "c3~d3",
+    "Bd2",
+    "Rb1",
+    "Kc5",
+    "Rh1",
+    "Rb6+",
+    "Ka2",
+    "e1=R",
+    "Rxe1",
+    "Bxe1",
+    "d3~e3",
+    "Kc4"
+   ],
+   "second": {
+    "move": "d6f6",
+    "kind": "quiet",
+    "score": 320
+   },
+   "classical": {
+    "move": "d6f6",
+    "score": 343,
+    "line": [
+     "Rf6"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 19,
+   "ply": 68,
+   "fen": "5b1r/1k4p1/RB4p1/4Np2/1n1P4/4P3/2P3PP/6K1 w - - 3 35 GHg",
+   "to_move": "white",
+   "played": "a6b5",
+   "first_pass": {
+    "score": 443,
+    "classical": 106
+   },
+   "best": {
+    "move": "a6b5",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": 503,
+    "depth": 15
+   },
+   "solution": [
+    "Ra6~b5",
+    "Ka6",
+    "d4~c4",
+    "Bd6",
+    "Nd7",
+    "Kb7",
+    "Bc5+",
+    "Kc7",
+    "Nd7~e6+",
+    "Kd7",
+    "Bxd6",
+    "Kxd6",
+    "Ne6~f7+",
+    "Kc6",
+    "Nxh8",
+    "Nxc2",
+    "g2~f2",
+    "Nc2~d2",
+    "Nxg6",
+    "Nxc4",
+    "Rxf5",
+    "Nd6",
+    "Rf8",
+    "Nd6~e6",
+    "Rf8~e7",
+    "Kd5",
+    "Rd7+",
+    "Kc5"
+   ],
+   "second": {
+    "move": "a6a4",
+    "kind": "quiet",
+    "score": 168
+   },
+   "classical": {
+    "move": "a6a4",
+    "score": 150,
+    "line": [
+     "Ra4",
+     "Kxb6"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 20,
+   "ply": 58,
+   "fen": "3k1b1r/3p1p1p/5Pp1/b4pP1/Npn5/4B1P1/1P3P2/2KR3R w - - 0 30 BFfh",
+   "to_move": "white",
+   "played": "g5h6",
+   "first_pass": {
+    "score": 261,
+    "classical": 45
+   },
+   "best": {
+    "move": "g5h6",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 316,
+    "depth": 17
+   },
+   "solution": [
+    "g5~h6",
+    "Nxe3",
+    "f6~g7",
+    "Bxg7",
+    "hxg7",
+    "Rg8",
+    "Rxh7",
+    "Rxg7",
+    "Rh8+",
+    "Ke7",
+    "fxe3",
+    "Rg7~f8",
+    "Rxd7+",
+    "Kxd7",
+    "Rxf8",
+    "Ke7",
+    "Rc8",
+    "Kd7",
+    "Rc4",
+    "Bc7",
+    "g3~f4",
+    "Bd6",
+    "Na4~b5"
+   ],
+   "second": {
+    "move": "e3e2",
+    "kind": "kings_step",
+    "score": 246
+   },
+   "classical": {
+    "move": "e3d4",
+    "score": 94,
+    "line": [
+     "Bd4",
+     "f5~e5"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 21,
+   "ply": 58,
+   "fen": "4kb1r/3n1p2/2p5/3bp3/p4p2/pP1P1N2/R1P1P1RP/3K1B2 w k - 0 30 CHf",
+   "to_move": "white",
+   "played": "b3c4",
+   "first_pass": {
+    "score": -92,
+    "classical": -352
+   },
+   "best": {
+    "move": "d3c4",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": -75,
+    "depth": 15
+   },
+   "solution": [
+    "d3~c4",
+    "Bxf3",
+    "exf3",
+    "a4~b4",
+    "c2~b2",
+    "Rh6",
+    "bxa3",
+    "bxa3",
+    "Rge2",
+    "Rd6+",
+    "Re2~d3",
+    "f4~e3",
+    "Rxd6",
+    "Bxd6",
+    "Bf1~e1"
+   ],
+   "second": {
+    "move": "b3c4",
+    "kind": "pawn_diagonal",
+    "score": -113
+   },
+   "classical": {
+    "move": "d1c1",
+    "score": -238,
+    "line": [
+     "Kc1",
+     "axb3"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 21,
+   "ply": 74,
+   "fen": "4k3/3n4/2p5/4ppR1/pbP3p1/p2P4/R1P1P3/3KB1r1 w - - 4 38 C",
+   "to_move": "white",
+   "played": "e2d2",
+   "first_pass": {
+    "score": -248,
+    "classical": -536
+   },
+   "best": {
+    "move": "e2d2",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": -334,
+    "depth": 12
+   },
+   "solution": [
+    "e2~d2",
+    "Rf1",
+    "d3~e4",
+    "fxe4",
+    "Rg8+",
+    "Kf7",
+    "Rxg4",
+    "Nd7~d6",
+    "Ke2",
+    "Rh1",
+    "Ra1",
+    "a3~b2",
+    "Rd1"
+   ],
+   "second": {
+    "move": "g5g8",
+    "kind": "quiet",
+    "score": -400
+   },
+   "classical": {
+    "move": "g5g8",
+    "score": -611,
+    "line": [
+     "Rg8+",
+     "Nf8"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 22,
+   "ply": 43,
+   "fen": "r2qkb2/1pb1np2/P3pn1r/p2pN3/Qp1P4/3PP3/1P1N1P2/R1B1KB1R b KQq - 0 22",
+   "to_move": "black",
+   "played": "a5b5",
+   "first_pass": {
+    "score": -68,
+    "classical": -516
+   },
+   "best": {
+    "move": "a5b5",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": -42,
+    "depth": 16
+   },
+   "solution": [
+    "a5~b5",
+    "Qxb5+",
+    "Bc7~c6",
+    "Nxc6",
+    "bxc6",
+    "Rxh6",
+    "cxb5",
+    "Rxf6",
+    "Ne7~d7",
+    "Rf4",
+    "Qb6",
+    "Bc1~d1",
+    "Bd6",
+    "Rh4",
+    "Rxa6",
+    "Rc1",
+    "Ra8",
+    "Rh4~g5",
+    "Nf6",
+    "d3~c3",
+    "Nf6~f5",
+    "Rg8+",
+    "Bf8"
+   ],
+   "second": {
+    "move": "b7c6",
+    "kind": "pawn_diagonal",
+    "score": -208
+   },
+   "classical": {
+    "move": "f6d7",
+    "score": -508,
+    "line": [
+     "Nd7",
+     "axb7"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "answers check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 22,
+   "ply": 45,
+   "fen": "r2qkb2/1pb1np2/P3pn1r/1Q1pN3/1p1P4/3PP3/1P1N1P2/R1B1KB1R b KQq - 0 23",
+   "to_move": "black",
+   "played": "c7c6",
+   "first_pass": {
+    "score": 0,
+    "classical": -275
+   },
+   "best": {
+    "move": "c7c6",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": -30,
+    "depth": 17
+   },
+   "solution": [
+    "Bc7~c6",
+    "Nxc6"
+   ],
+   "second": {
+    "move": "b7c6",
+    "kind": "pawn_diagonal",
+    "score": -230
+   },
+   "classical": {
+    "move": "f6d7",
+    "score": -323,
+    "line": [
+     "Nd7",
+     "Rxh6",
+     "Bxe5",
+     "dxe5",
+     "Bxh6",
+     "a7",
+     "Qb6",
+     "Qxb6",
+     "Nxb6",
+     "e5~d6",
+     "Nb6~b5",
+     "dxe7",
+     "Rxa7",
+     "Rb1",
+     "Kxe7",
+     "Rb1~c2",
+     "Nb5~c6",
+     "Rc5",
+     "Ke8",
+     "Rc5~d6"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "answers check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 23,
+   "ply": 56,
+   "fen": "4kb2/2bp2p1/4Pp2/8/3P1N2/1qP2P2/4QK2/8 w - - 0 29 d",
+   "to_move": "white",
+   "played": "e6d6",
+   "first_pass": {
+    "score": 15,
+    "classical": -252
+   },
+   "best": {
+    "move": "e6d6",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": 7,
+    "depth": 15
+   },
+   "solution": [
+    "e6~d6+",
+    "Kd8",
+    "dxc7+",
+    "Kxc7",
+    "Qa6",
+    "Bd6",
+    "Qa5+",
+    "Kc8",
+    "Nf4~e4",
+    "Qc2+",
+    "Ke3",
+    "Qc1+",
+    "Kd3",
+    "Qd1+",
+    "Kc4",
+    "d7~c7",
+    "Nxd6+",
+    "cxd6",
+    "Qa8+",
+    "Kd7"
+   ],
+   "second": {
+    "move": "e6d7",
+    "kind": "capture",
+    "score": -292
+   },
+   "classical": {
+    "move": "e2a6",
+    "score": -272,
+    "line": [
+     "Qa6",
+     "Bc7~b7"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 24,
+   "ply": 101,
+   "fen": "8/1k6/8/5K2/1p2N1p1/1P6/1P6/8 b - - 0 51",
+   "to_move": "black",
+   "played": "g4h3",
+   "first_pass": {
+    "score": -120,
+    "classical": -651
+   },
+   "best": {
+    "move": "g4h3",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 0,
+    "depth": 14
+   },
+   "solution": [
+    "g4~h3",
+    "Nd6+",
+    "Kb6",
+    "Nd6~d7+",
+    "Kb7",
+    "Nd7~d6+"
+   ],
+   "second": {
+    "move": "g4f3",
+    "kind": "pawn_diagonal",
+    "score": 0
+   },
+   "classical": {
+    "move": "b7c6",
+    "score": -840,
+    "line": [
+     "Kc6",
+     "Kxg4",
+     "Kd5",
+     "Ne4~d3",
+     "b4~c3",
+     "bxc3",
+     "Ke4",
+     "Nb4",
+     "Ke3",
+     "b3~a4",
+     "Kd2",
+     "Nd5",
+     "Kd3",
+     "Kf5",
+     "Kc4",
+     "Ke5",
+     "Kc5",
+     "a5",
+     "Kc6",
+     "a5~b6",
+     "Kb7",
+     "b6~c7",
+     "Kc8"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 24,
+   "ply": 106,
+   "fen": "k7/8/4K3/2N5/1p6/1P6/1P4p1/8 w - - 0 54",
+   "to_move": "white",
+   "played": "c5b6",
+   "first_pass": {
+    "score": 0,
+    "classical": -244
+   },
+   "best": {
+    "move": "c5b6",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 0,
+    "depth": 17
+   },
+   "solution": [
+    "Nc5~b6+",
+    "Kb7",
+    "Nb6~c5+",
+    "Kc6",
+    "Nc5~d4+",
+    "Kc5",
+    "Nd4~e4+",
+    "Kb6",
+    "Ne4~d5+",
+    "Kc5",
+    "Nd5~e4+"
+   ],
+   "second": {
+    "move": "b2a3",
+    "kind": "pawn_diagonal",
+    "score": -207
+   },
+   "classical": {
+    "move": "e6d5",
+    "score": -254,
+    "line": [
+     "Kd5",
+     "g2~f1=Q"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 24,
+   "ply": 108,
+   "fen": "8/1k6/1N2K3/8/1p6/1P6/1P4p1/8 w - - 2 55",
+   "to_move": "white",
+   "played": "b6c5",
+   "first_pass": {
+    "score": 0,
+    "classical": -276
+   },
+   "best": {
+    "move": "b6c5",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": -28,
+    "depth": 14
+   },
+   "solution": [
+    "Nb6~c5+",
+    "Kc6"
+   ],
+   "second": {
+    "move": "b6a5",
+    "kind": "kings_step",
+    "score": -258
+   },
+   "classical": {
+    "move": "b6c4",
+    "score": -327,
+    "line": [
+     "Nc4",
+     "g2~h1=Q",
+     "Ke5",
+     "Kb8",
+     "Nc4~d3",
+     "Qd1",
+     "Nd3~d4",
+     "Kc8",
+     "Ke4",
+     "Qc1",
+     "b3~c3",
+     "Qxb2",
+     "cxb4",
+     "Qxb4",
+     "Kd5"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 24,
+   "ply": 110,
+   "fen": "2k5/8/4K3/2N5/1p6/1P6/1P4p1/8 w - - 4 56",
+   "to_move": "white",
+   "played": "c5d6",
+   "first_pass": {
+    "score": 0,
+    "classical": -252
+   },
+   "best": {
+    "move": "c5d6",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 0,
+    "depth": 15
+   },
+   "solution": [
+    "Nc5~d6+",
+    "Kc7",
+    "Nd6~d5+",
+    "Kd8",
+    "Nd5~c6+",
+    "Ke8",
+    "Nc6~c7+",
+    "Kd8",
+    "Nc7~c6+"
+   ],
+   "second": {
+    "move": "c5b6",
+    "kind": "kings_step",
+    "score": -71
+   },
+   "classical": {
+    "move": "e6d5",
+    "score": -261,
+    "line": [
+     "Kd5",
+     "g2~f1=Q",
+     "Kd4",
+     "Qe2",
+     "Nc5~b6+",
+     "Kb7",
+     "Nc4",
+     "Qf2+",
+     "Kd3",
+     "Ka6",
+     "Nd2",
+     "Kb5",
+     "Kc2",
+     "Qe2",
+     "b3~c3",
+     "bxc3",
+     "bxc3"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "gives check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 24,
+   "ply": 112,
+   "fen": "1k6/8/3NK3/8/1p6/1P6/1P4p1/8 w - - 6 57",
+   "to_move": "white",
+   "played": "d6c6",
+   "first_pass": {
+    "score": 0,
+    "classical": -233
+   },
+   "best": {
+    "move": "d6c6",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 0,
+    "depth": 14
+   },
+   "solution": [
+    "Nd6~c6+",
+    "Kb7",
+    "Nc6~c5+",
+    "Ka7",
+    "Nc5~b5+",
+    "Kb7",
+    "Nd6+",
+    "Kb8",
+    "Nd6~d7+",
+    "Kc7",
+    "Nd7~e8+",
+    "Kd8",
+    "Ne8~f7+",
+    "Kc7",
+    "Nf7~e8+"
+   ],
+   "second": {
+    "move": "d6d7",
+    "kind": "kings_step",
+    "score": -71
+   },
+   "classical": {
+    "move": "e6d5",
+    "score": -231,
+    "line": [
+     "Kd5",
+     "g2~f1=Q",
+     "Nd6~c6+",
+     "Kc8",
+     "Nxb4",
+     "Qg2+",
+     "Kc4",
+     "Qxb2",
+     "Nb4~c5",
+     "Kc7",
+     "Nc5~d5+",
+     "Kd7",
+     "Nd5~c5+",
+     "Ke7",
+     "Nc5~d5+",
+     "Ke6",
+     "Nd5~d4+",
+     "Kf6",
+     "Nd4~e4+",
+     "Kf5",
+     "Ne4~d4+",
+     "Kg4"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "gives check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 24,
+   "ply": 116,
+   "fen": "1k6/8/3NK3/8/1p6/1P6/1P4p1/8 w - - 10 59",
+   "to_move": "white",
+   "played": "d6d7",
+   "first_pass": {
+    "score": 0,
+    "classical": -272
+   },
+   "best": {
+    "move": "d6d7",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 0,
+    "depth": 15
+   },
+   "solution": [
+    "Nd6~d7+",
+    "Kc7",
+    "Nd7~e8+",
+    "Kd8",
+    "Ne8~f7+",
+    "Kc7",
+    "Nf7~e8+"
+   ],
+   "second": {
+    "move": "d6c6",
+    "kind": "kings_step",
+    "score": -71
+   },
+   "classical": {
+    "move": "e6d5",
+    "score": -237,
+    "line": [
+     "Kd5",
+     "g2~f1=Q",
+     "Nd6~c6+",
+     "Kc7",
+     "Nxb4",
+     "Qg2+",
+     "Kc4",
+     "Qxb2",
+     "Nb4~b5+",
+     "Kd7",
+     "Nd4",
+     "Qg2",
+     "Kd3",
+     "Qd5",
+     "Kc3",
+     "Kd6",
+     "Nd4~c4+",
+     "Ke6",
+     "Kc2",
+     "Kf6",
+     "Nc4~d3"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "gives check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 24,
+   "ply": 118,
+   "fen": "8/2kN4/4K3/8/1p6/1P6/1P4p1/8 w - - 12 60",
+   "to_move": "white",
+   "played": "d7e8",
+   "first_pass": {
+    "score": 0,
+    "classical": -286
+   },
+   "best": {
+    "move": "d7e8",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 0,
+    "depth": 15
+   },
+   "solution": [
+    "Nd7~e8+",
+    "Kd8",
+    "Ne8~f7+",
+    "Kc7",
+    "Nf7~e8+"
+   ],
+   "second": {
+    "move": "d7c5",
+    "kind": "quiet",
+    "score": -321
+   },
+   "classical": {
+    "move": "d7e5",
+    "score": -321,
+    "line": [
+     "Ne5",
+     "g2~h1=Q",
+     "Ne5~d5+",
+     "Kd8",
+     "Kd6",
+     "Qd1",
+     "Kc5",
+     "Qxb3",
+     "Nxb4",
+     "Qxb2",
+     "Kc4",
+     "Qe2+",
+     "Kd4",
+     "Qg4+",
+     "Kc3",
+     "Ke7",
+     "Nd5+",
+     "Ke6",
+     "Nd5~c4",
+     "Qf4",
+     "Nc4~d3"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 24,
+   "ply": 120,
+   "fen": "3kN3/8/4K3/8/1p6/1P6/1P4p1/8 w - - 14 61",
+   "to_move": "white",
+   "played": "e8f7",
+   "first_pass": {
+    "score": 0,
+    "classical": -338
+   },
+   "best": {
+    "move": "e8f7",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 0,
+    "depth": 16
+   },
+   "solution": [
+    "Ne8~f7+",
+    "Kc7",
+    "Nf7~e8+",
+    "Kb6",
+    "Ne8~d7+",
+    "Kc7",
+    "Nd7~e8+"
+   ],
+   "second": {
+    "move": "e8d6",
+    "kind": "quiet",
+    "score": -320
+   },
+   "classical": {
+    "move": "e8d6",
+    "score": -351,
+    "line": [
+     "Nd6",
+     "g2~h1=Q",
+     "Nf7+",
+     "Kc7",
+     "Nf7~e8+",
+     "Kc6",
+     "Ne8~e7+",
+     "Kc5",
+     "Ne7~d7+",
+     "Kd4",
+     "b3~c3+",
+     "bxc3",
+     "bxc3+",
+     "Kxc3",
+     "Ke5",
+     "Qh5+",
+     "Kd6",
+     "Qg6+",
+     "Kd5",
+     "Qd3+",
+     "Kc6"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 24,
+   "ply": 122,
+   "fen": "8/2k2N2/4K3/8/1p6/1P6/1P4p1/8 w - - 16 62",
+   "to_move": "white",
+   "played": "f7e8",
+   "first_pass": {
+    "score": 0,
+    "classical": -281
+   },
+   "best": {
+    "move": "f7e8",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 0,
+    "depth": 15
+   },
+   "solution": [
+    "Nf7~e8+",
+    "Kd8",
+    "Ne8~f7+",
+    "Kc7",
+    "Nf7~e8+"
+   ],
+   "second": {
+    "move": "f7e5",
+    "kind": "quiet",
+    "score": -326
+   },
+   "classical": {
+    "move": "f7d6",
+    "score": -328,
+    "line": [
+     "Nd6",
+     "g1=Q",
+     "Nd6~d5+",
+     "Kd8",
+     "Kd6",
+     "Qg3+",
+     "Kc5",
+     "Qxb3",
+     "Nxb4",
+     "Qxb2",
+     "Kc4",
+     "Qe2+",
+     "Kd4",
+     "Qg4+",
+     "Kc3",
+     "Ke7",
+     "Nb4~c5",
+     "Kf7",
+     "Kc2",
+     "Qd4",
+     "Nd3"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 24,
+   "ply": 124,
+   "fen": "3kN3/8/4K3/8/1p6/1P6/1P4p1/8 w - - 18 63",
+   "to_move": "white",
+   "played": "e8f7",
+   "first_pass": {
+    "score": 0,
+    "classical": -337
+   },
+   "best": {
+    "move": "e8f7",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 0,
+    "depth": 16
+   },
+   "solution": [
+    "Ne8~f7+",
+    "Kc7",
+    "Nf7~e8+"
+   ],
+   "second": {
+    "move": "e8d6",
+    "kind": "quiet",
+    "score": -318
+   },
+   "classical": {
+    "move": "e8g7",
+    "score": -351,
+    "line": [
+     "Ng7",
+     "g2~h1=Q",
+     "Ng7~f7+",
+     "Kc7",
+     "Nf7~e8+",
+     "Kc6",
+     "Ne8~e7+",
+     "Kc5",
+     "Ne7~d7+",
+     "Kd4",
+     "b3~c3+",
+     "bxc3",
+     "bxc3+",
+     "Kxc3",
+     "Kd6",
+     "Qd1+",
+     "Ke6",
+     "Qe2+",
+     "Kd5",
+     "Qd2+",
+     "Kc6"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 24,
+   "ply": 126,
+   "fen": "8/2k2N2/4K3/8/1p6/1P6/1P4p1/8 w - - 20 64",
+   "to_move": "white",
+   "played": "f7e8",
+   "first_pass": {
+    "score": 0,
+    "classical": -301
+   },
+   "best": {
+    "move": "f7e8",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 0,
+    "depth": 14
+   },
+   "solution": [
+    "Nf7~e8+"
+   ],
+   "second": {
+    "move": "e6e5",
+    "kind": "quiet",
+    "score": -319
+   },
+   "classical": {
+    "move": "f7d6",
+    "score": -316,
+    "line": [
+     "Nd6",
+     "g1=Q",
+     "Nd6~d5+",
+     "Kd8",
+     "Nd5~c6+",
+     "Ke8",
+     "Kd5",
+     "Qg8+",
+     "Kc5",
+     "Qxb3",
+     "Nxb4",
+     "Qxb2",
+     "Kc4",
+     "Qe5",
+     "Kd3",
+     "Qg3+",
+     "Kd4",
+     "Qh4+",
+     "Kc3",
+     "Qe1+",
+     "Kb3",
+     "Kf7",
+     "Nb4~c4",
+     "Kf6",
+     "Nc4~d5+",
+     "Ke5",
+     "Nc3",
+     "Qe3"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 25,
+   "ply": 73,
+   "fen": "R2k4/3np3/6p1/3Np3/3n4/3P1PB1/1P1K1P2/1r6 b - - 1 37",
+   "to_move": "black",
+   "played": "d7c8",
+   "first_pass": {
+    "score": -108,
+    "classical": -458
+   },
+   "best": {
+    "move": "d7c8",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": -108,
+    "depth": 16
+   },
+   "solution": [
+    "Nd7~c8",
+    "Bxe5"
+   ],
+   "second": {
+    "move": "d7b8",
+    "kind": "quiet",
+    "score": -469
+   },
+   "classical": {
+    "move": "d7b8",
+    "score": -464,
+    "line": [
+     "Nb8",
+     "Rxb8+",
+     "Kd7",
+     "d3~e4",
+     "Rb1~c2+",
+     "Kd3",
+     "Rc2~b3+",
+     "Rxb3",
+     "Nxb3",
+     "Bxe5",
+     "g6~f6",
+     "Bf4",
+     "Nc5+",
+     "Kc4",
+     "Nc5~d6+",
+     "Bxd6",
+     "Kxd6",
+     "b4",
+     "f6~e6",
+     "b4~c5+",
+     "Kd7",
+     "Nd5~e5+",
+     "Kc7",
+     "Ne5~d4",
+     "e5",
+     "Ne6+",
+     "Kc6",
+     "e4~d5+",
+     "Kd7",
+     "c6+",
+     "Kd6"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "answers check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 26,
+   "ply": 22,
+   "fen": "2bqkb1r/1p1p1p2/2n1np2/2p1p2p/3pP3/1PPP1NP1/2PB1PP1/QN2KB1R w Kk - 1 12",
+   "to_move": "white",
+   "played": "e4d5",
+   "first_pass": {
+    "score": 330,
+    "classical": 46
+   },
+   "best": {
+    "move": "e4d5",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 91,
+    "depth": 15
+   },
+   "solution": [
+    "e4~d5",
+    "dxc3",
+    "Bd2~d1",
+    "Qa5",
+    "Qxa5",
+    "Nxa5",
+    "Nxc3",
+    "Ne6~d6",
+    "Na4",
+    "Na5~a6",
+    "Nd2",
+    "f7~g6",
+    "g4",
+    "Bc8~d8",
+    "g3",
+    "Ba5",
+    "gxh5"
+   ],
+   "second": {
+    "move": "d2d1",
+    "kind": "kings_step",
+    "score": 22
+   },
+   "classical": {
+    "move": "e1d1",
+    "score": 44,
+    "line": [
+     "Kd1",
+     "Ne6~e7"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 26,
+   "ply": 66,
+   "fen": "4k3/1p3p2/5p2/4p3/1bPp2p1/3P2P1/b1P1NPP1/3RKB1r w - - 0 34",
+   "to_move": "white",
+   "played": "c2d2",
+   "first_pass": {
+    "score": -68,
+    "classical": -432
+   },
+   "best": {
+    "move": "c2d2",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": -123,
+    "depth": 14
+   },
+   "solution": [
+    "c2~d2",
+    "e4",
+    "Nc1",
+    "Bb1",
+    "Rd1~e2",
+    "f5",
+    "f3",
+    "Bd6",
+    "f4",
+    "e3",
+    "d3~c3",
+    "Bd6~e6",
+    "cxd4",
+    "exd2+",
+    "Rxd2",
+    "Bxc4"
+   ],
+   "second": {
+    "move": "e2d2",
+    "kind": "kings_step",
+    "score": -316
+   },
+   "classical": {
+    "move": "c2c3",
+    "score": -523,
+    "line": [
+     "c3",
+     "dxc3"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "answers check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 26,
+   "ply": 79,
+   "fen": "4k3/1p3p2/8/4p3/1bPp2p1/1P1p2P1/1R1N1PP1/4KB1r b - - 4 40",
+   "to_move": "black",
+   "played": "d4c3",
+   "first_pass": {
+    "score": 1226,
+    "classical": 269
+   },
+   "best": {
+    "move": "d4c3",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 2323,
+    "depth": 16
+   },
+   "solution": [
+    "d4~c3",
+    "Ra2",
+    "cxd2+",
+    "Rxd2",
+    "d3~c2",
+    "Ke2",
+    "c1=Q",
+    "Rd6",
+    "Bxd6",
+    "f2~e3"
+   ],
+   "second": {
+    "move": "d3c3",
+    "kind": "pawn_lateral",
+    "score": 819
+   },
+   "classical": {
+    "move": "b4c3",
+    "score": 362,
+    "line": [
+     "Bc3"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 27,
+   "ply": 46,
+   "fen": "r1bk3r/1p6/4pPpp/1PbpPp2/8/2q2B1N/4QKPP/3R1B1R w - - 2 24",
+   "to_move": "white",
+   "played": "f3e3",
+   "first_pass": {
+    "score": 300,
+    "classical": -186
+   },
+   "best": {
+    "move": "f2g3",
+    "kind": "quiet",
+    "piece": "K",
+    "score": -31,
+    "depth": 15
+   },
+   "solution": [
+    "Kg3",
+    "Bc8~c7"
+   ],
+   "second": {
+    "move": "f3e3",
+    "kind": "kings_step",
+    "score": -369
+   },
+   "classical": {
+    "move": "f2g3",
+    "score": -117,
+    "line": [
+     "Kg3",
+     "g6~h5",
+     "Rd3",
+     "Rg8+",
+     "Nh3~g4",
+     "Qc4",
+     "Rxd5+",
+     "exd5",
+     "Qxc4",
+     "dxc4",
+     "Bxc4",
+     "hxg4",
+     "Bxg8",
+     "f4+",
+     "Kh4",
+     "gxf3",
+     "gxf3",
+     "Ra4",
+     "Rd1+",
+     "Kc7",
+     "Kh5"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "answers check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 27,
+   "ply": 87,
+   "fen": "3k4/B7/2p1p2p/3p4/5P2/2bN4/3p3P/3R2K1 b - - 1 44",
+   "to_move": "black",
+   "played": "d2e2",
+   "first_pass": {
+    "score": -68,
+    "classical": -284
+   },
+   "best": {
+    "move": "d2e2",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": -53,
+    "depth": 16
+   },
+   "solution": [
+    "d2~e2",
+    "Rb1",
+    "Bc3~c2",
+    "Nd3~d4",
+    "Bxb1",
+    "Nxe2",
+    "Kd7",
+    "Kf2",
+    "d5~c4",
+    "Ne2~d2",
+    "Bb1~c1",
+    "Nxc4",
+    "Bxf4",
+    "h2~g3",
+    "Bc7",
+    "Bd4",
+    "h6~g5",
+    "Nc4~b4",
+    "c6~d5"
+   ],
+   "second": {
+    "move": "d2c2",
+    "kind": "pawn_lateral",
+    "score": -69
+   },
+   "classical": {
+    "move": "d8e8",
+    "score": -261,
+    "line": [
+     "Ke8"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 28,
+   "ply": 48,
+   "fen": "7r/1rp1kp1p/5Np1/2p3P1/8/P1b5/2P1BPP1/4K2R w K - 3 25 FGcfh",
+   "to_move": "white",
+   "played": "e2d2",
+   "first_pass": {
+    "score": -182,
+    "classical": -611
+   },
+   "best": {
+    "move": "c2d2",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": -119,
+    "depth": 15
+   },
+   "solution": [
+    "c2~d2",
+    "Bxf6",
+    "gxf6+",
+    "Kxf6",
+    "Bd3",
+    "Rd8",
+    "f2~e2",
+    "Kg7",
+    "Rh4",
+    "c7~d6",
+    "e3",
+    "f6",
+    "Rc4",
+    "f6~e5",
+    "Bc2",
+    "Re7",
+    "Bc2~b2"
+   ],
+   "second": {
+    "move": "e2d2",
+    "kind": "kings_step",
+    "score": -173
+   },
+   "classical": {
+    "move": "e1f1",
+    "score": -611,
+    "line": [
+     "Kf1",
+     "Rb1+"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "answers check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 28,
+   "ply": 52,
+   "fen": "7r/2p1kp1p/5Np1/2p3P1/2b5/P7/2PBKPP1/1r5R w - - 7 27 FGcfh",
+   "to_move": "white",
+   "played": "c2d3",
+   "first_pass": {
+    "score": -211,
+    "classical": -559
+   },
+   "best": {
+    "move": "c2d3",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": -171,
+    "depth": 15
+   },
+   "solution": [
+    "c2~d3"
+   ],
+   "second": {
+    "move": "d2d3",
+    "kind": "kings_step",
+    "score": -491
+   },
+   "classical": {
+    "move": "e2f3",
+    "score": -565,
+    "line": [
+     "Kf3",
+     "Rxh1"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "answers check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 28,
+   "ply": 66,
+   "fen": "4r3/2p1Pp1p/4k1p1/8/1B2p3/P7/4KPP1/7r w - - 0 34",
+   "to_move": "white",
+   "played": "e7f8q",
+   "first_pass": {
+    "score": -154,
+    "classical": -602
+   },
+   "best": {
+    "move": "e7f8q",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": -215,
+    "depth": 14
+   },
+   "solution": [
+    "e7~f8=Q",
+    "Rxf8"
+   ],
+   "second": {
+    "move": "e7f8r",
+    "kind": "pawn_diagonal",
+    "score": -200
+   },
+   "classical": {
+    "move": "f2f4",
+    "score": -613,
+    "line": [
+     "f4",
+     "Rxe7"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 29,
+   "ply": 28,
+   "fen": "r2bkb2/1p1p1p1r/1qn1p2N/p1p5/2P2P2/1P2P3/1BPP1P2/R2QKB1R w KQq - 1 15 CDFbf",
+   "to_move": "white",
+   "played": "h6h5",
+   "first_pass": {
+    "score": 195,
+    "classical": -122
+   },
+   "best": {
+    "move": "h6h5",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 221,
+    "depth": 16
+   },
+   "solution": [
+    "Nh6~h5"
+   ],
+   "second": {
+    "move": "c4b5",
+    "kind": "pawn_diagonal",
+    "score": 83
+   },
+   "classical": {
+    "move": "f4f5",
+    "score": -6,
+    "line": [
+     "f5"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 29,
+   "ply": 86,
+   "fen": "8/1pk2b1Q/8/1R2p3/2P5/1PP2q2/4NP2/3r1K2 w - - 3 44",
+   "to_move": "white",
+   "played": "e2e1",
+   "first_pass": {
+    "score": 295,
+    "classical": null
+   },
+   "best": {
+    "move": "e2e1",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 208,
+    "depth": 19
+   },
+   "solution": [
+    "Ne2~e1",
+    "Kb8",
+    "Rxe5",
+    "Bf7~f6",
+    "Re3",
+    "Qxe3",
+    "fxe3",
+    "Bxc3",
+    "Qg8+",
+    "Ka7",
+    "Qf8",
+    "Rxe1+",
+    "Kf2",
+    "Ra1",
+    "Qc5+",
+    "Ka8",
+    "c4~d5",
+    "Be1+",
+    "Kf3",
+    "Ra5",
+    "Qc8+",
+    "Ka7",
+    "d6",
+    "Be1~d1+",
+    "Kf4",
+    "Bxb3"
+   ],
+   "second": null,
+   "classical": null,
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "answers check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 30,
+   "ply": 45,
+   "fen": "3bkb1r/pB3pp1/2pq2p1/3p4/B4P1P/4PQP1/P2P4/4K2R b Kk - 0 23",
+   "to_move": "black",
+   "played": "d8d7",
+   "first_pass": {
+    "score": 12,
+    "classical": -329
+   },
+   "best": {
+    "move": "d8d7",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": 0,
+    "depth": 14
+   },
+   "solution": [
+    "Bd8~d7",
+    "Qe2",
+    "Qe6",
+    "Rh2",
+    "Be7",
+    "Qa6",
+    "Bb4",
+    "Baxc6",
+    "O-O",
+    "Bxd7",
+    "Qxe3+",
+    "Kf1",
+    "Qxg3"
+   ],
+   "second": {
+    "move": "e8e7",
+    "kind": "quiet",
+    "score": -328
+   },
+   "classical": {
+    "move": "e8e7",
+    "score": -397,
+    "line": [
+     "Ke7"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 30,
+   "ply": 64,
+   "fen": "3k4/pB1bbpp1/2p1q3/5p2/3R3P/2P2QP1/Pr1P4/3BK3 w - - 3 33",
+   "to_move": "white",
+   "played": "d4e3",
+   "first_pass": {
+    "score": -157,
+    "classical": -423
+   },
+   "best": {
+    "move": "d4e3",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": -182,
+    "depth": 17
+   },
+   "solution": [
+    "Rd4~e3",
+    "f5~e4",
+    "Rxe4",
+    "Qh6",
+    "Re4~d3",
+    "Rxb7",
+    "Qxf7",
+    "Bd6",
+    "h5",
+    "Kc8",
+    "Qg6",
+    "Bd6~d5",
+    "Qxh6",
+    "gxh6",
+    "a3",
+    "Rb1",
+    "Rxd5",
+    "cxd5",
+    "h5~g6",
+    "Bf5"
+   ],
+   "second": {
+    "move": "f3e3",
+    "kind": "quiet",
+    "score": -430
+   },
+   "classical": {
+    "move": "f3e3",
+    "score": -419,
+    "line": [
+     "Qe3",
+     "Rxb7"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "answers check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 31,
+   "ply": 100,
+   "fen": "4k3/1p6/4p3/3p2rP/3Bp3/4R2P/2r3PK/8 w - - 3 51",
+   "to_move": "white",
+   "played": "e3f2",
+   "first_pass": {
+    "score": -158,
+    "classical": -448
+   },
+   "best": {
+    "move": "h3g3",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": -494,
+    "depth": 14
+   },
+   "solution": [
+    "h3~g3",
+    "Rxh5+",
+    "g3~h3",
+    "Rh5~g6",
+    "h3~g3",
+    "e4~f4",
+    "Rb3",
+    "fxg3+",
+    "Rxg3",
+    "Rh6+",
+    "Rh3",
+    "Rxh3+",
+    "Kxh3",
+    "Rc2~d3+",
+    "Kg4",
+    "Rxd4+",
+    "Kf3",
+    "Rd3+",
+    "Kf2",
+    "d5~e4",
+    "Kf1"
+   ],
+   "second": {
+    "move": "e3f2",
+    "kind": "kings_step",
+    "score": -509
+   },
+   "classical": {
+    "move": "h2h1",
+    "score": -566,
+    "line": [
+     "Kh1",
+     "Rc2~d1+"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 31,
+   "ply": 106,
+   "fen": "4k3/1p6/4p2P/3p3r/8/3p3P/5BPK/8 w - - 1 54",
+   "to_move": "white",
+   "played": "h6g7",
+   "first_pass": {
+    "score": -190,
+    "classical": -437
+   },
+   "best": {
+    "move": "h6g7",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": -557,
+    "depth": 12
+   },
+   "solution": [
+    "h6~g7",
+    "Kf7",
+    "g4",
+    "d3~c2",
+    "gxh5",
+    "Kxg7",
+    "h6+",
+    "Kg6",
+    "Bd4",
+    "c2~d1=Q",
+    "h6~g7",
+    "Qe2+",
+    "Kg3"
+   ],
+   "second": {
+    "move": "f2e3",
+    "kind": "quiet",
+    "score": -588
+   },
+   "classical": {
+    "move": "f2c5",
+    "score": -546,
+    "line": [
+     "Bc5",
+     "Kf7"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 32,
+   "ply": 46,
+   "fen": "r3kb2/2pp2p1/4p1p1/n1Pp1q2/5P2/B1B2Q2/P3KPPP/7R w q - 1 24 AFGHcg",
+   "to_move": "white",
+   "played": "c3d3",
+   "first_pass": {
+    "score": -115,
+    "classical": -339
+   },
+   "best": {
+    "move": "c3d3",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": -143,
+    "depth": 15
+   },
+   "solution": [
+    "Bc3~d3",
+    "Qf6",
+    "f4~e4",
+    "d5~c4",
+    "Bc2",
+    "Na5~b5",
+    "Qxf6",
+    "gxf6",
+    "a2~b2",
+    "Nxa3",
+    "bxa3",
+    "Rxa3",
+    "Rc1",
+    "Bxc5",
+    "Bc2~b2"
+   ],
+   "second": {
+    "move": "f4e4",
+    "kind": "pawn_lateral",
+    "score": -206
+   },
+   "classical": {
+    "move": "c3a5",
+    "score": -270,
+    "line": [
+     "Bxa5",
+     "Rxa5",
+     "Rc1",
+     "Ra4",
+     "Kf1",
+     "Rxf4",
+     "Qg3",
+     "Be7",
+     "c6",
+     "dxc6",
+     "Bxe7",
+     "Kxe7",
+     "Kg1",
+     "Kd7",
+     "Re1",
+     "Rc4",
+     "Qe3"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 32,
+   "ply": 65,
+   "fen": "5r2/2p2kp1/4p1p1/2pp4/8/4B1P1/1P2KPP1/8 b - - 1 33 FGcg",
+   "to_move": "black",
+   "played": "c5b4",
+   "first_pass": {
+    "score": 384,
+    "classical": 158
+   },
+   "best": {
+    "move": "c5b4",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 507,
+    "depth": 17
+   },
+   "solution": [
+    "c5~b4",
+    "Bc1",
+    "b3",
+    "Bc1~b1",
+    "Rb8",
+    "Ke3",
+    "b3~a3",
+    "Bxg6+",
+    "Kxg6",
+    "bxa3",
+    "Rb3+",
+    "Kd4",
+    "Rb3~a2",
+    "a3~b4",
+    "Rxf2",
+    "Ke5",
+    "Rf2~e1+",
+    "Kd4",
+    "Kf5",
+    "g2~h2",
+    "Re1~d2+",
+    "Ke3",
+    "Rxh2"
+   ],
+   "second": {
+    "move": "c5c4",
+    "kind": "quiet",
+    "score": 323
+   },
+   "classical": {
+    "move": "c5c4",
+    "score": 327,
+    "line": [
+     "c4",
+     "b2~c2"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 33,
+   "ply": 33,
+   "fen": "r1b1kb1Q/1pp1qpp1/2p5/3pP1P1/3NnPn1/P4N2/1P1P2P1/2RBKB2 b q - 0 17",
+   "to_move": "black",
+   "played": "c7d6",
+   "first_pass": {
+    "score": -17,
+    "classical": -223
+   },
+   "best": {
+    "move": "c7d6",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 112,
+    "depth": 15
+   },
+   "solution": [
+    "c7~d6"
+   ],
+   "second": {
+    "move": "c8d7",
+    "kind": "quiet",
+    "score": -200
+   },
+   "classical": {
+    "move": "c8d7",
+    "score": -207,
+    "line": [
+     "Bd7",
+     "d3",
+     "Ne4~e3",
+     "Bd1~d2",
+     "c5",
+     "Bxe3",
+     "Nxe3",
+     "g5~f6",
+     "gxf6",
+     "exf6",
+     "Nxg2+",
+     "Kf2",
+     "Qe3+",
+     "Kxg2",
+     "Qxc1",
+     "f6~g7",
+     "Qxb2+",
+     "Bf1~f2"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 33,
+   "ply": 76,
+   "fen": "4k3/8/2p3p1/8/1P4p1/P3b3/4N1P1/3r1BK1 w - - 7 39",
+   "to_move": "white",
+   "played": "g2f2",
+   "first_pass": {
+    "score": -283,
+    "classical": -516
+   },
+   "best": {
+    "move": "g2f2",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": -316,
+    "depth": 15
+   },
+   "solution": [
+    "g2~f2",
+    "Be3~d3"
+   ],
+   "second": {
+    "move": "g1h2",
+    "kind": "quiet",
+    "score": -586
+   },
+   "classical": {
+    "move": "g1h2",
+    "score": -594,
+    "line": [
+     "Kh2",
+     "Rxf1"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "answers check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 34,
+   "ply": 42,
+   "fen": "2bk3r/1p1rp1p1/1P3bp1/1n3p2/2N5/2P4P/2PBPBP1/R2K2R1 w - - 1 22",
+   "to_move": "white",
+   "played": "b6a7",
+   "first_pass": {
+    "score": 407,
+    "classical": 97
+   },
+   "best": {
+    "move": "b6a7",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 414,
+    "depth": 15
+   },
+   "solution": [
+    "b6~a7",
+    "Nxa7"
+   ],
+   "second": {
+    "move": "c2b2",
+    "kind": "pawn_lateral",
+    "score": 325
+   },
+   "classical": {
+    "move": "d1e1",
+    "score": 298,
+    "line": [
+     "Ke1",
+     "b7~a6"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 34,
+   "ply": 110,
+   "fen": "4k3/5R2/8/4N3/8/3P1P2/3K1p2/8 w - - 6 56",
+   "to_move": "white",
+   "played": "f7g8",
+   "first_pass": {
+    "score": 1490,
+    "classical": 126
+   },
+   "best": {
+    "move": "f7g8",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": 6215,
+    "depth": 19
+   },
+   "solution": [
+    "Rf7~g8+",
+    "Ke7",
+    "Ke2",
+    "Kd6",
+    "d4",
+    "Ke6",
+    "Re8+",
+    "Kd5",
+    "Rd8+",
+    "Ke6",
+    "Kxf2",
+    "Ke7",
+    "Rg8",
+    "Kf6",
+    "Re8",
+    "Kg7",
+    "d5",
+    "Kf6",
+    "d5~c6",
+    "Kg7"
+   ],
+   "second": {
+    "move": "e5d6",
+    "kind": "kings_step",
+    "score": 1562
+   },
+   "classical": {
+    "move": "d2e2",
+    "score": 838,
+    "line": [
+     "Ke2",
+     "f2~g1=R",
+     "Ne5~d6+",
+     "Kd8",
+     "Nd6~e6+",
+     "Ke8",
+     "Rf8+",
+     "Ke7",
+     "Rf8~g7+",
+     "Rxg7",
+     "Nxg7",
+     "Kf6",
+     "Nh5+",
+     "Kg5",
+     "Nh5~g4",
+     "Kf5",
+     "Ke3",
+     "Ke6",
+     "d3~c4",
+     "Kd7",
+     "Kd4",
+     "Kd6",
+     "Ng4~h5",
+     "Kc6",
+     "f3~g4",
+     "Kd6",
+     "g5"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "gives check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 35,
+   "ply": 39,
+   "fen": "r2b1k2/1pp2p2/2np2p1/p2Np3/2P3P1/3PPP2/1P1P1K2/RQB2n1r b - - 1 20",
+   "to_move": "black",
+   "played": "f1e1",
+   "first_pass": {
+    "score": 368,
+    "classical": 130
+   },
+   "best": {
+    "move": "f1e1",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 280,
+    "depth": 14
+   },
+   "solution": [
+    "Nf1~e1",
+    "Bc1~c2"
+   ],
+   "second": {
+    "move": "c6c5",
+    "kind": "kings_step",
+    "score": 156
+   },
+   "classical": {
+    "move": "e5e4",
+    "score": 90,
+    "line": [
+     "e4",
+     "dxe4",
+     "Ne5",
+     "Kg2",
+     "Nxd2",
+     "Bxd2",
+     "Rxb1",
+     "Rxb1",
+     "c6",
+     "Nf4",
+     "Nxc4",
+     "Rb1~c2",
+     "Nxd2",
+     "Rxd2",
+     "d6~e5",
+     "Nf4~g3",
+     "a5~b5"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 37,
+   "ply": 112,
+   "fen": "8/8/4p3/1k6/1PpK4/2P5/8/8 w - - 0 57",
+   "to_move": "white",
+   "played": "b4a4",
+   "first_pass": {
+    "score": 0,
+    "classical": -296
+   },
+   "best": {
+    "move": "b4a4",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": 0,
+    "depth": 17
+   },
+   "solution": [
+    "b4~a4+",
+    "Kxa4",
+    "Kxc4",
+    "e5",
+    "Kd3",
+    "Kb3",
+    "c4",
+    "e4+",
+    "Kxe4",
+    "Kxc4"
+   ],
+   "second": {
+    "move": "c3d3",
+    "kind": "pawn_lateral",
+    "score": -275
+   },
+   "classical": {
+    "move": "d4e5",
+    "score": -569,
+    "line": [
+     "Ke5",
+     "c4~b3",
+     "Kxe6",
+     "b3~c2",
+     "c3~d4",
+     "c2~b1=Q",
+     "d4~e5",
+     "Qe4",
+     "Kf6",
+     "Qd4",
+     "Ke6",
+     "Qe3",
+     "Kf6",
+     "Qc3",
+     "Kf5",
+     "Qxb4",
+     "e6",
+     "Qc4",
+     "Kf6",
+     "Qf4+",
+     "Ke7",
+     "Kc6",
+     "e6~f7"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 38,
+   "ply": 77,
+   "fen": "6k1/3pb1p1/2p3P1/8/P7/1Bp1P1K1/6P1/8 b - - 1 39 G",
+   "to_move": "black",
+   "played": "e7e6",
+   "first_pass": {
+    "score": 325,
+    "classical": -808
+   },
+   "best": {
+    "move": "c6d5",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 453,
+    "depth": 15
+   },
+   "solution": [
+    "c6~d5",
+    "Bxd5+"
+   ],
+   "second": {
+    "move": "e7e6",
+    "kind": "kings_step",
+    "score": 392
+   },
+   "classical": {
+    "move": "g8f8",
+    "score": -841,
+    "line": [
+     "Kf8",
+     "g6~h7"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "answers check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 39,
+   "ply": 18,
+   "fen": "2bqkb1r/1pp2pp1/1pn1pn2/5B1p/P1pP4/4PNP1/1PP2PP1/R1BQK2R w KQk - 0 10",
+   "to_move": "white",
+   "played": "f5f4",
+   "first_pass": {
+    "score": 185,
+    "classical": -52
+   },
+   "best": {
+    "move": "f5g5",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": 259,
+    "depth": 15
+   },
+   "solution": [
+    "Bf5~g5",
+    "Qd5"
+   ],
+   "second": {
+    "move": "f5f4",
+    "kind": "kings_step",
+    "score": 218
+   },
+   "classical": {
+    "move": "d4d5",
+    "score": -30,
+    "line": [
+     "d5",
+     "exf5",
+     "dxc6",
+     "Qxd1+",
+     "Kxd1",
+     "bxc6",
+     "Ne5",
+     "c6~d5",
+     "a4~b5",
+     "Bd6",
+     "Ra8",
+     "Ke7",
+     "e3~d4",
+     "Bxe5",
+     "dxe5",
+     "Ng4",
+     "Rxc8",
+     "Rxc8",
+     "Rxh5",
+     "Nxf2+",
+     "Ke2"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 39,
+   "ply": 38,
+   "fen": "2bqkb2/1pp2pp1/1p2p3/2n4Q/P1P2P2/3P2N1/1P3PP1/R1B2K2 w - - 1 20",
+   "to_move": "white",
+   "played": "f2e2",
+   "first_pass": {
+    "score": 233,
+    "classical": -18
+   },
+   "best": {
+    "move": "b2c2",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": 246,
+    "depth": 16
+   },
+   "solution": [
+    "b2~c2",
+    "Qd4",
+    "Ra3",
+    "g6",
+    "Qh2",
+    "Nc5~c6",
+    "Ng3~f3",
+    "Qg7",
+    "a4~b4",
+    "Qh6",
+    "Qxh6",
+    "Bxh6",
+    "Ra8",
+    "Kd8",
+    "b5",
+    "Nc6~d7",
+    "f4~g5",
+    "Bh6~h5",
+    "g5~h6",
+    "Bxf3"
+   ],
+   "second": {
+    "move": "f2e2",
+    "kind": "pawn_lateral",
+    "score": 213
+   },
+   "classical": {
+    "move": "h5e2",
+    "score": 73,
+    "line": [
+     "Qe2",
+     "Qxd3",
+     "Bc1~c2",
+     "Qxe2+",
+     "Nxe2",
+     "Nc5~b4",
+     "Bc2~c3",
+     "Nb4~b3",
+     "Rd1",
+     "Bd7",
+     "a4~b5",
+     "Na5",
+     "Ne2~d2",
+     "Na5~a4",
+     "Ra1",
+     "Nxc3",
+     "bxc3",
+     "b6~c5",
+     "Ne4",
+     "f5",
+     "Ne4~e5",
+     "Bd6",
+     "Ra8+",
+     "Bd7~d8"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 39,
+   "ply": 57,
+   "fen": "3bk3/2p3p1/2p1pp2/8/Qb1B1P2/1P6/4K1P1/R7 b - - 0 29",
+   "to_move": "black",
+   "played": "b4b5",
+   "first_pass": {
+    "score": -235,
+    "classical": -1081
+   },
+   "best": {
+    "move": "b4b5",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": -256,
+    "depth": 14
+   },
+   "solution": [
+    "Bb4~b5+",
+    "Qxb5",
+    "cxb5",
+    "Ra8",
+    "Kd7",
+    "Rb8",
+    "b5~a5",
+    "Rb5",
+    "g5",
+    "f4~e4",
+    "c7~d6",
+    "Rb7+",
+    "Kc6",
+    "Rb8",
+    "d6~c5",
+    "Rxd8",
+    "cxd4",
+    "Rxd4",
+    "a5~b5",
+    "Rd3"
+   ],
+   "second": {
+    "move": "b4d6",
+    "kind": "quiet",
+    "score": -1158
+   },
+   "classical": {
+    "move": "b4d6",
+    "score": -1183,
+    "line": [
+     "Bd6",
+     "Qxc6+",
+     "Ke7",
+     "Qc2",
+     "g7~f7",
+     "Ra8",
+     "Bd8~d7",
+     "Qc3",
+     "e5",
+     "fxe5",
+     "fxe5",
+     "Bxe5",
+     "Bxe5",
+     "Qxe5+",
+     "Be6",
+     "Qxc7+",
+     "Kf6",
+     "Qf4+",
+     "Kg6",
+     "b3~c4",
+     "Be6~f6"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 41,
+   "ply": 35,
+   "fen": "rn2k2b/2pq4/1pp3p1/2p1pP1p/2P1P3/1QP1P1P1/P1B1K2R/1N6 b q - 1 18 A",
+   "to_move": "black",
+   "played": "h8g8",
+   "first_pass": {
+    "score": -8,
+    "classical": -234
+   },
+   "best": {
+    "move": "h8g8",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": -28,
+    "depth": 14
+   },
+   "solution": [
+    "Bh8~g8",
+    "fxg6"
+   ],
+   "second": {
+    "move": "h8h7",
+    "kind": "kings_step",
+    "score": -90
+   },
+   "classical": {
+    "move": "g6f5",
+    "score": -107,
+    "line": [
+     "gxf5",
+     "Rxh5",
+     "Qg7",
+     "Rxf5",
+     "Qxg3",
+     "c4~d5",
+     "Bh8~g8",
+     "d5~e6",
+     "Qg2+",
+     "Kd1",
+     "c5~d5",
+     "exd5",
+     "Qxd5+",
+     "Qxd5",
+     "cxd5",
+     "Rxe5"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 43,
+   "ply": 62,
+   "fen": "1R6/3k1r1p/3p2p1/6n1/1P6/3N2P1/1PPp1P2/5K2 w - - 0 32",
+   "to_move": "white",
+   "played": "b8a7",
+   "first_pass": {
+    "score": 0,
+    "classical": -290
+   },
+   "best": {
+    "move": "b8a7",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": 0,
+    "depth": 13
+   },
+   "solution": [
+    "Rb8~a7+",
+    "Kc8",
+    "Ra8+",
+    "Kb7",
+    "Ra1",
+    "Re7",
+    "Nd3~d4",
+    "Re4",
+    "Nd4~c3",
+    "Rxb4",
+    "Ke2",
+    "Rxb2",
+    "Kxd2",
+    "Kb8"
+   ],
+   "second": {
+    "move": "d3c5",
+    "kind": "quiet",
+    "score": -479
+   },
+   "classical": {
+    "move": "d3c5",
+    "score": -513,
+    "line": [
+     "Nc5+",
+     "dxc5"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 44,
+   "ply": 29,
+   "fen": "4kb1r/1p1b3p/1p1p1qp1/3Pp3/1P2P1n1/2N2NP1/1P3PP1/Q3KB1R b Kk - 0 15",
+   "to_move": "black",
+   "played": "b6a6",
+   "first_pass": {
+    "score": -100,
+    "classical": -315
+   },
+   "best": {
+    "move": "e5d4",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": -243,
+    "depth": 14
+   },
+   "solution": [
+    "e5~d4",
+    "Nc3~c2",
+    "b6~a6",
+    "Ncxd4",
+    "d6~e5",
+    "Nd4~c5",
+    "Bxc5",
+    "bxc5",
+    "e5~f5",
+    "Bc4",
+    "fxe4",
+    "Bc4~d4",
+    "exf3",
+    "Bxf6",
+    "Nxf6",
+    "gxf3",
+    "Nxd5",
+    "Rh4"
+   ],
+   "second": {
+    "move": "b6a6",
+    "kind": "pawn_lateral",
+    "score": -296
+   },
+   "classical": {
+    "move": "f6d8",
+    "score": -320,
+    "line": [
+     "Qd8",
+     "Qa7"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 45,
+   "ply": 34,
+   "fen": "r2qkb1r/1p1n1pp1/1np1b1p1/3p2P1/N1PPN3/1Q2P1P1/1P2B2P/R1B1K2R w KQk - 0 18",
+   "to_move": "white",
+   "played": "e4f4",
+   "first_pass": {
+    "score": -94,
+    "classical": -385
+   },
+   "best": {
+    "move": "e4f4",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": -175,
+    "depth": 15
+   },
+   "solution": [
+    "Ne4~f4",
+    "dxc4",
+    "Qc2",
+    "Bb4+",
+    "b2~c3",
+    "c4~b3",
+    "Qb1",
+    "Rxa4",
+    "cxb4",
+    "Bf5",
+    "Bd3",
+    "Rxa1",
+    "Qxa1",
+    "Qe7",
+    "h4",
+    "Qxb4+",
+    "Kf2"
+   ],
+   "second": {
+    "move": "c4d5",
+    "kind": "capture",
+    "score": -261
+   },
+   "classical": {
+    "move": "e4c3",
+    "score": -274,
+    "line": [
+     "Nec3",
+     "dxc4",
+     "Qd1",
+     "Nd5",
+     "Bf3",
+     "Nxc3",
+     "bxc3",
+     "b5",
+     "Bxc6",
+     "Rxa4",
+     "Rxa4",
+     "bxa4",
+     "Qxa4",
+     "Bd6",
+     "Qa8",
+     "Qxa8"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 45,
+   "ply": 82,
+   "fen": "R3nk2/1r3p2/2pP2p1/2P5/5P2/4P3/7P/6K1 w - - 1 42 H",
+   "to_move": "white",
+   "played": "c5b6",
+   "first_pass": {
+    "score": 354,
+    "classical": 0
+   },
+   "best": {
+    "move": "c5b6",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 676,
+    "depth": 14
+   },
+   "solution": [
+    "c5~b6",
+    "Rd7",
+    "d6~c7",
+    "Rd1+",
+    "Kf2",
+    "g6~h6",
+    "Rxe8+",
+    "Kxe8",
+    "c8=Q+",
+    "Ke7",
+    "Qxc6"
+   ],
+   "second": {
+    "move": "a8c8",
+    "kind": "quiet",
+    "score": 293
+   },
+   "classical": {
+    "move": "a8c8",
+    "score": 196,
+    "line": [
+     "Rc8"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 46,
+   "ply": 96,
+   "fen": "3k4/3P4/3Rp3/1p3rP1/5P2/3P4/7K/8 w - - 1 49",
+   "to_move": "white",
+   "played": "d6c7",
+   "first_pass": {
+    "score": 609,
+    "classical": 134
+   },
+   "best": {
+    "move": "d6c7",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": 845,
+    "depth": 16
+   },
+   "solution": [
+    "Rd6~c7"
+   ],
+   "second": {
+    "move": "d6e7",
+    "kind": "kings_step",
+    "score": 596
+   },
+   "classical": {
+    "move": "g5g6",
+    "score": 230,
+    "line": [
+     "g6",
+     "Rxf4",
+     "g6~h7",
+     "Rh4+",
+     "Kg3",
+     "Rxh7",
+     "d7~e7+",
+     "Kxe7",
+     "Rd6~c7+",
+     "Kd6",
+     "Rxh7",
+     "b4",
+     "Rh8"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 46,
+   "ply": 98,
+   "fen": "8/2kP4/4p3/1p3rP1/5P2/3P4/7K/8 w - - 0 50",
+   "to_move": "white",
+   "played": "d7e8q",
+   "first_pass": {
+    "score": 616,
+    "classical": -275
+   },
+   "best": {
+    "move": "d7e8q",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 836,
+    "depth": 16
+   },
+   "solution": [
+    "d7~e8=Q",
+    "Rc5",
+    "g6",
+    "Rc2+",
+    "Kg3",
+    "Rc2~d1",
+    "Qe7+",
+    "Kc8",
+    "Qxe6+",
+    "Kd8",
+    "Qd5+",
+    "Ke7",
+    "f4~g5",
+    "Rg1+",
+    "Kf3"
+   ],
+   "second": {
+    "move": "d7e8r",
+    "kind": "pawn_diagonal",
+    "score": 35
+   },
+   "classical": {
+    "move": "g5g6",
+    "score": -394,
+    "line": [
+     "g6",
+     "Kxd7"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 47,
+   "ply": 24,
+   "fen": "r3kb1r/1pbpqpp1/2p3p1/p7/1P1n2n1/2PP1N1P/1PBN1PP1/R2QKB1R w KQkq - 3 13",
+   "to_move": "white",
+   "played": "d3e4",
+   "first_pass": {
+    "score": -165,
+    "classical": -375
+   },
+   "best": {
+    "move": "d2e2",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": -149,
+    "depth": 14
+   },
+   "solution": [
+    "Nd2~e2",
+    "Nxf3+",
+    "gxf3",
+    "Ng4~g5",
+    "Ne2~e3",
+    "f5",
+    "d3~e4",
+    "f4",
+    "Ne3~d4",
+    "f4~g3",
+    "fxg3",
+    "Bxg3+",
+    "Ke2",
+    "Ng5~f4+",
+    "Kd2"
+   ],
+   "second": {
+    "move": "d3e4",
+    "kind": "pawn_diagonal",
+    "score": -153
+   },
+   "classical": {
+    "move": "d2e4",
+    "score": -267,
+    "line": [
+     "Ne4"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "answers check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 47,
+   "ply": 34,
+   "fen": "r3kb1r/1pbpq1p1/2p2n2/p4p2/1P2B3/2P2N1P/1PQN1PP1/R3K1R1 w Qkq - 0 18",
+   "to_move": "white",
+   "played": "e4e3",
+   "first_pass": {
+    "score": -63,
+    "classical": -494
+   },
+   "best": {
+    "move": "e4e3",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": -62,
+    "depth": 15
+   },
+   "solution": [
+    "Be4~e3",
+    "f4"
+   ],
+   "second": {
+    "move": "f3g5",
+    "kind": "quiet",
+    "score": -535
+   },
+   "classical": {
+    "move": "f3g5",
+    "score": -500,
+    "line": [
+     "Ng5",
+     "fxe4",
+     "Ndxe4",
+     "Rh4",
+     "Ne4~e3",
+     "Rh5",
+     "Ng5~g6",
+     "Qe6",
+     "Rf1",
+     "Ne4",
+     "Nxf8",
+     "Kxf8",
+     "h3~g4",
+     "Rg5",
+     "Rh1",
+     "Ke7",
+     "g4~f5"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 47,
+   "ply": 36,
+   "fen": "r3kb1r/1pbpq1p1/2p2n2/p7/1P3p2/2P1BN1P/1PQN1PP1/R3K1R1 w Qkq - 0 19",
+   "to_move": "white",
+   "played": "e3e2",
+   "first_pass": {
+    "score": -137,
+    "classical": -515
+   },
+   "best": {
+    "move": "e3e2",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": -61,
+    "depth": 14
+   },
+   "solution": [
+    "Be3~e2",
+    "Bf8~f7",
+    "Nd4",
+    "g6",
+    "Nd4~e4",
+    "Nf6~e5",
+    "Nb3",
+    "b6",
+    "bxa5",
+    "bxa5",
+    "Nec5",
+    "Bxb3",
+    "Nxb3"
+   ],
+   "second": {
+    "move": "c2d3",
+    "kind": "quiet",
+    "score": -515
+   },
+   "classical": {
+    "move": "e1d1",
+    "score": -520,
+    "line": [
+     "Kd1",
+     "fxe3"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 47,
+   "ply": 54,
+   "fen": "r2k1b2/1p1p2p1/2p5/p5P1/1qBr1p2/7P/1P2QP2/R4KR1 w - - 2 28",
+   "to_move": "white",
+   "played": "c4c3",
+   "first_pass": {
+    "score": -37,
+    "classical": -332
+   },
+   "best": {
+    "move": "c4c3",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": 0,
+    "depth": 16
+   },
+   "solution": [
+    "Bc4~c3",
+    "f3",
+    "Qxf3",
+    "Qc4+",
+    "Qe2",
+    "Qxe2+",
+    "Kxe2",
+    "Re4+",
+    "f2~e3",
+    "Bc5",
+    "Rg3",
+    "a4",
+    "Bxg7",
+    "Bc5~b5+",
+    "Kf3",
+    "Re4~f5+",
+    "Rg3~f4",
+    "Rxf4+",
+    "exf4",
+    "Kc7",
+    "Kf2",
+    "Re8",
+    "g6"
+   ],
+   "second": {
+    "move": "c4d3",
+    "kind": "quiet",
+    "score": -385
+   },
+   "classical": {
+    "move": "c4d3",
+    "score": -373,
+    "line": [
+     "Bd3",
+     "Bc5",
+     "Bd3~c3",
+     "Qb3",
+     "Bxd4",
+     "Bc5~c4",
+     "Rc1",
+     "Qxh3+",
+     "Ke1",
+     "Bxe2",
+     "Kxe2",
+     "Qe6+",
+     "Kd1",
+     "f3",
+     "Rc1~d2",
+     "Qh3",
+     "g5~f6",
+     "f3~g2",
+     "Re1",
+     "gxf6",
+     "Bxf6+",
+     "Kc7"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 48,
+   "ply": 72,
+   "fen": "3r4/1p2kp2/3bp1p1/1B2Q1Pn/4B2P/2P3P1/8/qN2K3 w - - 7 37 b",
+   "to_move": "white",
+   "played": "b5c5",
+   "first_pass": {
+    "score": -161,
+    "classical": -1025
+   },
+   "best": {
+    "move": "b5c5",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": -242,
+    "depth": 15
+   },
+   "solution": [
+    "Bb5~c5",
+    "Qb2"
+   ],
+   "second": {
+    "move": "g5f6",
+    "kind": "pawn_diagonal",
+    "score": -799
+   },
+   "classical": {
+    "move": "e5d6",
+    "score": -1076,
+    "line": [
+     "Qxd6+",
+     "Kxd6",
+     "Bb5~b4+",
+     "Kc7",
+     "Be7",
+     "Rd5",
+     "Bf6",
+     "Nxg3",
+     "c4",
+     "Rd4",
+     "Be4~e5+",
+     "Kc8",
+     "Bxd4",
+     "Qxb1+",
+     "Kf2",
+     "Qd3",
+     "Ba7",
+     "Ng3~f4"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 48,
+   "ply": 80,
+   "fen": "8/4kp2/1p1r2p1/1Q3pP1/4B1nP/2P2P2/8/qN2K3 w - - 0 41 -",
+   "to_move": "white",
+   "played": "e4f4",
+   "first_pass": {
+    "score": -60,
+    "classical": -274
+   },
+   "best": {
+    "move": "e4d4",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": -110,
+    "depth": 15
+   },
+   "solution": [
+    "Be4~d4",
+    "Ng4~f4",
+    "g5~f6+",
+    "Rxf6",
+    "Bxf6+",
+    "Kxf6",
+    "Qxb6+",
+    "Ne6",
+    "Kd2",
+    "Qa4",
+    "Nb1~c2",
+    "Qxh4",
+    "Qd6",
+    "Kg7"
+   ],
+   "second": {
+    "move": "e4f4",
+    "kind": "kings_step",
+    "score": -192
+   },
+   "classical": {
+    "move": "f3g4",
+    "score": -273,
+    "line": [
+     "fxg4",
+     "fxe4"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 49,
+   "ply": 41,
+   "fen": "2b1k2r/1p1p2p1/1p1p4/3bpBq1/1P2p3/2P3PB/1P2P2P/3QKR2 b k - 1 21 EHbd",
+   "to_move": "black",
+   "played": "d6e6",
+   "first_pass": {
+    "score": 282,
+    "classical": 0
+   },
+   "best": {
+    "move": "d6e6",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": 323,
+    "depth": 15
+   },
+   "solution": [
+    "d6~e6",
+    "Bfg4",
+    "Bc8~d8",
+    "Bg4~h4",
+    "Qe3",
+    "Qd2",
+    "Qxd2+",
+    "Kxd2"
+   ],
+   "second": {
+    "move": "d7e6",
+    "kind": "pawn_diagonal",
+    "score": 258
+   },
+   "classical": {
+    "move": "h8h3",
+    "score": 53,
+    "line": [
+     "Rxh3"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 49,
+   "ply": 57,
+   "fen": "4k2r/1p1p2p1/1pb1p3/1P4q1/2P2pB1/3Q3B/1b2P2P/3K1R2 b k - 0 29 EHbd",
+   "to_move": "black",
+   "played": "c6c5",
+   "first_pass": {
+    "score": 475,
+    "classical": 146
+   },
+   "best": {
+    "move": "c6c5",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": 407,
+    "depth": 15
+   },
+   "solution": [
+    "Bc6~c5",
+    "e2~d2",
+    "g7~f7",
+    "Qe4",
+    "f4~e3",
+    "dxe3",
+    "Bb2~b3+",
+    "Ke2",
+    "Bxc4+",
+    "Qxc4",
+    "Rxh3",
+    "Bxh3",
+    "Qxe3+",
+    "Kd1"
+   ],
+   "second": {
+    "move": "c6c7",
+    "kind": "kings_step",
+    "score": 392
+   },
+   "classical": {
+    "move": "h8h3",
+    "score": 69,
+    "line": [
+     "Rxh3",
+     "Qxh3",
+     "Bc6~d6",
+     "Qh8+",
+     "Kf7",
+     "Bh5+",
+     "g6",
+     "Qxb2",
+     "gxh5",
+     "Qd4",
+     "Ke7",
+     "e2~d2",
+     "b7~c7",
+     "Rg1",
+     "Qf6",
+     "Qxf6+",
+     "Kxf6"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 49,
+   "ply": 71,
+   "fen": "r5k1/1p1p2p1/1p2pq2/1P6/2P1bp2/2QP3B/b1K2B1P/3R4 b - - 2 36 Hbd",
+   "to_move": "black",
+   "played": "e4e5",
+   "first_pass": {
+    "score": 685,
+    "classical": 246
+   },
+   "best": {
+    "move": "e4e5",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": 746,
+    "depth": 14
+   },
+   "solution": [
+    "Be4~e5",
+    "Bh3~h4",
+    "Bxc3",
+    "Bxf6",
+    "Bxf6",
+    "Bxb6",
+    "Ra3",
+    "c4~d4",
+    "Bb3+",
+    "Kb2",
+    "Bb3~b4",
+    "d3~c3",
+    "Rxc3",
+    "Rd1~c2"
+   ],
+   "second": {
+    "move": "e4d3",
+    "kind": "capture",
+    "score": 261
+   },
+   "classical": {
+    "move": "f6c3",
+    "score": 269,
+    "line": [
+     "Qxc3+",
+     "Kxc3",
+     "Be4~e5+",
+     "Bd4",
+     "Ra3+",
+     "Kb2",
+     "Ra3~b4+",
+     "Kxa2",
+     "Bxd4",
+     "d3~c3",
+     "Bxc3",
+     "Rxd7",
+     "g7~f7",
+     "Rd3",
+     "Bf6",
+     "Rd3~c2",
+     "f4~e3",
+     "h2~g2",
+     "e3~d3",
+     "Rd2",
+     "d3~c3"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 50,
+   "ply": 20,
+   "fen": "r1bqkb2/1pp2p2/1pn1pn1p/1N1p2N1/5Pp1/4P1P1/PPPP1P2/R1BQK2B w Qq - 0 11",
+   "to_move": "white",
+   "played": "g5h4",
+   "first_pass": {
+    "score": -159,
+    "classical": -441
+   },
+   "best": {
+    "move": "g5h4",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": -184,
+    "depth": 15
+   },
+   "solution": [
+    "Ng5~h4",
+    "g4~h3",
+    "Nh4~h5",
+    "Ra5",
+    "a4",
+    "h2",
+    "Kf1",
+    "h6~g6",
+    "Nxc7+",
+    "Kd7",
+    "Nxf6+",
+    "Qxf6",
+    "Nb5",
+    "b7~a6",
+    "Nc3",
+    "Qh8",
+    "Kg2",
+    "Kd8",
+    "g3~h3",
+    "e5",
+    "Kxh2"
+   ],
+   "second": {
+    "move": "f4e5",
+    "kind": "pawn_diagonal",
+    "score": -314
+   },
+   "classical": {
+    "move": "a2a4",
+    "score": -422,
+    "line": [
+     "a4",
+     "hxg5"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 50,
+   "ply": 42,
+   "fen": "2bq4/2pnkpN1/1pp1p2p/1N1p4/5P2/4P1P1/rPBP1P1p/3Q1K1B w - - 0 22",
+   "to_move": "white",
+   "played": "b5b4",
+   "first_pass": {
+    "score": 469,
+    "classical": 228
+   },
+   "best": {
+    "move": "b5b4",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 479,
+    "depth": 14
+   },
+   "solution": [
+    "Nb5~b4",
+    "Qg8",
+    "Bc2~c3",
+    "b6~c5",
+    "Nxa2",
+    "d4",
+    "exd4",
+    "Ba6+",
+    "Kg2",
+    "Qxg7"
+   ],
+   "second": {
+    "move": "g7e6",
+    "kind": "capture",
+    "score": 228
+   },
+   "classical": {
+    "move": "g7e6",
+    "score": 263,
+    "line": [
+     "Nxe6",
+     "fxe6"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 51,
+   "ply": 70,
+   "fen": "3kr3/2q1n1pp/8/Q1P5/1P6/2P5/3N4/3K1R2 w - - 3 36",
+   "to_move": "white",
+   "played": "c5b6",
+   "first_pass": {
+    "score": 563,
+    "classical": 266
+   },
+   "best": {
+    "move": "c5b6",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 792,
+    "depth": 14
+   },
+   "solution": [
+    "c5~b6",
+    "Qd6"
+   ],
+   "second": {
+    "move": "c5d6",
+    "kind": "pawn_diagonal",
+    "score": 331
+   },
+   "classical": {
+    "move": "a5a8",
+    "score": 341,
+    "line": [
+     "Qa8+",
+     "Kd7"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 54,
+   "ply": 69,
+   "fen": "3R3R/1p3kp1/1p2bp2/3n1q2/2p3pQ/2P5/1P3P2/2K2B2 b - - 7 35 Fbg",
+   "to_move": "black",
+   "played": "c4b3",
+   "first_pass": {
+    "score": -55,
+    "classical": -328
+   },
+   "best": {
+    "move": "c4b3",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 52,
+    "depth": 16
+   },
+   "solution": [
+    "c4~b3",
+    "Bd3"
+   ],
+   "second": {
+    "move": "f5f4",
+    "kind": "quiet",
+    "score": -192
+   },
+   "classical": {
+    "move": "f5f4",
+    "score": -76,
+    "line": [
+     "Qf4+",
+     "Kd1",
+     "Qf5",
+     "b2~c2",
+     "Nxc3+",
+     "Ke1",
+     "Qe4+",
+     "f2~e2",
+     "Be6~e7",
+     "Rd7",
+     "Nc3~d4",
+     "Qh7",
+     "Qxh7",
+     "Rxh7",
+     "Nxc2+",
+     "Kf2",
+     "g3+",
+     "Kxg3",
+     "Kg6",
+     "Rxe7",
+     "Kxh7"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 55,
+   "ply": 31,
+   "fen": "r1b1k2r/1pp1Bpp1/1p5p/8/4PR2/2nP2P1/PP2PPP1/R3KB2 b Qkq - 0 16",
+   "to_move": "black",
+   "played": "c3c2",
+   "first_pass": {
+    "score": 369,
+    "classical": -151
+   },
+   "best": {
+    "move": "c3c2",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 268,
+    "depth": 16
+   },
+   "solution": [
+    "Nc3~c2+",
+    "Kd1"
+   ],
+   "second": {
+    "move": "c3d4",
+    "kind": "kings_step",
+    "score": -23
+   },
+   "classical": {
+    "move": "e8e7",
+    "score": -105,
+    "line": [
+     "Kxe7",
+     "bxc3",
+     "Be6",
+     "f2~e3",
+     "Rxa2",
+     "Rxa2",
+     "Bxa2",
+     "e2~d2",
+     "c7~d6",
+     "e4~f5",
+     "Rc8",
+     "Rg4",
+     "Kf8",
+     "d3~e4",
+     "Rc5",
+     "Bd3"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 55,
+   "ply": 71,
+   "fen": "3bk3/5pp1/3P4/1Bp3p1/8/1P1KPPPr/2R1P3/5r2 b - - 2 36",
+   "to_move": "black",
+   "played": "d8d7",
+   "first_pass": {
+    "score": -22,
+    "classical": -1137
+   },
+   "best": {
+    "move": "d8d7",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": -30,
+    "depth": 16
+   },
+   "solution": [
+    "Bd8~d7",
+    "d6~c6",
+    "Bxc6",
+    "Bxc6+",
+    "Ke7",
+    "Rxc5",
+    "Rxg3",
+    "Bd5",
+    "Rd1+",
+    "Kc4",
+    "Rd1~c2+",
+    "b3~c3",
+    "Rxe2",
+    "Rc7+",
+    "Kd6",
+    "Rxf7",
+    "Rg3~h4+",
+    "f4",
+    "gxf4",
+    "exf4"
+   ],
+   "second": {
+    "move": "e8f8",
+    "kind": "quiet",
+    "score": -1205
+   },
+   "classical": {
+    "move": "e8f8",
+    "score": -1303,
+    "line": [
+     "Kf8",
+     "d7",
+     "Kg8",
+     "d7~e8=Q+",
+     "Kh7",
+     "Bd7",
+     "Bf6",
+     "Bxh3",
+     "Bf6~g6+",
+     "e4",
+     "Rh1",
+     "Qc8",
+     "c4+",
+     "Rxc4",
+     "Rxh3",
+     "Qxh3+",
+     "g5~h5",
+     "Rc8"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "answers check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 56,
+   "ply": 52,
+   "fen": "5k2/1p4p1/2nP2p1/2pN2P1/2qp1Bb1/P4N2/1P1R1KP1/8 w - - 0 27",
+   "to_move": "white",
+   "played": "d5e5",
+   "first_pass": {
+    "score": 347,
+    "classical": 0
+   },
+   "best": {
+    "move": "d5e5",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 394,
+    "depth": 14
+   },
+   "solution": [
+    "Nd5~e5",
+    "Qe6",
+    "Nxc6",
+    "Bxf3",
+    "d6~e7+",
+    "Qxe7",
+    "Nxe7",
+    "Bf3~e3+",
+    "Bxe3",
+    "dxe3+",
+    "Kxe3",
+    "Kxe7"
+   ],
+   "second": {
+    "move": "d5b6",
+    "kind": "quiet",
+    "score": 33
+   },
+   "classical": {
+    "move": "d5c7",
+    "score": 14,
+    "line": [
+     "Nc7",
+     "Bf5",
+     "Rd2~e1",
+     "d4~e4",
+     "d7",
+     "Bxd7",
+     "Nc7~b6",
+     "Qf7",
+     "Nxd7+",
+     "Qxd7",
+     "Rxe4",
+     "Qf5",
+     "Bd6+",
+     "Kf7"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 57,
+   "ply": 54,
+   "fen": "r3k3/1pq1bpp1/p3n3/6Pr/4Bn1P/PNP4P/1P3Q2/3RK2R w Kq - 1 28",
+   "to_move": "white",
+   "played": "h3g4",
+   "first_pass": {
+    "score": -253,
+    "classical": -538
+   },
+   "best": {
+    "move": "h3g4",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": -344,
+    "depth": 15
+   },
+   "solution": [
+    "h3~g4",
+    "Qe5"
+   ],
+   "second": {
+    "move": "h3g3",
+    "kind": "pawn_lateral",
+    "score": -376
+   },
+   "classical": {
+    "move": "d1d2",
+    "score": -472,
+    "line": [
+     "Rd2",
+     "Nf4~g3",
+     "Rd2~e3",
+     "Rxh4",
+     "Qxg3",
+     "Qxg3+",
+     "Rxg3",
+     "Rxe4+",
+     "Kf2",
+     "Re4~f5+",
+     "Rf3",
+     "Rxg5",
+     "Re1",
+     "Rb5",
+     "Nb3~c4",
+     "Rb3",
+     "Re5",
+     "g6",
+     "h3~g3"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 59,
+   "ply": 67,
+   "fen": "8/1p1k1p2/4p3/2P3b1/1P1P4/2p5/7Q/3K4 b - - 0 34",
+   "to_move": "black",
+   "played": "c3d2",
+   "first_pass": {
+    "score": -30,
+    "classical": -467
+   },
+   "best": {
+    "move": "b7c7",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": -375,
+    "depth": 14
+   },
+   "solution": [
+    "b7~c7",
+    "Qg2"
+   ],
+   "second": {
+    "move": "f7e7",
+    "kind": "pawn_lateral",
+    "score": -376
+   },
+   "classical": {
+    "move": "d7c6",
+    "score": -573,
+    "line": [
+     "Kc6",
+     "b4~c4"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 59,
+   "ply": 75,
+   "fen": "3Q4/1p3p2/3Ppk2/6b1/1P1P4/8/3p4/3K4 b - - 2 38",
+   "to_move": "black",
+   "played": "f7e7",
+   "first_pass": {
+    "score": -296,
+    "classical": -662
+   },
+   "best": {
+    "move": "f7e7",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": -700,
+    "depth": 13
+   },
+   "solution": [
+    "f7~e7",
+    "Qxe7+",
+    "Kf5",
+    "d4~e4+",
+    "Kg4",
+    "Qxg5+",
+    "Kxg5",
+    "d7",
+    "Kf4",
+    "Kxd2",
+    "Kxe4",
+    "d7~c8=Q",
+    "Ke5",
+    "Qxb7",
+    "e6~d6",
+    "Kc3",
+    "d6~e6"
+   ],
+   "second": {
+    "move": "f6f5",
+    "kind": "quiet",
+    "score": -721
+   },
+   "classical": {
+    "move": "f6g6",
+    "score": -767,
+    "line": [
+     "Kg6",
+     "Qxg5+"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "answers check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 60,
+   "ply": 43,
+   "fen": "1k1r2nR/1pp1bp2/8/1P3p2/R5p1/4P3/1PKNNp2/5B2 b - - 0 22",
+   "to_move": "black",
+   "played": "f2e1q",
+   "first_pass": {
+    "score": 474,
+    "classical": -134
+   },
+   "best": {
+    "move": "f2e1q",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 479,
+    "depth": 14
+   },
+   "solution": [
+    "f2~e1=Q",
+    "Rd4",
+    "Rc8",
+    "Ne2~d3",
+    "Qxe3",
+    "Bf1~f2",
+    "Qg5",
+    "Ra4",
+    "c7~d6+",
+    "Nd3~c3",
+    "g3",
+    "Ba7+",
+    "Kc7"
+   ],
+   "second": {
+    "move": "e7f6",
+    "kind": "quiet",
+    "score": -83
+   },
+   "classical": {
+    "move": "e7f6",
+    "score": -78,
+    "line": [
+     "Bf6",
+     "Rxg8"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 61,
+   "ply": 48,
+   "fen": "r6r/1pq1kpb1/2ppp3/PB5p/Q1N5/2P1P1P1/1P3PP1/4K2R w K - 0 25 BFGf",
+   "to_move": "white",
+   "played": "b5b6",
+   "first_pass": {
+    "score": -52,
+    "classical": -364
+   },
+   "best": {
+    "move": "b5b6",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": -46,
+    "depth": 14
+   },
+   "solution": [
+    "Bb5~b6",
+    "Qd7",
+    "Nc4~d3",
+    "e5",
+    "e3~f3",
+    "Bg7~g6",
+    "Nd3~d2",
+    "h5~g5",
+    "Rf1",
+    "c6~b5",
+    "Qg4",
+    "Qxg4",
+    "fxg4",
+    "Ra6",
+    "Be3",
+    "Rxa5",
+    "Bxg5+",
+    "f6"
+   ],
+   "second": {
+    "move": "e1e2",
+    "kind": "quiet",
+    "score": -330
+   },
+   "classical": {
+    "move": "e1g1",
+    "score": -393,
+    "line": [
+     "O-O",
+     "cxb5"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 61,
+   "ply": 97,
+   "fen": "5k2/5p2/3pp3/4p3/6K1/4P3/5P2/8 b - - 0 49 f",
+   "to_move": "black",
+   "played": "e5d5",
+   "first_pass": {
+    "score": 378,
+    "classical": 171
+   },
+   "best": {
+    "move": "e5d5",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": 589,
+    "depth": 15
+   },
+   "solution": [
+    "e5~d5",
+    "e3~d4",
+    "d5~c4",
+    "d4~c5",
+    "c3",
+    "c6",
+    "c3~d2",
+    "c7",
+    "d1=Q+",
+    "Kg3",
+    "Qg1+",
+    "f2~g2",
+    "Qe1+",
+    "Kh2",
+    "Qh4+",
+    "Kg1",
+    "Ke7",
+    "c8=R",
+    "Kd7",
+    "Rc8~b7+",
+    "Ke8"
+   ],
+   "second": {
+    "move": "e6d5",
+    "kind": "pawn_diagonal",
+    "score": 407
+   },
+   "classical": {
+    "move": "e5e4",
+    "score": 529,
+    "line": [
+     "e4"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 61,
+   "ply": 98,
+   "fen": "5k2/5p2/3pp3/3p4/6K1/4P3/5P2/8 w - - 0 50 f",
+   "to_move": "white",
+   "played": "e3d3",
+   "first_pass": {
+    "score": -244,
+    "classical": -462
+   },
+   "best": {
+    "move": "e3f4",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": -808,
+    "depth": 11
+   },
+   "solution": [
+    "e3~f4",
+    "d5~c4"
+   ],
+   "second": {
+    "move": "e3d3",
+    "kind": "pawn_lateral",
+    "score": -753
+   },
+   "classical": {
+    "move": "g4f4",
+    "score": -792,
+    "line": [
+     "Kf4",
+     "d5~c4"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 64,
+   "ply": 127,
+   "fen": "8/Pk6/8/4b3/8/2p1P3/5B2/1K6 b - - 0 64",
+   "to_move": "black",
+   "played": "e5e4",
+   "first_pass": {
+    "score": 484,
+    "classical": 0
+   },
+   "best": {
+    "move": "e5e4",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": 730,
+    "depth": 16
+   },
+   "solution": [
+    "Be5~e4+",
+    "e3~d3",
+    "Bxd3+",
+    "Kc1",
+    "c2",
+    "Kd2",
+    "c2~b1=Q",
+    "a7~b8=R+",
+    "Kxb8",
+    "Bg3+",
+    "Kb7",
+    "Ke3"
+   ],
+   "second": {
+    "move": "e5f5",
+    "kind": "kings_step",
+    "score": 219
+   },
+   "classical": {
+    "move": "e5g7",
+    "score": 112,
+    "line": [
+     "Bg7",
+     "e3~d3"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 64,
+   "ply": 131,
+   "fen": "8/Pk6/8/8/4b3/3P4/2Kp1B2/8 b - - 1 66",
+   "to_move": "black",
+   "played": "d2e2",
+   "first_pass": {
+    "score": 230,
+    "classical": -47
+   },
+   "best": {
+    "move": "d2e2",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": 336,
+    "depth": 17
+   },
+   "solution": [
+    "d2~e2",
+    "dxe4",
+    "e2~f1=Q",
+    "Be3",
+    "Qe2+",
+    "Bd2",
+    "Qc4+",
+    "Kb2",
+    "Qxe4",
+    "Kc3",
+    "Kxa7",
+    "Bd2~d3",
+    "Qc6+",
+    "Kb4",
+    "Kb6",
+    "Bd3~d4+",
+    "Kb7",
+    "Bd4~c4",
+    "Qd6+",
+    "Kc3",
+    "Qe5+",
+    "Kd3",
+    "Qf5+",
+    "Kc3"
+   ],
+   "second": {
+    "move": "e4f4",
+    "kind": "kings_step",
+    "score": 201
+   },
+   "classical": {
+    "move": "e4d3",
+    "score": -35,
+    "line": [
+     "Bxd3+",
+     "Kxd2",
+     "Be4",
+     "Ke3",
+     "Bc2",
+     "Kf4",
+     "Bc2~c1+",
+     "Kf5",
+     "Bd2",
+     "Kf6",
+     "Bd2~d3",
+     "Be3",
+     "Bd3~c3+",
+     "Ke6",
+     "Bb2",
+     "Kf5",
+     "Bc3",
+     "Kf4",
+     "Ba1",
+     "Bc5",
+     "Ba1~b1",
+     "Kg5",
+     "Bb1~b2"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 64,
+   "ply": 133,
+   "fen": "8/Pk6/8/8/4P3/8/2K1pB2/8 b - - 0 67",
+   "to_move": "black",
+   "played": "e2f1q",
+   "first_pass": {
+    "score": 357,
+    "classical": 71
+   },
+   "best": {
+    "move": "e2f1q",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 350,
+    "depth": 16
+   },
+   "solution": [
+    "e2~f1=Q",
+    "Be3",
+    "Qe2+",
+    "Bd2",
+    "Qxe4+",
+    "Bd2~d3",
+    "Qf4",
+    "Kc3",
+    "Kxa7",
+    "Bd3~d4+",
+    "Kb7",
+    "Kd3",
+    "Qf3+",
+    "Kc4",
+    "Kc6",
+    "Bd4~d3",
+    "Qe3",
+    "Bd3~d4",
+    "Qf4",
+    "Kd3",
+    "Qf3+",
+    "Kc4"
+   ],
+   "second": {
+    "move": "b7a8",
+    "kind": "quiet",
+    "score": 58
+   },
+   "classical": {
+    "move": "b7a8",
+    "score": 36,
+    "line": [
+     "Ka8",
+     "Bc5"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 65,
+   "ply": 36,
+   "fen": "r2qkb1r/pp3p2/5n1p/5B2/1pNn1p1P/1P1P4/1PP3P1/R2QK1NR w KQkq - 2 19",
+   "to_move": "white",
+   "played": "f5e5",
+   "first_pass": {
+    "score": 184,
+    "classical": -162
+   },
+   "best": {
+    "move": "f5e5",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": 130,
+    "depth": 14
+   },
+   "solution": [
+    "Bf5~e5",
+    "b4~a3",
+    "d3~c3",
+    "axb2",
+    "Nxb2",
+    "Nd4~e4",
+    "Qe2",
+    "f4~g3",
+    "Bd4",
+    "g3~f2+",
+    "Bxf2",
+    "Qe7",
+    "Qb5+",
+    "Nd7",
+    "Qxb7",
+    "Nxf2+",
+    "Kxf2"
+   ],
+   "second": {
+    "move": "d3e4",
+    "kind": "pawn_diagonal",
+    "score": 0
+   },
+   "classical": {
+    "move": "f5e4",
+    "score": -114,
+    "line": [
+     "Be4"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 65,
+   "ply": 59,
+   "fen": "r3k3/pp2q3/2b1p2p/4Bnr1/1p1P2N1/1P6/1PP1Q1P1/R3K2R b KQq - 3 30",
+   "to_move": "black",
+   "played": "e6d6",
+   "first_pass": {
+    "score": 84,
+    "classical": -133
+   },
+   "best": {
+    "move": "b4a3",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 69,
+    "depth": 15
+   },
+   "solution": [
+    "b4~a3",
+    "Rxa3",
+    "e6~d6",
+    "d5",
+    "Rxg4",
+    "dxc6",
+    "Rxg2",
+    "Qxg2",
+    "Qxe5+",
+    "Qe2",
+    "Qxe2+",
+    "Kxe2",
+    "Ng3+",
+    "Kf3"
+   ],
+   "second": {
+    "move": "e6d6",
+    "kind": "pawn_lateral",
+    "score": 61
+   },
+   "classical": {
+    "move": "a8d8",
+    "score": 0,
+    "line": [
+     "Rd8",
+     "O-O-O",
+     "e6~d6",
+     "d4~e4",
+     "dxe5",
+     "exf5",
+     "Rxf5",
+     "Rxh6",
+     "Rxd1+",
+     "Qxd1",
+     "Bxg2",
+     "Rh8+",
+     "Rf8",
+     "Rxf8+",
+     "Qxf8",
+     "Qe2",
+     "Qf4+",
+     "c2~d2",
+     "Bd5",
+     "Qxe5+",
+     "Qxe5",
+     "Nxe5"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 66,
+   "ply": 38,
+   "fen": "r3kb1R/1p1npp2/1q4pB/b1p1n3/RN1p2P1/1Q3P2/1PP2PP1/4KB2 w q - 0 20 BCFbef",
+   "to_move": "white",
+   "played": "b2a3",
+   "first_pass": {
+    "score": -23,
+    "classical": -276
+   },
+   "best": {
+    "move": "b2a3",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": -130,
+    "depth": 13
+   },
+   "solution": [
+    "b2~a3",
+    "cxb4",
+    "axb4",
+    "Ba5~a6",
+    "Bxa6",
+    "Rxa6",
+    "b5",
+    "Rxa4",
+    "Qxa4",
+    "Ne5~e6",
+    "f3~e3",
+    "Qc5",
+    "exd4",
+    "Qxd4",
+    "Qxd4",
+    "Nxd4"
+   ],
+   "second": {
+    "move": "h6f8",
+    "kind": "capture",
+    "score": -216
+   },
+   "classical": {
+    "move": "h6f8",
+    "score": -236,
+    "line": [
+     "Bxf8",
+     "Nxf8"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 68,
+   "ply": 49,
+   "fen": "2bqkb1r/1p3ppp/8/6p1/2p1N3/1P2P1P1/2NPQ1P1/R3K2R b KQk - 0 25 Gfgh",
+   "to_move": "black",
+   "played": "c4d3",
+   "first_pass": {
+    "score": -256,
+    "classical": -555
+   },
+   "best": {
+    "move": "c4d3",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": -252,
+    "depth": 15
+   },
+   "solution": [
+    "c4~d3",
+    "Qd1",
+    "g5~f5",
+    "Ne4~d4",
+    "dxc2",
+    "Qxc2",
+    "g6",
+    "Nd4~d5",
+    "f7~e6",
+    "Nc7+",
+    "Kf7",
+    "Qc3",
+    "Kg8",
+    "Ra5",
+    "Bd6"
+   ],
+   "second": {
+    "move": "d8d3",
+    "kind": "quiet",
+    "score": -646
+   },
+   "classical": {
+    "move": "d8d3",
+    "score": -637,
+    "line": [
+     "Qd3",
+     "Ra8"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 68,
+   "ply": 116,
+   "fen": "2k5/2P3p1/2Rp4/1b2P3/7p/4P3/3P1KP1/1r6 w - - 1 59 Gg",
+   "to_move": "white",
+   "played": "c7d7",
+   "first_pass": {
+    "score": -67,
+    "classical": -422
+   },
+   "best": {
+    "move": "c7d7",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": -60,
+    "depth": 15
+   },
+   "solution": [
+    "c7~d7+",
+    "Kxd7",
+    "Rxd6+",
+    "Kc7",
+    "Rd6~e7+",
+    "Kb6",
+    "Re7~d6+",
+    "Kc5",
+    "Rd6~c7+",
+    "Kb4",
+    "Kf3",
+    "Rf1+",
+    "Kg4",
+    "Rf2",
+    "g3",
+    "g7~f6",
+    "exf6",
+    "hxg3",
+    "Kxg3",
+    "Rxf6",
+    "e3~d4",
+    "Rg6+",
+    "Kf2"
+   ],
+   "second": {
+    "move": "c7d8q",
+    "kind": "pawn_diagonal",
+    "score": -60
+   },
+   "classical": {
+    "move": "g2g3",
+    "score": -500,
+    "line": [
+     "g3",
+     "Bxc6"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 68,
+   "ply": 122,
+   "fen": "3k4/2R3p1/8/1b2P3/7p/4P3/3P1KP1/1r6 w - - 3 62 Gg",
+   "to_move": "white",
+   "played": "c7d6",
+   "first_pass": {
+    "score": -76,
+    "classical": -456
+   },
+   "best": {
+    "move": "c7d6",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": -56,
+    "depth": 14
+   },
+   "solution": [
+    "Rc7~d6+",
+    "Ke8",
+    "Kf3",
+    "Rf1+",
+    "Kg4",
+    "Rh1",
+    "Kf3",
+    "g7~f7",
+    "Rd6~c5",
+    "Bd7",
+    "Rc5~d4",
+    "f7~e7",
+    "Rd4~c5",
+    "Rf1+",
+    "Ke2"
+   ],
+   "second": {
+    "move": "c7b8",
+    "kind": "kings_step",
+    "score": -123
+   },
+   "classical": {
+    "move": "g2g3",
+    "score": -464,
+    "line": [
+     "g3",
+     "Rf1+"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 68,
+   "ply": 171,
+   "fen": "8/4P3/8/3r4/5K2/2k1P3/8/8 b - - 0 86",
+   "to_move": "black",
+   "played": "d5c4",
+   "first_pass": {
+    "score": 60,
+    "classical": -438
+   },
+   "best": {
+    "move": "d5c4",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": -71,
+    "depth": 12
+   },
+   "solution": [
+    "Rd5~c4+",
+    "e4"
+   ],
+   "second": {
+    "move": "d5a5",
+    "kind": "quiet",
+    "score": -445
+   },
+   "classical": {
+    "move": "c3b3",
+    "score": -477,
+    "line": [
+     "Kb3",
+     "e8=Q"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 69,
+   "ply": 36,
+   "fen": "r2qkb1r/1p3p2/2b2P1p/p2p1p2/1nPPp3/1P2Q3/3P1P2/RN1BKB1R w KQkq - 0 19 Fb",
+   "to_move": "white",
+   "played": "b3c3",
+   "first_pass": {
+    "score": 98,
+    "classical": -195
+   },
+   "best": {
+    "move": "b3c3",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": 81,
+    "depth": 15
+   },
+   "solution": [
+    "b3~c3",
+    "Qxf6"
+   ],
+   "second": {
+    "move": "b3a3",
+    "kind": "pawn_lateral",
+    "score": 0
+   },
+   "classical": {
+    "move": "h1h5",
+    "score": -153,
+    "line": [
+     "Rh5",
+     "Qxf6",
+     "b3~c3",
+     "f4",
+     "Qh3",
+     "Bd7",
+     "Qh4",
+     "Qxh4",
+     "Rxh4",
+     "Nd3+",
+     "Bxd3",
+     "exd3",
+     "Rxf4",
+     "Rh8~g7",
+     "Rf4~e5+",
+     "f7~e7",
+     "d2~c2",
+     "Rg1+",
+     "Kd2",
+     "dxc4",
+     "Raxa5",
+     "Rxa5",
+     "Rxa5"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 69,
+   "ply": 44,
+   "fen": "r3k2r/1p3pq1/2b4p/p3Pp2/1bB1p3/4Q3/3P1P2/RN1BK2R w KQkq - 1 23 Fb",
+   "to_move": "white",
+   "played": "d2c3",
+   "first_pass": {
+    "score": 321,
+    "classical": 20
+   },
+   "best": {
+    "move": "b1c2",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 137,
+    "depth": 14
+   },
+   "solution": [
+    "Nb1~c2",
+    "Bc6~c5",
+    "Qf4",
+    "Qg2",
+    "Rf1",
+    "Qg5",
+    "Qxg5",
+    "hxg5",
+    "f2~e3",
+    "O-O-O",
+    "e5~d5",
+    "Rh3",
+    "Rxf5",
+    "Rh3~g2",
+    "Nxb4",
+    "Bxb4"
+   ],
+   "second": {
+    "move": "d2c3",
+    "kind": "pawn_diagonal",
+    "score": 122
+   },
+   "classical": {
+    "move": "h1f1",
+    "score": 30,
+    "line": [
+     "Rf1",
+     "O-O-O"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 69,
+   "ply": 106,
+   "fen": "8/5k2/6R1/p7/4B3/3PP3/3K1p2/5r2 w - - 2 54",
+   "to_move": "white",
+   "played": "g6h7",
+   "first_pass": {
+    "score": 76,
+    "classical": -427
+   },
+   "best": {
+    "move": "g6h7",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": 0,
+    "depth": 18
+   },
+   "solution": [
+    "Rg6~h7+",
+    "Kf8",
+    "Rh8+",
+    "Ke7",
+    "Rh8~g7+",
+    "Kd8",
+    "Rg7~f8+",
+    "Ke7",
+    "Rxf2",
+    "Rxf2+",
+    "Ke1",
+    "Ra2",
+    "Be4~d4",
+    "a4",
+    "d3~c3",
+    "a4~b3",
+    "Bc5+",
+    "Kd8",
+    "Bb6+",
+    "Kc8",
+    "Bb6~b5"
+   ],
+   "second": {
+    "move": "g6f5",
+    "kind": "kings_step",
+    "score": 0
+   },
+   "classical": {
+    "move": "d2c3",
+    "score": -366,
+    "line": [
+     "Kc3"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 69,
+   "ply": 116,
+   "fen": "5k2/6R1/8/p7/4B3/3PP3/3K1p2/5r2 w - - 12 59",
+   "to_move": "white",
+   "played": "g7f6",
+   "first_pass": {
+    "score": 0,
+    "classical": -512
+   },
+   "best": {
+    "move": "g7f6",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": 0,
+    "depth": 20
+   },
+   "solution": [
+    "Rg7~f6+",
+    "Ke7",
+    "Rxf2",
+    "Rxf2+",
+    "Kc3",
+    "Rf2~e1",
+    "Be4~f4",
+    "Rg1",
+    "d3~c4",
+    "Rc1+",
+    "Kd4",
+    "a5~b4",
+    "e3~d3",
+    "Rc2",
+    "c4~d5",
+    "b3",
+    "d6+",
+    "Kd8",
+    "d6~c7+",
+    "Rxc7",
+    "Bxc7+",
+    "Kxc7"
+   ],
+   "second": {
+    "move": "g7h8",
+    "kind": "kings_step",
+    "score": 0
+   },
+   "classical": {
+    "move": "g7b7",
+    "score": -472,
+    "line": [
+     "Rb7",
+     "f2~e1=Q+",
+     "Kc2",
+     "Qf2+",
+     "Kc3",
+     "Rc1+",
+     "Kd4",
+     "Rc8",
+     "Rb6",
+     "Rc8~d7+",
+     "Kc4",
+     "a4",
+     "Rb8+",
+     "Ke7",
+     "Rb7",
+     "Qc2+",
+     "Kb5",
+     "Qb3+",
+     "Ka6",
+     "Rxb7",
+     "Bxb7",
+     "Qxd3+",
+     "Kb6"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 70,
+   "ply": 34,
+   "fen": "r2q1rk1/pp1p1ppp/3n4/3P4/5nP1/3P4/1Q1NPP1P/R3KB1R w KQ - 1 18",
+   "to_move": "white",
+   "played": "d5c5",
+   "first_pass": {
+    "score": 253,
+    "classical": 53
+   },
+   "best": {
+    "move": "d5c5",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": 161,
+    "depth": 14
+   },
+   "solution": [
+    "d5~c5",
+    "Re8",
+    "d3~e3",
+    "Nd6~e5",
+    "Ne4",
+    "Nxg4",
+    "e2~f3",
+    "Qc7",
+    "exf4",
+    "Qxf4",
+    "Be2",
+    "Rxe4",
+    "fxg4",
+    "Qxg4",
+    "h2~g3"
+   ],
+   "second": {
+    "move": "d5e5",
+    "kind": "pawn_lateral",
+    "score": 169
+   },
+   "classical": {
+    "move": "b2d4",
+    "score": 43,
+    "line": [
+     "Qd4",
+     "f7~e6",
+     "dxe6",
+     "Nd6~c6",
+     "Qb2",
+     "Nxe6",
+     "h2~g3",
+     "Qf6",
+     "Qxf6",
+     "Rxf6",
+     "Ra1~b2",
+     "Nc5",
+     "d3~e3",
+     "Rf6~e5",
+     "g4~f4"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 70,
+   "ply": 36,
+   "fen": "r2qr1k1/pp1p1ppp/3n4/2P5/5nP1/3P4/1Q1NPP1P/R3KB1R w KQ - 1 19",
+   "to_move": "white",
+   "played": "d3e3",
+   "first_pass": {
+    "score": 348,
+    "classical": 123
+   },
+   "best": {
+    "move": "d3e3",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": 188,
+    "depth": 14
+   },
+   "solution": [
+    "d3~e3",
+    "Nd6~e5",
+    "h2~g3",
+    "Qf6",
+    "Rb1",
+    "Nfg6",
+    "Qxb7",
+    "Qc6",
+    "Qxc6",
+    "dxc6",
+    "g4~h5",
+    "Ng6~f5"
+   ],
+   "second": {
+    "move": "a1a3",
+    "kind": "quiet",
+    "score": 14
+   },
+   "classical": {
+    "move": "a1a3",
+    "score": 75,
+    "line": [
+     "Ra3",
+     "Nd6~e5"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 70,
+   "ply": 58,
+   "fen": "2r3k1/1p1p1p1p/6p1/1pq1P3/1nN3P1/4P2R/r4PP1/1QR1KB2 w - - 0 30 Fbdfh",
+   "to_move": "white",
+   "played": "c4c3",
+   "first_pass": {
+    "score": 256,
+    "classical": 56
+   },
+   "best": {
+    "move": "c4c3",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 175,
+    "depth": 16
+   },
+   "solution": [
+    "Nc4~c3",
+    "Qxc3+"
+   ],
+   "second": {
+    "move": "e3d4",
+    "kind": "pawn_diagonal",
+    "score": 159
+   },
+   "classical": {
+    "move": "e5e6",
+    "score": 45,
+    "line": [
+     "e6",
+     "fxe6",
+     "Nc4~c3",
+     "Qxc3+",
+     "Rxc3",
+     "Rxc3",
+     "f2~e2",
+     "Rc3~b2",
+     "Qe4",
+     "Nb4~c3",
+     "Qd3",
+     "Rxe2+",
+     "Bxe2",
+     "Rxe2+",
+     "Qxe2",
+     "Nxe2",
+     "Kxe2",
+     "d5",
+     "Kd2",
+     "b5~a4",
+     "Kc2",
+     "b5",
+     "e3~d4",
+     "a4~b4"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 71,
+   "ply": 66,
+   "fen": "5k2/4pp2/3Pp3/2Q5/2P2P1q/4Pb2/1P3P2/4K3 w - - 0 34 BFf",
+   "to_move": "white",
+   "played": "d6c7",
+   "first_pass": {
+    "score": 363,
+    "classical": 0
+   },
+   "best": {
+    "move": "d6c7",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 822,
+    "depth": 16
+   },
+   "solution": [
+    "d6~c7",
+    "Qh1+",
+    "Kd2",
+    "Qd1+",
+    "Kc3",
+    "Qe1+",
+    "Kb3",
+    "Qd1+",
+    "b2~c2",
+    "Qb1+",
+    "Ka3",
+    "Qa1+",
+    "Kb4",
+    "Qb2+",
+    "c2~b3",
+    "Qd2+",
+    "Ka3",
+    "Qc1+",
+    "Ka4",
+    "Qa1+",
+    "Kb4"
+   ],
+   "second": {
+    "move": "d6e7",
+    "kind": "capture",
+    "score": 0
+   },
+   "classical": {
+    "move": "c5c8",
+    "score": 16,
+    "line": [
+     "Qc8+"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 72,
+   "ply": 102,
+   "fen": "8/3p4/n1p5/3pk3/8/PpP5/5P2/1B2K3 w - - 0 52 d",
+   "to_move": "white",
+   "played": "c3d4",
+   "first_pass": {
+    "score": -159,
+    "classical": -420
+   },
+   "best": {
+    "move": "c3d4",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": -119,
+    "depth": 11
+   },
+   "solution": [
+    "c3~d4+",
+    "Kxd4",
+    "Bb1~b2+",
+    "b3~c3",
+    "Ba1"
+   ],
+   "second": {
+    "move": "e1d1",
+    "kind": "quiet",
+    "score": -566
+   },
+   "classical": {
+    "move": "b1d3",
+    "score": -692,
+    "line": [
+     "Bd3",
+     "b3~a2"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 73,
+   "ply": 109,
+   "fen": "8/1k6/1p2pP2/2b5/R1P5/8/1pKP4/8 b - - 1 55 -",
+   "to_move": "black",
+   "played": "c5c6",
+   "first_pass": {
+    "score": -193,
+    "classical": -477
+   },
+   "best": {
+    "move": "c5c6",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": -453,
+    "depth": 12
+   },
+   "solution": [
+    "Bc5~c6",
+    "Kxb2",
+    "Bxa4",
+    "f7",
+    "Kc7",
+    "f8=Q",
+    "Bc6",
+    "Qg8",
+    "e6~d6",
+    "c4~d5",
+    "Bd7",
+    "d5~e6"
+   ],
+   "second": {
+    "move": "b6b5",
+    "kind": "quiet",
+    "score": -508
+   },
+   "classical": {
+    "move": "c5b4",
+    "score": -541,
+    "line": [
+     "Bb4",
+     "f7"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 74,
+   "ply": 93,
+   "fen": "3k4/1p1p2p1/3P1p2/2P5/2P1b3/1K6/1P6/8 b - - 0 47 Bdg",
+   "to_move": "black",
+   "played": "b7c7",
+   "first_pass": {
+    "score": 258,
+    "classical": 0
+   },
+   "best": {
+    "move": "d7c7",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": 268,
+    "depth": 16
+   },
+   "solution": [
+    "d7~c7",
+    "dxc7+"
+   ],
+   "second": {
+    "move": "b7c7",
+    "kind": "pawn_lateral",
+    "score": 274
+   },
+   "classical": {
+    "move": "e4c6",
+    "score": -126,
+    "line": [
+     "Bc6",
+     "c5~b6",
+     "Bc6~c5",
+     "d6~e7+",
+     "Kxe7",
+     "b6~c7",
+     "b7~c6",
+     "c8=Q",
+     "Bd6",
+     "b2~c3",
+     "Be5",
+     "c4~d4",
+     "Be5~e6+",
+     "Kb4",
+     "c6~b6",
+     "Kb5"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 75,
+   "ply": 78,
+   "fen": "6k1/5p2/1p3bp1/8/5Bb1/2P5/1P5R/r2BK3 w - - 0 40 B",
+   "to_move": "white",
+   "played": "d1c1",
+   "first_pass": {
+    "score": -84,
+    "classical": -330
+   },
+   "best": {
+    "move": "d1c1",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": -123,
+    "depth": 16
+   },
+   "solution": [
+    "Bd1~c1",
+    "b6~c5",
+    "Rg2",
+    "Bf6~f5",
+    "b2~c2",
+    "Bg4~h4+",
+    "Kd2",
+    "c4",
+    "Rg2~f3",
+    "Ra2",
+    "Bc1~b1",
+    "c4~b3",
+    "Rf3~e2",
+    "Ra1",
+    "Re8+",
+    "Kh7"
+   ],
+   "second": {
+    "move": "h2e2",
+    "kind": "quiet",
+    "score": -307
+   },
+   "classical": {
+    "move": "h2e2",
+    "score": -312,
+    "line": [
+     "Re2",
+     "Bh4+",
+     "Kd2",
+     "Rxd1+",
+     "Kxd1",
+     "Bh4~h5",
+     "Kd2",
+     "Bxe2",
+     "c3~d4",
+     "f7~e7",
+     "b4",
+     "Bb5",
+     "Be3",
+     "Bf3",
+     "d4~c5",
+     "bxc5",
+     "bxc5",
+     "Bb5~b4+",
+     "Kd3",
+     "g6~f5",
+     "Kc4"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 76,
+   "ply": 65,
+   "fen": "6k1/1pp3p1/1p2r3/5R2/rPB3n1/P3N3/1P3PP1/4K3 b - - 4 33 BFGbc",
+   "to_move": "black",
+   "played": "c7d7",
+   "first_pass": {
+    "score": -75,
+    "classical": -464
+   },
+   "best": {
+    "move": "c7d7",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": -75,
+    "depth": 16
+   },
+   "solution": [
+    "c7~d7",
+    "Ne3~e2",
+    "Nf6",
+    "Kf1",
+    "Nf6~e7",
+    "Rb5",
+    "b7~c7",
+    "Nd4",
+    "g7~f7",
+    "Rg5+",
+    "Kf8",
+    "Rg5~f4",
+    "Ng6",
+    "Nxe6+",
+    "dxe6",
+    "Rd4",
+    "Ke7"
+   ],
+   "second": {
+    "move": "g7f7",
+    "kind": "pawn_lateral",
+    "score": -449
+   },
+   "classical": {
+    "move": "g4e3",
+    "score": -500,
+    "line": [
+     "Nxe3",
+     "Bxe6+",
+     "Kh7",
+     "fxe3",
+     "Ra8",
+     "Rh5+",
+     "Kg6",
+     "Rh5~g4+",
+     "Kf6",
+     "Bd5",
+     "Re8",
+     "Bd5~d4+",
+     "Re5",
+     "Bxe5+",
+     "Kxe5",
+     "Rxg7",
+     "Kd6",
+     "Kf2",
+     "c7~d7",
+     "e3~d4"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 79,
+   "ply": 67,
+   "fen": "7r/1bpk2b1/4p3/1p5B/4n3/BPpN1P2/2K2PP1/7R b - - 0 34",
+   "to_move": "black",
+   "played": "e4d4",
+   "first_pass": {
+    "score": 373,
+    "classical": 84
+   },
+   "best": {
+    "move": "e4d4",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 423,
+    "depth": 14
+   },
+   "solution": [
+    "Ne4~d4+",
+    "Kxc3",
+    "Nd4~c4+",
+    "Kc2",
+    "Nxa3+",
+    "Kd1",
+    "c7~d6",
+    "Rh4",
+    "Bd5",
+    "Ke2",
+    "Bxb3",
+    "Bh5~g5",
+    "Rc8",
+    "Bd2",
+    "Bg7~g6",
+    "Rd4"
+   ],
+   "second": {
+    "move": "h8a8",
+    "kind": "quiet",
+    "score": 81
+   },
+   "classical": {
+    "move": "e4f6",
+    "score": 99,
+    "line": [
+     "Nf6",
+     "Nc5+",
+     "Kc8",
+     "Nxe6",
+     "Rxh5",
+     "Rxh5",
+     "Bg7~g6+",
+     "Kxc3",
+     "Bxh5",
+     "Ne6~e7+",
+     "Kb8",
+     "Bc5",
+     "Bh5~h4",
+     "Be3",
+     "Nf6~e5",
+     "Nf5",
+     "Bf6",
+     "Bd4",
+     "Ne5~d5+",
+     "Kb2",
+     "Bf6~e6"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 79,
+   "ply": 69,
+   "fen": "7r/1bpk2b1/4p3/1p5B/3n4/BPKN1P2/5PP1/7R b - - 0 35",
+   "to_move": "black",
+   "played": "d4c4",
+   "first_pass": {
+    "score": 413,
+    "classical": 173
+   },
+   "best": {
+    "move": "d4c4",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 404,
+    "depth": 16
+   },
+   "solution": [
+    "Nd4~c4+",
+    "Kc2"
+   ],
+   "second": {
+    "move": "d4c5",
+    "kind": "kings_step",
+    "score": 207
+   },
+   "classical": {
+    "move": "d4f3",
+    "score": 186,
+    "line": [
+     "Nxf3+"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 80,
+   "ply": 66,
+   "fen": "3q2k1/1br1b2p/3N2p1/1pPp4/3R4/Q3B1P1/1P3PP1/4K3 w - - 2 34 FGh",
+   "to_move": "white",
+   "played": "d6e6",
+   "first_pass": {
+    "score": 507,
+    "classical": 230
+   },
+   "best": {
+    "move": "d6e6",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 300,
+    "depth": 14
+   },
+   "solution": [
+    "Nd6~e6",
+    "Qd7",
+    "Nxc7",
+    "Qxc7",
+    "c5~b6",
+    "Qd7",
+    "Qa7",
+    "Bc5",
+    "Rf4",
+    "Bxe3",
+    "Qb8+",
+    "Qc8",
+    "Qxc8+",
+    "Bxc8"
+   ],
+   "second": {
+    "move": "a3b4",
+    "kind": "quiet",
+    "score": 228
+   },
+   "classical": {
+    "move": "e3f4",
+    "score": 300,
+    "line": [
+     "Bf4",
+     "Rd7",
+     "Nxb7",
+     "Rxb7",
+     "c5~d6",
+     "Be7~f7",
+     "Rd4~e5",
+     "g6~f6",
+     "d6~e7",
+     "Qe8",
+     "Re3",
+     "d4",
+     "Bd6"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 82,
+   "ply": 65,
+   "fen": "2Q1k3/4rpr1/p2p1bP1/2Pp4/2qP3p/2PpB3/1PP3P1/R3K2R b KQ - 1 33",
+   "to_move": "black",
+   "played": "e7d8",
+   "first_pass": {
+    "score": -184,
+    "classical": null
+   },
+   "best": {
+    "move": "e7d8",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": -106,
+    "depth": 18
+   },
+   "solution": [
+    "Re7~d8"
+   ],
+   "second": null,
+   "classical": null,
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "answers check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 82,
+   "ply": 75,
+   "fen": "3r1k2/5p2/pQ1p1r2/2Pp2B1/2qP4/2Pp2p1/1PP3P1/R5K1 b - - 1 38",
+   "to_move": "black",
+   "played": "g3f2",
+   "first_pass": {
+    "score": -123,
+    "classical": -369
+   },
+   "best": {
+    "move": "g3f2",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": -125,
+    "depth": 14
+   },
+   "solution": [
+    "g3~f2+"
+   ],
+   "second": {
+    "move": "f6f5",
+    "kind": "quiet",
+    "score": -153
+   },
+   "classical": {
+    "move": "f6f5",
+    "score": -230,
+    "line": [
+     "Rf5"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "gives check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 83,
+   "ply": 41,
+   "fen": "5rk1/1p1n1ppp/6b1/1B1p1p1P/1p1P4/1P6/1P3PP1/q1BQK2R b K - 0 21 BFbfgh",
+   "to_move": "black",
+   "played": "g6f6",
+   "first_pass": {
+    "score": 130,
+    "classical": -115
+   },
+   "best": {
+    "move": "g6f6",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": 100,
+    "depth": 15
+   },
+   "solution": [
+    "Bg6~f6",
+    "Bxd7",
+    "Rf8~e7+",
+    "Be3",
+    "Qxd1+",
+    "Kxd1",
+    "Rxd7",
+    "h5~g5",
+    "Bf6~e6",
+    "Ke2",
+    "h7~g6",
+    "Rc1",
+    "d5~e4",
+    "Rc5",
+    "Bxb3",
+    "Rc5~b6",
+    "g7~h7",
+    "Rxb4"
+   ],
+   "second": {
+    "move": "f8e7",
+    "kind": "kings_step",
+    "score": 38
+   },
+   "classical": {
+    "move": "f8c8",
+    "score": -66,
+    "line": [
+     "Rc8"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 84,
+   "ply": 60,
+   "fen": "3Qbk2/4p1p1/2P5/3p4/8/4P3/1P2P3/q2NKBr1 w - - 0 31 BEg",
+   "to_move": "white",
+   "played": "c6d7",
+   "first_pass": {
+    "score": 1039,
+    "classical": 37
+   },
+   "best": {
+    "move": "c6d7",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 1022,
+    "depth": 17
+   },
+   "solution": [
+    "c6~d7"
+   ],
+   "second": {
+    "move": "c6b7",
+    "kind": "pawn_diagonal",
+    "score": 569
+   },
+   "classical": {
+    "move": "d8d5",
+    "score": 38,
+    "line": [
+     "Qxd5",
+     "Bxc6",
+     "Qxc6",
+     "Rxf1+",
+     "Kxf1",
+     "Qxd1+",
+     "Kf2",
+     "Qb3",
+     "b2~c2",
+     "Qb8",
+     "Ke1",
+     "Qb1+",
+     "Kd2",
+     "Qb4+",
+     "c3",
+     "Qd6+",
+     "Qxd6",
+     "exd6",
+     "c3~b4",
+     "Ke7",
+     "b5",
+     "Kd7",
+     "Kc3",
+     "d6~e6",
+     "b5~a6"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 87,
+   "ply": 66,
+   "fen": "5Q2/3k1p2/2p1p1b1/1p1p4/8/4P3/3B1P2/q3KB2 w - - 2 34",
+   "to_move": "white",
+   "played": "d2d1",
+   "first_pass": {
+    "score": 0,
+    "classical": -247
+   },
+   "best": {
+    "move": "d2d1",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": 0,
+    "depth": 16
+   },
+   "solution": [
+    "Bd2~d1",
+    "Qa5+",
+    "Bd1~d2",
+    "Qa1+",
+    "Bd2~d1"
+   ],
+   "second": {
+    "move": "e1e2",
+    "kind": "quiet",
+    "score": -307
+   },
+   "classical": {
+    "move": "e1e2",
+    "score": -527,
+    "line": [
+     "Ke2",
+     "b5~c4",
+     "Bf1~e1",
+     "c4~d3+",
+     "Kf1",
+     "d3~c2",
+     "Ba5",
+     "Qxa5",
+     "Bxa5",
+     "c2~d1=Q+",
+     "Be1",
+     "Bd3+",
+     "Kg2",
+     "Qxe1",
+     "Qxf7+",
+     "Kd6",
+     "Qf8+",
+     "Kc7",
+     "Qe7+",
+     "Kb6",
+     "Qxe6",
+     "Qd1",
+     "Kg3",
+     "Qg1+",
+     "f2~g2",
+     "Be4",
+     "e3~f3"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "answers check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 87,
+   "ply": 87,
+   "fen": "8/2Q5/2pp4/1pk5/8/1p2P3/4P3/q2BK3 b - - 5 44 -",
+   "to_move": "black",
+   "played": "b3c2",
+   "first_pass": {
+    "score": 576,
+    "classical": -22
+   },
+   "best": {
+    "move": "b3c2",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 629,
+    "depth": 17
+   },
+   "solution": [
+    "b3~c2"
+   ],
+   "second": {
+    "move": "b3b2",
+    "kind": "quiet",
+    "score": 7
+   },
+   "classical": {
+    "move": "b3b2",
+    "score": 290,
+    "line": [
+     "b2",
+     "e3~d4+",
+     "Kb4",
+     "Qxd6+",
+     "Ka5",
+     "Qc7+",
+     "c6~b6",
+     "Qa7+",
+     "Kb4",
+     "Qe7+",
+     "b5~c5",
+     "dxc5",
+     "b2~c1=Q",
+     "cxb6+",
+     "Kb5",
+     "Qd7+",
+     "Kxb6",
+     "Qd6+",
+     "Qc6",
+     "Qxc6+",
+     "Kxc6",
+     "Kd2",
+     "Kb5",
+     "Kc2",
+     "Qa4+",
+     "Kd2",
+     "Qe4",
+     "Bc2",
+     "Qd4+",
+     "Bd3+",
+     "Kb4"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 88,
+   "ply": 50,
+   "fen": "4k3/2B3rp/2p5/P3np2/2b1q3/4P3/1PP5/R1KQ1R2 w - - 0 26",
+   "to_move": "white",
+   "played": "a5b6",
+   "first_pass": {
+    "score": 538,
+    "classical": 251
+   },
+   "best": {
+    "move": "a5b6",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 663,
+    "depth": 14
+   },
+   "solution": [
+    "a5~b6"
+   ],
+   "second": {
+    "move": "c7e5",
+    "kind": "capture",
+    "score": 208
+   },
+   "classical": {
+    "move": "c7e5",
+    "score": 336,
+    "line": [
+     "Bxe5",
+     "Qxe5",
+     "Re1",
+     "Bc4~b4",
+     "Qh5+",
+     "Kd7",
+     "Rd1+",
+     "c6~d6",
+     "Kb1",
+     "Bxa5",
+     "e3~f4",
+     "Qc5",
+     "Qh6",
+     "Re7",
+     "Rxa5",
+     "Qxa5",
+     "Qxd6+",
+     "Ke8",
+     "f4~g5"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 88,
+   "ply": 65,
+   "fen": "3Q4/7p/3pk3/5p2/4q3/R2nP3/1PQ5/1K3b2 b - - 0 33",
+   "to_move": "black",
+   "played": "d3d2",
+   "first_pass": {
+    "score": -121,
+    "classical": -872
+   },
+   "best": {
+    "move": "d3d2",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": -89,
+    "depth": 15
+   },
+   "solution": [
+    "Nd3~d2+",
+    "Kc1",
+    "Nd2~e2+",
+    "Qxe2",
+    "Bxe2",
+    "Qg8+",
+    "Kf6",
+    "Qxh7",
+    "Kg5",
+    "Qg7+",
+    "Kh5",
+    "Qg1",
+    "Bg4",
+    "Qh2+",
+    "Bg4~h4",
+    "Qxd6",
+    "Qh1+",
+    "Kc2",
+    "Bg5"
+   ],
+   "second": {
+    "move": "d3c4",
+    "kind": "kings_step",
+    "score": -854
+   },
+   "classical": {
+    "move": "d3c5",
+    "score": -997,
+    "line": [
+     "Nc5",
+     "Qg8+",
+     "Kf6",
+     "Qf8+",
+     "Ke6",
+     "Qxe4+",
+     "Nxe4",
+     "Ra7",
+     "Ke5",
+     "Re7+",
+     "d6~e6",
+     "Qg7+",
+     "Kd6",
+     "Rd7+",
+     "Kc5",
+     "Qe5+",
+     "Kb4",
+     "Rb7+",
+     "Ka4",
+     "Rb7~a8+",
+     "Kb3",
+     "Qxe6+",
+     "Bc4"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "saves"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 89,
+   "ply": 10,
+   "fen": "r1bqkbnr/3ppppp/p1n5/1Np5/1p6/2P2NP1/PP1PPPP1/R1BQKB1R w KQkq - 0 6",
+   "to_move": "white",
+   "played": "a2b3",
+   "first_pass": {
+    "score": 45,
+    "classical": -293
+   },
+   "best": {
+    "move": "a2b3",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 68,
+    "depth": 15
+   },
+   "solution": [
+    "a2~b3",
+    "Bb7"
+   ],
+   "second": {
+    "move": "b5c4",
+    "kind": "kings_step",
+    "score": 66
+   },
+   "classical": {
+    "move": "c3b4",
+    "score": -274,
+    "line": [
+     "cxb4",
+     "axb5",
+     "bxc5",
+     "Qa5",
+     "e3",
+     "Nf6",
+     "a3",
+     "e6",
+     "Qc2",
+     "Ra8~b7",
+     "Nd4",
+     "Nxd4",
+     "exd4",
+     "Nf6~f5",
+     "Qe4"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 89,
+   "ply": 12,
+   "fen": "r2qkbnr/1b1ppppp/p1n5/1Np5/1p6/1PP2NP1/1P1PPPP1/R1BQKB1R w KQkq - 1 7",
+   "to_move": "white",
+   "played": "b5c4",
+   "first_pass": {
+    "score": 37,
+    "classical": -280
+   },
+   "best": {
+    "move": "b5c4",
+    "kind": "kings_step",
+    "piece": "N",
+    "score": 46,
+    "depth": 15
+   },
+   "solution": [
+    "Nb5~c4",
+    "d5",
+    "Nce5",
+    "Nxe5",
+    "Nxe5",
+    "e7~f6",
+    "Nf3",
+    "d5~e4",
+    "Nf3~e3",
+    "a6~b5",
+    "Rxa8",
+    "Qxa8",
+    "cxb4",
+    "cxb4"
+   ],
+   "second": {
+    "move": "c3b4",
+    "kind": "capture",
+    "score": -276
+   },
+   "classical": {
+    "move": "c3b4",
+    "score": -269,
+    "line": [
+     "cxb4",
+     "axb5",
+     "Rxa8",
+     "Qxa8",
+     "bxc5",
+     "e6",
+     "d4",
+     "Nf6",
+     "e2~d2",
+     "b4",
+     "b3~c3",
+     "Qa2",
+     "cxb4",
+     "Nxb4",
+     "d2~c3",
+     "Nb4~c4",
+     "Rh4",
+     "Nf6~g6",
+     "Bxc4",
+     "Qxc4",
+     "Qe2",
+     "Qxe2+",
+     "Kxe2",
+     "Nxh4"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 92,
+   "ply": 77,
+   "fen": "3k4/p7/7r/3pB1p1/3P2P1/4qP2/P3NRK1/8 b - - 1 39",
+   "to_move": "black",
+   "played": "d5e4",
+   "first_pass": {
+    "score": 276,
+    "classical": 0
+   },
+   "best": {
+    "move": "d5e4",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 30,
+    "depth": 15
+   },
+   "solution": [
+    "d5~e4",
+    "Ne2~f1",
+    "exf3+",
+    "Rxf3",
+    "Qe2+",
+    "Nf1~f2",
+    "Kd7",
+    "Rf3~e4",
+    "Qxa2",
+    "d4~c5",
+    "Qd5",
+    "c5~d6",
+    "Rxd6",
+    "Bxd6",
+    "Kxd6"
+   ],
+   "second": {
+    "move": "a7b6",
+    "kind": "pawn_diagonal",
+    "score": 7
+   },
+   "classical": {
+    "move": "a7a5",
+    "score": 0,
+    "line": [
+     "a5",
+     "Ne2~f1",
+     "Qe1",
+     "Rf2~e3",
+     "Qc1",
+     "Bg7",
+     "Rc6",
+     "Re5",
+     "Kc7",
+     "Rxd5",
+     "Rc2+",
+     "Nf1~f2",
+     "Rxf2+",
+     "Kxf2",
+     "Qd2+",
+     "Kg1",
+     "Qe3+",
+     "Kg2",
+     "Qe2+",
+     "Kg3",
+     "Qe1+",
+     "Kg2",
+     "Qe2+"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 92,
+   "ply": 80,
+   "fen": "3k4/p7/7r/4B1p1/3Pp1P1/3q1P2/P4RK1/5N2 w - - 2 41",
+   "to_move": "white",
+   "played": "e5f5",
+   "first_pass": {
+    "score": 0,
+    "classical": -230
+   },
+   "best": {
+    "move": "e5f5",
+    "kind": "kings_step",
+    "piece": "B",
+    "score": 0,
+    "depth": 16
+   },
+   "solution": [
+    "Be5~f5",
+    "exf3+",
+    "Rxf3",
+    "Qe2+",
+    "Rf2",
+    "Qb5",
+    "Ng3",
+    "Qc6+",
+    "d4~e4",
+    "Ke8",
+    "g4~f4",
+    "gxf4",
+    "Rxf4",
+    "Qc2+",
+    "Rf2",
+    "Qd1",
+    "Bf5~g5"
+   ],
+   "second": {
+    "move": "f2e3",
+    "kind": "kings_step",
+    "score": -83
+   },
+   "classical": {
+    "move": "e5g7",
+    "score": -235,
+    "line": [
+     "Bg7",
+     "exf3+"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 92,
+   "ply": 146,
+   "fen": "8/k6q/3pP3/4RN2/2P5/6K1/8/8 w - - 0 74",
+   "to_move": "white",
+   "played": "e6f7",
+   "first_pass": {
+    "score": 464,
+    "classical": 248
+   },
+   "best": {
+    "move": "e5f6",
+    "kind": "kings_step",
+    "piece": "R",
+    "score": 623,
+    "depth": 15
+   },
+   "solution": [
+    "Re5~f6"
+   ],
+   "second": {
+    "move": "e6f7",
+    "kind": "pawn_diagonal",
+    "score": 537
+   },
+   "classical": {
+    "move": "e5a5",
+    "score": 323,
+    "line": [
+     "Ra5+"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 94,
+   "ply": 28,
+   "fen": "r3k2r/1pbnqp1p/2p2pp1/p3P3/1pPN1P2/4P3/1PP2PP1/R2QKB1R w KQkq - 0 15",
+   "to_move": "white",
+   "played": "e5d5",
+   "first_pass": {
+    "score": 197,
+    "classical": -29
+   },
+   "best": {
+    "move": "e5d5",
+    "kind": "pawn_lateral",
+    "piece": "P",
+    "score": 124,
+    "depth": 16
+   },
+   "solution": [
+    "e5~d5",
+    "f6~e5"
+   ],
+   "second": {
+    "move": "c4d5",
+    "kind": "pawn_diagonal",
+    "score": 46
+   },
+   "classical": {
+    "move": "e5f6",
+    "score": 7,
+    "line": [
+     "exf6",
+     "Nxf6",
+     "Qe2",
+     "Nf6~e6",
+     "Nxe6",
+     "Qxe6",
+     "O-O-O",
+     "Rd8",
+     "Rxd8+",
+     "Bxd8",
+     "c2~d3",
+     "Be7",
+     "d4",
+     "b3"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 94,
+   "ply": 102,
+   "fen": "4B3/4P3/3k3b/5p2/8/5K2/2P3P1/8 w - - 0 52",
+   "to_move": "white",
+   "played": "e7d8q",
+   "first_pass": {
+    "score": 6732,
+    "classical": 68
+   },
+   "best": {
+    "move": "e7d8q",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 6278,
+    "depth": 15
+   },
+   "solution": [
+    "e7~d8=Q+"
+   ],
+   "second": {
+    "move": "e7d8r",
+    "kind": "pawn_diagonal",
+    "score": 532
+   },
+   "classical": {
+    "move": "e8g6",
+    "score": 91,
+    "line": [
+     "Bg6",
+     "Kxe7",
+     "Bxf5",
+     "Bc1",
+     "g4",
+     "Bc1~d1+",
+     "Kf4",
+     "Bd1~d2+",
+     "Ke5",
+     "Bc3+",
+     "Ke4",
+     "Bd2",
+     "c2~d3",
+     "Bc3",
+     "Kd5",
+     "Bc3~b3+",
+     "d3~c4",
+     "Kf6",
+     "Be4",
+     "Kg5",
+     "g4~f5",
+     "Bd1",
+     "f5~g6",
+     "Bd1~c1"
+    ]
+   },
+   "confirmed": true,
+   "puzzle": true,
+   "tags": [
+    "gives check",
+    "wins"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 95,
+   "ply": 55,
+   "fen": "4k3/1p3pp1/8/2b5/2p1P2B/P4P2/1P1K2P1/r2N4 b - - 0 28",
+   "to_move": "black",
+   "played": "c4b3",
+   "first_pass": {
+    "score": 266,
+    "classical": 22
+   },
+   "best": {
+    "move": "a1d1",
+    "kind": "capture",
+    "piece": "R",
+    "score": 544,
+    "depth": 16
+   },
+   "solution": [
+    "Rxd1+",
+    "Kc2",
+    "Rd1~e2+",
+    "Kc3",
+    "c4~d4+",
+    "Kc4",
+    "Rc2+",
+    "Kd3",
+    "Rxb2",
+    "Be1",
+    "b5",
+    "a3~b4",
+    "Rb2~a3+",
+    "Ke2",
+    "d3+",
+    "Kf1"
+   ],
+   "second": {
+    "move": "c4b3",
+    "kind": "pawn_diagonal",
+    "score": 400
+   },
+   "classical": {
+    "move": "a1d1",
+    "score": 612,
+    "line": [
+     "Rxd1+",
+     "Kxd1"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "gives check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 97,
+   "ply": 81,
+   "fen": "2N1k3/5p2/2P1p1p1/3p4/8/4P3/2Pb2P1/6K1 b - - 0 41 Cf",
+   "to_move": "black",
+   "played": "e6d6",
+   "first_pass": {
+    "score": -206,
+    "classical": -423
+   },
+   "best": {
+    "move": "d2e3",
+    "kind": "capture",
+    "piece": "B",
+    "score": -717,
+    "depth": 11
+   },
+   "solution": [
+    "Bxe3+",
+    "g2~f2"
+   ],
+   "second": {
+    "move": "d5d4",
+    "kind": "quiet",
+    "score": -730
+   },
+   "classical": {
+    "move": "d2e3",
+    "score": -676,
+    "line": [
+     "Bxe3+",
+     "g2~f2",
+     "d4",
+     "c6~b7",
+     "d3",
+     "b8=Q",
+     "dxc2",
+     "Nd6+",
+     "Kd7",
+     "Nd6~e5+",
+     "Ke7"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "gives check",
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  },
+  {
+   "index": 99,
+   "ply": 82,
+   "fen": "7k/1p5P/1p2pbBP/1Pp5/3p1P2/2P5/1P6/3K4 w - - 1 42",
+   "to_move": "white",
+   "played": "f4g5",
+   "first_pass": {
+    "score": 464,
+    "classical": 236
+   },
+   "best": {
+    "move": "f4g5",
+    "kind": "pawn_diagonal",
+    "piece": "P",
+    "score": 759,
+    "depth": 17
+   },
+   "solution": [
+    "f4~g5"
+   ],
+   "second": {
+    "move": "b5a6",
+    "kind": "pawn_diagonal",
+    "score": 624
+   },
+   "classical": {
+    "move": "c3d4",
+    "score": 338,
+    "line": [
+     "cxd4",
+     "Bxd4",
+     "h7~g7+",
+     "Bxg7",
+     "hxg7+",
+     "Kxg7",
+     "Be4",
+     "c5~d5",
+     "Be4~d4+",
+     "Kf7",
+     "Bxb6",
+     "d5~c4",
+     "Kc2",
+     "Kf6",
+     "Kc3",
+     "e6~d5",
+     "Kd4",
+     "c4~b3",
+     "Kxd5",
+     "b3~a2"
+    ]
+   },
+   "confirmed": false,
+   "puzzle": false,
+   "tags": [
+    "keeps the balance"
+   ],
+   "nodes": 1000000
+  }
+ ]
+}
