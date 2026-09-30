@@ -1,5 +1,7 @@
 """HTTP API: the full game flow as the frontend uses it."""
 
+import re
+
 from asha import Board
 
 PROMOTION_LINE = ["a2a4", "h7h5", "a4a5", "h5h4", "a5a6", "h4h3", "a6b7", "h3g2"]
@@ -224,3 +226,17 @@ def test_engine_position_moves_replay_from_its_fen(client):
     for uci in position["moves"]:
         board.push(next(m for m in board.legal_moves() if m.uci() == uci))
     assert board.fen() == state["fen"]
+
+
+def test_page_assets_are_served(client):
+    page = client.get("/").get_data(as_text=True)
+    paths = set(re.findall(r'(?:src|href)="(/static/[^"]+)"', page))
+    assert {"/static/js/chess.js", "/static/js/asha-ai.js", "/static/manifest.webmanifest"} <= paths
+    css = client.get("/static/css/style.css").get_data(as_text=True)
+    paths |= {"/static/" + p.removeprefix("../") for p in re.findall(r'url\("([^"]+)"\)', css)}
+    manifest = client.get("/static/manifest.webmanifest").get_json(force=True)
+    paths |= {icon["src"] for icon in manifest["icons"]}
+    for path in sorted(paths):
+        response = client.get(path)
+        assert response.status_code == 200, path
+        response.close()

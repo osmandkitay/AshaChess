@@ -107,9 +107,11 @@ Web Service, Python runtime (version from `.python-version`):
 asha/board.py      Rules engine: position, FEN, attack geometry, move generation, push/pop, notation, perft
 asha/game.py       Game: history, repetition, termination and draw claims
 app.py             Flask app: JSON API and session handling only
-static/js/chess.js Renders server state; no rule logic
+static/js/chess.js Renders server state and handles input (tap, drag); no rule logic
 static/js/asha-ai.js  Browser opponent: Fairy-Stockfish (WebAssembly) set up for Asha
 static/vendor/fairy-stockfish/  Unmodified Fairy-Stockfish WASM build (GPL-3.0)
+static/vendor/pieces/  cburnett SVG pieces (GPLv2+)
+static/manifest.webmanifest, static/icons/  Add-to-home-screen metadata (no service worker; the game needs the server)
 tests/             pytest suite (movement, legality, game, perft, differential, API)
 ```
 

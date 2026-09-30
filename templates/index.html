@@ -2,145 +2,180 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <title>ASHA CHESS</title>
+    <meta name="description" content="Asha Chess: classical chess where knights, bishops, rooks and pawns gain a non-capturing step. Chess intelligence survives; chess memory does not.">
+    <meta name="theme-color" content="#121418">
+    <meta name="color-scheme" content="dark">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+    <link rel="icon" href="{{ url_for('static', filename='icons/icon.svg') }}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='icons/icon-180.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
-    <div class="app-wrapper">
-        <div class="top-nav">
-            <h1 class="game-title">ASHA CHESS</h1>
-            <div class="nav-buttons">
-                <button id="manifest-btn" class="nav-button">MANIFEST</button>
-                <button id="rules-btn" class="nav-button">RULES</button>
+    <div class="app">
+        <header class="topbar">
+            <div class="brand">
+                <span class="wordmark">ASHA</span>
+                <span class="brand-sub">Chess</span>
             </div>
-        </div>
+            <nav class="topbar-actions">
+                <button id="about-btn" class="text-btn" type="button">About</button>
+                <button id="sound-btn" class="icon-btn" type="button" aria-pressed="true" aria-label="Sound">
+                    <svg class="icon sound-on" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="stroke" d="M15.5 9a4.5 4.5 0 0 1 0 6M18 6.5a8 8 0 0 1 0 11"/></svg>
+                    <svg class="icon sound-off" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path class="stroke" d="M16 9.5l5 5m0-5l-5 5"/></svg>
+                </button>
+            </nav>
+        </header>
 
-        <div class="main-container">
-            <div class="move-history-sidebar">
-                <h3>Move History</h3>
-                <div id="move-history-list"></div>
-            </div>
-
-            <div class="center-game-area">
-                <div class="board-container">
-                    <div id="chessboard"></div>
+        <main class="game">
+            <section class="play">
+                <div class="player-bar" id="bar-top">
+                    <span class="side-disc"></span>
+                    <span class="player-name"></span>
+                    <span class="captures"></span>
+                    <span class="player-status"></span>
                 </div>
 
-                <div class="game-controls">
-                    <select id="opponent" class="control-select" aria-label="Opponent">
-                        <option value="human">Two players</option>
-                        <option value="black">Play vs AI (AI Black)</option>
-                        <option value="white">Play vs AI (AI White)</option>
-                    </select>
-                    <select id="ai-level" class="control-select" aria-label="AI level">
-                        <option value="easy">Easy</option>
-                        <option value="medium" selected>Medium</option>
-                        <option value="hard">Hard</option>
-                    </select>
-                    <button id="reset-button" class="reset-btn">Reset Game</button>
-                </div>
-            </div>
+                <div class="board-wrap">
+                    <div id="chessboard" class="board" aria-label="Chess board"></div>
+                    <div id="promotion" class="promotion" hidden></div>
 
-            <div class="right-side-panel">
-                <div class="game-status">
-                    <div class="turn-indicator">
-                        <span>Turn: </span>
-                        <span id="turn" class="turn-text">White</span>
+                    <div id="overlay" class="overlay" hidden>
+                        <div class="card" id="chooser" hidden>
+                            <button class="card-close icon-btn" type="button" data-close aria-label="Back to the game">
+                                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path class="stroke" d="M6 6l12 12M18 6L6 18"/></svg>
+                            </button>
+                            <div class="step" data-step="mode">
+                                <div class="card-wordmark">ASHA</div>
+                                <p class="tagline">Chess intelligence survives; chess memory does not.</p>
+                                <div class="card-actions">
+                                    <button class="btn btn-primary" type="button" id="choose-ai">Play vs AI</button>
+                                    <button class="btn" type="button" id="choose-2p">2 Players</button>
+                                </div>
+                                <p class="card-note" id="ai-note" hidden></p>
+                                <button class="link-btn" type="button" data-open="rules">New to Asha? How pieces move</button>
+                            </div>
+                            <div class="step" data-step="level" hidden>
+                                <button class="back-btn" type="button" id="choose-back">
+                                    <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path class="stroke" d="M14.5 6l-6 6 6 6"/></svg>
+                                    Back
+                                </button>
+                                <h2 class="card-title">Play vs AI</h2>
+                                <div class="segmented" role="radiogroup" aria-label="Your pieces">
+                                    <button type="button" role="radio" data-color="white" aria-checked="true"><span class="side-disc white"></span>White</button>
+                                    <button type="button" role="radio" data-color="black" aria-checked="false"><span class="side-disc black"></span>Black</button>
+                                </div>
+                                <div class="levels">
+                                    <button class="level" type="button" data-level="easy"><strong>Easy</strong><span>Relaxed, makes mistakes</span></button>
+                                    <button class="level" type="button" data-level="medium"><strong>Medium</strong><span>Solid and patient</span></button>
+                                    <button class="level" type="button" data-level="hard"><strong>Hard</strong><span>Full engine strength</span></button>
+                                </div>
+                                <p class="card-note" id="engine-note">Tap a level to start.</p>
+                            </div>
+                        </div>
+
+                        <div class="card result" id="result" hidden>
+                            <div class="result-title" id="result-title"></div>
+                            <p class="result-sub" id="result-sub"></p>
+                            <div class="card-actions">
+                                <button class="btn btn-primary" type="button" id="result-new">New game</button>
+                                <button class="btn" type="button" data-close>View board</button>
+                            </div>
+                        </div>
                     </div>
-                    <div id="check-status" class="check-status"></div>
-                    <div id="claim-buttons" class="claim-buttons"></div>
-                    <div id="message" class="message" role="status"></div>
                 </div>
-            </div>
-        </div>
+
+                <div class="player-bar" id="bar-bottom">
+                    <span class="side-disc"></span>
+                    <span class="player-name"></span>
+                    <span class="captures"></span>
+                    <span class="player-status"></span>
+                </div>
+            </section>
+
+            <aside class="side">
+                <div class="moves-panel">
+                    <div class="moves-head">
+                        <span>Moves</span>
+                        <span class="legend-mini"><i class="mark-asha"></i>Asha step</span>
+                    </div>
+                    <p id="hint" class="hint">Tap a piece to see its moves. <i class="mark-asha"></i> marks an Asha step, a move classical chess does not have.</p>
+                    <ol id="moves" class="moves" aria-label="Moves"></ol>
+                </div>
+                <div id="claims" class="claims"></div>
+                <div class="actions">
+                    <button id="new-game" class="btn" type="button">New game</button>
+                    <button class="btn" type="button" data-open="rules">Rules</button>
+                </div>
+            </aside>
+        </main>
+
+        <div id="toast" class="toast" role="status" aria-live="polite"></div>
     </div>
 
-    <div id="manifest-popup" class="popup-overlay">
-        <div class="popup-content">
-            <button class="popup-close" aria-label="Close">&times;</button>
-            <h2>ASHA CHESS: A Manifesto for a New Era</h2>
-            <div class="manifest-content">
-                <p>Today, the grand game of chess is suffocating. Its infinite possibilities are chained by rote memorization, its soul traded for the cold precision of scripted openings. We watch the world's greatest players, and too often, we see not human creativity, but the ghost of an AI, their moves echoing the predictability of a machine. The very essence of chess—the clash of unique minds—is fading.</p>
-                
-                <p>It has been said that "chess is a mirror to life," and traditional chess was a perfect reflection of its time: a world of rigid hierarchies, where each piece had a strictly defined role. But our world has changed.</p>
-                
-                <p>The modern era, born from the fires of revolution and built on the ideals of democracy and universal rights, presents us with a new paradigm. It suggests, even if only as a beautiful illusion, that all individuals possess a fundamental freedom of movement. ASHA CHESS embraces this with a postmodern touch, asking a simple yet profound question: What if every piece on the board was granted the right to move like a king?</p>
-                
-                <p>In ASHA CHESS, we do not erase tradition; we build upon it. The "King's Step"—a single-square move in any direction—is now bestowed upon Knights, Bishops, and Rooks, while the Pawn gains a single step sideways or diagonally forward. However, their methods of capture remain classic, tied to their unique histories. This creates a breathtaking new dynamic. A Bishop, no longer confined to a single color, can now step onto a neighboring square, reflecting a world where even the most rigid dogmas can evolve. The Pawn, once a fated foot soldier, becomes an unpredictable force, capable of both subtle repositioning and sudden threats.</p>
-                
-                <p>Our goal is to resurrect the spirit of players like Mikhail Tal, Rashid Nezhmetdinov, and Joseph Blackburne—artists who played with character, whose moves were a signature of their very being. We should not see AI-approved lines when we look at Magnus Carlsen; we should see Magnus. Chess must be a canvas for grand strategies and profound, personal expression.</p>
-                
-                <p>I am not a grandmaster, but a deep lover of the game, and I despise an opponent who merely recites from a book. ASHA CHESS is my proposal to restore the game's depth and dynamism. I do not claim to have uncovered its full potential; that is a journey we must take together. This is an invitation to experiment, to criticize, and to play.</p>
-                
-                <p>For too long, the art of chess has resembled a Renaissance painting—a masterpiece, yes, but one forever bound by the fixed algorithms of perspective and form.</p>
-                
-                <p>Together, let's usher in its next great movement.</p>
-                
-                <p><em>By Osman Derviş Kıtay <a href="https://x.com/AiDervish" target="_blank" rel="noopener">@AiDervish</a></em></p>
-            </div>
+    <dialog id="rules" class="sheet" aria-labelledby="rules-title">
+        <div class="sheet-head">
+            <h2 id="rules-title">How Asha moves</h2>
+            <button class="icon-btn" type="button" data-dismiss aria-label="Close">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path class="stroke" d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
         </div>
-    </div>
-
-    <div id="rules-popup" class="popup-overlay">
-        <div class="popup-content">
-            <button class="popup-close" aria-label="Close">&times;</button>
-            <h2>Game Rules</h2>
-            <div class="rules-content">
-                <p>Asha Chess starts from the standard chess position. Every piece keeps its classical moves and captures. Some pieces gain extra <strong>non-capturing</strong> moves:</p>
-
-                <h3>King's Step: Knight, Bishop, Rook</h3>
-                <p>In addition to its classical moves, a Knight, Bishop or Rook may step one square in any direction (horizontal, vertical or diagonal) onto an <strong>empty</strong> square.</p>
-                <p>The King's Step can never capture. A Bishop can therefore change the colour of its square.</p>
-
-                <h3>Pawn</h3>
-                <ul>
-                    <li>Moves forward exactly as in classical chess: one square, or two if it has never moved.</li>
-                    <li>Additionally may step one square left or right on the same rank, or one square diagonally forward, onto an <strong>empty</strong> square. These steps never capture.</li>
-                    <li>A sideways or diagonal step counts as the pawn's move: afterwards it can no longer make the two-square move, even back on its original square.</li>
-                    <li>Captures only one square diagonally forward, including en passant — never straight ahead or sideways.</li>
-                    <li>Never moves backward.</li>
-                    <li>Promotes on the last rank to a Queen, Rook, Bishop or Knight of your choice.</li>
-                </ul>
-
-                <h3>King and Queen</h3>
-                <p>Exactly as in classical chess; they gain nothing new.</p>
-
-                <h3>Everything Else</h3>
-                <p>Check, checkmate, stalemate, castling, en passant and promotion work as in classical chess. Only classical captures attack squares, so only they give check.</p>
-                <p>Automatic draws: stalemate, insufficient material, fivefold repetition and the 75-move rule. Threefold repetition and the 50-move rule can be claimed by the side to move. Every pawn move, sideways and diagonal steps included, and every capture resets the 50/75-move count.</p>
-
-                <h3>Board Highlights</h3>
-                <ul>
-                    <li><span class="highlight green"></span> Classical move</li>
-                    <li><span class="highlight orange"></span> Capture</li>
-                    <li><span class="highlight blue"></span> King's Step</li>
-                    <li><span class="highlight teal"></span> Pawn sideways or diagonal step</li>
-                    <li><span class="highlight red"></span> King in check</li>
-                    <li><span class="highlight yellow"></span> Last move</li>
-                </ul>
-                <p>In the move list, Asha moves are written with their origin and a tilde: <code>Nb1~b2</code> (King's Step), <code>e4~d4</code> (pawn sideways step), <code>e4~d5</code> (pawn diagonal step). Classical moves use standard notation.</p>
-            </div>
+        <div class="sheet-body">
+            <p class="lead">Standard chess, same start, same goal. Every piece keeps its classical moves and captures. Four pieces gain one extra step that <strong>never captures</strong>:</p>
+            <ul class="rule-cards">
+                <li>
+                    <span class="rule-pieces"><i class="p wN"></i><i class="p wB"></i><i class="p wR"></i></span>
+                    <span><strong>King's Step.</strong> Knights, bishops and rooks may step one square in any direction onto an empty square. A bishop can change colour.</span>
+                </li>
+                <li>
+                    <span class="rule-pieces"><i class="p wP"></i></span>
+                    <span><strong>Pawn step.</strong> A pawn may step one square sideways or diagonally forward onto an empty square. After that it loses its two-square move. It still captures only diagonally and never moves backward.</span>
+                </li>
+                <li>
+                    <span class="rule-pieces"><i class="p wK"></i><i class="p wQ"></i></span>
+                    <span><strong>King and queen</strong> are unchanged.</span>
+                </li>
+            </ul>
+            <h3>On the board</h3>
+            <ul class="legend">
+                <li><i class="mark-move"></i>Classical move</li>
+                <li><i class="mark-capture"></i>Capture</li>
+                <li><i class="mark-asha"></i>Asha step</li>
+                <li><i class="mark-last"></i>Last move</li>
+                <li><i class="mark-check"></i>King in check</li>
+            </ul>
+            <p>Asha steps are written with their origin and a tilde: <code>Nb1~b2</code>, <code>e4~d5</code>. Classical moves use standard notation.</p>
+            <details>
+                <summary>Full rules</summary>
+                <p>Check, checkmate, stalemate, castling, en passant and promotion (queen, rook, bishop or knight) work as in classical chess. Only classical captures attack squares, so only they give check.</p>
+                <p>Automatic draws: stalemate, insufficient material, fivefold repetition and the 75-move rule. Threefold repetition and the 50-move rule can be claimed by the side to move. Every pawn move, steps included, and every capture resets the 50/75-move count.</p>
+            </details>
         </div>
-    </div>
+    </dialog>
 
-    <div id="promotion-popup" class="popup-overlay">
-        <div class="popup-content promotion-content">
-            <h2>Promote to</h2>
-            <div id="promotion-choices" class="promotion-choices"></div>
+    <dialog id="about" class="sheet" aria-labelledby="about-title">
+        <div class="sheet-head">
+            <h2 id="about-title">A manifesto for a new era</h2>
+            <button class="icon-btn" type="button" data-dismiss aria-label="Close">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><path class="stroke" d="M6 6l12 12M18 6L6 18"/></svg>
+            </button>
         </div>
-    </div>
-
-    <div id="game-over-popup" class="popup-overlay">
-        <div class="popup-content game-over-content">
-            <div id="game-over-title" class="game-over-message"></div>
-            <div id="game-over-subtitle" class="game-over-subtitle"></div>
-            <div class="game-over-actions">
-                <button id="game-over-close" class="game-over-btn">Continue Viewing</button>
-                <button id="game-over-reset" class="game-over-btn reset">New Game</button>
-            </div>
+        <div class="sheet-body prose">
+            <p>Today, the grand game of chess is suffocating. Its infinite possibilities are chained by rote memorization, its soul traded for the cold precision of scripted openings. We watch the world's greatest players, and too often, we see not human creativity, but the ghost of an AI, their moves echoing the predictability of a machine. The very essence of chess—the clash of unique minds—is fading.</p>
+            <p>It has been said that "chess is a mirror to life," and traditional chess was a perfect reflection of its time: a world of rigid hierarchies, where each piece had a strictly defined role. But our world has changed.</p>
+            <p>The modern era, born from the fires of revolution and built on the ideals of democracy and universal rights, presents us with a new paradigm. It suggests, even if only as a beautiful illusion, that all individuals possess a fundamental freedom of movement. ASHA CHESS embraces this with a postmodern touch, asking a simple yet profound question: What if every piece on the board was granted the right to move like a king?</p>
+            <p>In ASHA CHESS, we do not erase tradition; we build upon it. The "King's Step"—a single-square move in any direction—is now bestowed upon Knights, Bishops, and Rooks, while the Pawn gains a single step sideways or diagonally forward. However, their methods of capture remain classic, tied to their unique histories. This creates a breathtaking new dynamic. A Bishop, no longer confined to a single color, can now step onto a neighboring square, reflecting a world where even the most rigid dogmas can evolve. The Pawn, once a fated foot soldier, becomes an unpredictable force, capable of both subtle repositioning and sudden threats.</p>
+            <p>Our goal is to resurrect the spirit of players like Mikhail Tal, Rashid Nezhmetdinov, and Joseph Blackburne—artists who played with character, whose moves were a signature of their very being. We should not see AI-approved lines when we look at Magnus Carlsen; we should see Magnus. Chess must be a canvas for grand strategies and profound, personal expression.</p>
+            <p>I am not a grandmaster, but a deep lover of the game, and I despise an opponent who merely recites from a book. ASHA CHESS is my proposal to restore the game's depth and dynamism. I do not claim to have uncovered its full potential; that is a journey we must take together. This is an invitation to experiment, to criticize, and to play.</p>
+            <p>For too long, the art of chess has resembled a Renaissance painting—a masterpiece, yes, but one forever bound by the fixed algorithms of perspective and form.</p>
+            <p>Together, let's usher in its next great movement.</p>
+            <p class="signature">Osman Derviş Kıtay · <a href="https://x.com/AiDervish" target="_blank" rel="noopener">@AiDervish</a></p>
+            <p class="credits">AI opponent: <a href="https://github.com/fairy-stockfish/Fairy-Stockfish" target="_blank" rel="noopener">Fairy-Stockfish</a> (GPL-3.0), running in your browser. Pieces: Colin M.L. Burnett (GPLv2+).</p>
         </div>
-    </div>
+    </dialog>
 
     <script src="{{ url_for('static', filename='js/asha-ai.js') }}"></script>
     <script src="{{ url_for('static', filename='js/chess.js') }}"></script>
