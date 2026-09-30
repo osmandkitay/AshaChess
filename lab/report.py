@@ -217,7 +217,6 @@ METRICS: list[tuple[str, str, str, str]] = [
     ("Captures per game", "captures", "games", "num"),
     ("Checks per game", "checks", "games", "num"),
     ("Move of the first capture", "first_capture_move", "has_capture", "num"),
-    ("Average search depth at the node limit", "depth", "engine_moves", "num"),
 ]
 
 
@@ -259,6 +258,8 @@ def build(run: Path, resamples: int) -> tuple[str, dict]:
         w(f"| {label} | " + " | ".join(boots[v].estimate(num, den).fmt(kind) for v in variants) + " |")
     medians = {v: median(g["plies"] for g in by_variant[v]) for v in variants}
     w("| Median game length (half-moves) | " + " | ".join(f"{medians[v]:g}" for v in variants) + " |")
+    depth = {v: median(d for g in by_variant[v] for d in g["depths"][opening_plies:]) for v in variants}
+    w("| Median search depth per engine move | " + " | ".join(f"{depth[v]:g}" for v in variants) + " |")
     w("")
     if len(variants) == 2:
         a, b = boots["asha"], boots["chess"]
@@ -389,14 +390,15 @@ def build(run: Path, resamples: int) -> tuple[str, dict]:
     w(
         "- These are engine games. They show what the rules allow and reward at one engine strength, "
         "not what people will enjoy.\n"
-        "- The engine uses its classical evaluation in both games. Its piece values for Asha's pieces are its "
-        "own estimates, so a centipawn is not necessarily worth the same in both games; the opening tables "
-        "therefore show three margins.\n"
+        "- The engine uses its classical evaluation in both games. That evaluation was tuned for classical chess "
+        "and its piece values for Asha's pieces are its own estimates, so a centipawn is not necessarily worth "
+        "the same in both games (the opening tables therefore show three margins), and how often the engine "
+        "chooses a kind of Asha move partly reflects its evaluation, not only the position.\n"
         "- Fairy-Stockfish's Asha model differs from the rules in two known ways (it grants the double step by "
         "square rather than by whether the pawn has moved, and it does not see en passant); the root is restricted "
         "to Asha's legal moves, but the search below the root can be slightly off.\n"
-        "- At the same node count the engine searches less deep in Asha, because Asha has more moves per "
-        "position (see the depth row).\n"
+        "- Both games get the same number of nodes per move, not the same depth: Asha has more moves per "
+        "position, and the median depth row shows what the budget reached in each game.\n"
         "- Insufficient material is judged by each game's own rules: python-chess also recognises classical "
         "dead positions such as bishops of the same colour, which Asha does not have.\n"
     )
@@ -461,7 +463,7 @@ def main(argv: list[str] | None = None) -> None:
     text, summary = build(args.run, args.resamples)
     (args.run / "report.md").write_text(text, encoding="utf-8")
     (args.run / "summary.json").write_text(json.dumps(_finite(summary), indent=2) + "\n", encoding="utf-8")
-    print(text)
+    print(f"wrote {args.run / 'report.md'} and {args.run / 'summary.json'}")
 
 
 def _finite(value: object) -> object:

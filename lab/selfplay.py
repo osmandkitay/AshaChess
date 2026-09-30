@@ -169,8 +169,12 @@ def _opening_search(
     depth: int,
     searchmoves: list[str],
 ) -> SearchResult:
-    """MultiPV over every legal move. Searches are deterministic, so results can be cached."""
-    key = (variant, fen, tuple(history), depth)
+    """MultiPV over every legal move. Searches are deterministic, so results can be cached.
+
+    The move list is part of the key: the engine's FEN has no double-step
+    field, so two Asha positions with the same FEN can differ in their moves.
+    """
+    key = (variant, fen, tuple(history), depth, tuple(searchmoves))
     if cache is not None and key in cache:
         return cache[key]
     result = engine.search(variant, fen, history, depth=depth, searchmoves=searchmoves, multipv=len(searchmoves))
@@ -183,12 +187,13 @@ def _opening_search(
 
 _engine: Engine | None = None
 _config: Config | None = None
-_cache: dict = {}
+_cache: dict | None = None
 
 
-def _init_worker(config: Config) -> None:
-    global _engine, _config
+def _init_worker(config: Config, cache: dict) -> None:
+    global _engine, _config, _cache
     _config = config
+    _cache = cache  # shared by all workers (a multiprocessing.Manager dict)
     _engine = Engine(hash_mb=config.hash_mb)
     atexit.register(_engine.close)
 
@@ -217,7 +222,9 @@ def provenance(config: Config) -> dict:
         "engine_options": {"Threads": 1, "Hash": config.hash_mb, "Use NNUE": False},
         "asha_variant": variant,
         "git_commit": _command(["git", "rev-parse", "HEAD"]),
-        "git_dirty": bool(_command(["git", "status", "--porcelain", "--", "asha", "app.py", "static", "lab"])),
+        "git_dirty": bool(
+            _command(["git", "status", "--porcelain", "--", "asha", "app.py", "static", "lab", ":!lab/runs"])
+        ),
         "python": sys.version.split()[0],
         "python_chess": chess.__version__,
         "node": _command(["node", "--version"]),
@@ -285,7 +292,10 @@ def main(argv: list[str] | None = None) -> None:
         return
 
     started = time.perf_counter()
-    with multiprocessing.Pool(args.workers, initializer=_init_worker, initargs=(config,)) as pool:
+    with (
+        multiprocessing.Manager() as manager,
+        multiprocessing.Pool(args.workers, initializer=_init_worker, initargs=(config, manager.dict())) as pool,
+    ):
         with games_file.open("a", encoding="utf-8") as sink:
             for count, game in enumerate(pool.imap_unordered(_run_task, tasks), 1):
                 sink.write(json.dumps(game, separators=(",", ":")) + "\n")
