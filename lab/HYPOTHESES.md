@@ -65,3 +65,15 @@ Secondary (no direction is assumed; we report whatever comes out):
   seeing the results without saying so explicitly in the report.
 - Seven hypotheses are tested; one of them may look significant by chance.
   H1–H3 are the ones we base public claims on.
+
+## Amendment 1 (2026-09-30, after the pilot, before any result of `main` was seen)
+
+In the pilot, re-searching the flagged Asha moments with ten times the nodes
+(`lab/moments.py`) kept only about half of them; the rest were noise of the
+small first-pass searches. So:
+
+- H3 is checked twice: as written above (first pass), and with the moments
+  confirmed by `lab/moments.py` at ten times the run's nodes.
+- Public claims about Asha moments use only the confirmed numbers, which are
+  the lower of the two. The same thresholds apply (1 per 100 engine moves,
+  a quarter of the games).
