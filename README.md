@@ -82,8 +82,8 @@ Classical moves use standard algebraic notation (`e4`, `Nf3`, `exd5`, `e8=Q`, `O
 Requires Python 3.10+.
 
 ```
-git clone https://github.com/osmandkitay/ASHA-CHESS.git
-cd ASHA-CHESS
+git clone https://github.com/osmandkitay/AshaChess.git
+cd AshaChess
 python -m venv .venv
 .venv\Scripts\activate          # Windows; on macOS/Linux: source .venv/bin/activate
 pip install -r requirements.txt
